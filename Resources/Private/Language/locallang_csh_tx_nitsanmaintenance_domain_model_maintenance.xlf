@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-06-02T19:18:15Z" product-name="nitsan_maintenance">
+		<header/>
+		<body>
+			<trans-unit id="robotsmeta.description">
+				<source>robotsmeta</source>
+			</trans-unit>
+			<trans-unit id="title.description">
+				<source>title</source>
+			</trans-unit>
+			<trans-unit id="heading.description">
+				<source>heading</source>
+			</trans-unit>
+			<trans-unit id="text.description">
+				<source>text</source>
+			</trans-unit>
+			<trans-unit id="countdown.description">
+				<source>countdown</source>
+			</trans-unit>
+			<trans-unit id="startdate.description">
+				<source>startdate</source>
+			</trans-unit>
+			<trans-unit id="enddate.description">
+				<source>enddate</source>
+			</trans-unit>
+			<trans-unit id="fontcolor.description">
+				<source>fontcolor</source>
+			</trans-unit>
+			<trans-unit id="footertext.description">
+				<source>footertext</source>
+			</trans-unit>
+			<trans-unit id="fblink.description">
+				<source>fblink</source>
+			</trans-unit>
+			<trans-unit id="twlink.description">
+				<source>twlink</source>
+			</trans-unit>
+			<trans-unit id="linkedinlink.description">
+				<source>linkedinlink</source>
+			</trans-unit>
+			<trans-unit id="gitlink.description">
+				<source>gitlink</source>
+			</trans-unit>
+			<trans-unit id="social.description">
+				<source>social</source>
+			</trans-unit>
+			<trans-unit id="status.description">
+				<source>status</source>
+			</trans-unit>
+			<trans-unit id="bgimage.description">
+				<source>bgimage</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

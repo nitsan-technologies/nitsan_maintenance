@@ -1,0 +1,164 @@
+<f:layout name='Default' />
+<f:section name="main">
+    <f:if condition="{settings.fontcolor}">
+        <style>
+        .site-title,
+        .section-title,
+        .section-name,
+        .time-box,
+        .pattern.height-resize {
+            color: {settings.fontcolor} !important;
+        }
+        </style>
+    </f:if>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="loader">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="lading"></div>
+        </div>
+    </div>
+    <!-- /#preloader -->
+    <!-- Preloader End-->
+    <!-- Main Menu -->
+    <f:comment>
+        <div id="main-menu" class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <!-- responsive navigation -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                </button>
+                <!-- /.navbar-toggle -->
+            </div>
+            <!-- /.navbar-header -->
+            <nav class="collapse navbar-collapse">
+                <!-- Main navigation -->
+                <ul id="headernavigation" class="nav navbar-nav">
+                    <li class="active"><a href="#page-top">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#subscribe">Subscribe</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <!-- /.nav .navbar-nav -->
+            </nav>
+            <!-- /.navbar-collapse  -->
+        </div>
+        <!-- /#main-menu -->
+    </f:comment>
+    <!-- Main Menu End -->
+    <!-- Page Top Section -->
+    <section id="page-top" class="section-style" data-background-image="typo3conf/ext/nitsan_maintenance/Resources/Public/images/background/page-top.jpg">
+        <div class="pattern height-resize">
+            <div class="container">
+                <h2 class="section-title">
+					{settings.title}
+				</h2>
+                <h3 class="section-name">
+					{settings.heading}
+				</h2>
+				<f:format.html>{settings.text}</f:format.html>
+				<!-- /.Section-title  -->
+				<f:if condition="{settings.countdown}">
+					<div id="time_countdown" class="time-count-container">
+						<div class="col-sm-3">
+							<div class="time-box">
+								<div class="time-box-inner dash days_dash animated" data-animation="rollIn" data-animation-delay="300">
+									<span class="time-number">
+										<span class="digit">0</span>
+										<span class="digit">0</span>
+										<span class="digit">0</span>
+									</span>
+									<span class="time-name"><f:translate key='page.day'/></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="time-box">
+								<div class="time-box-inner dash hours_dash animated" data-animation="rollIn" data-animation-delay="600">
+									<span class="time-number">
+										<span class="digit">0</span>
+										<span class="digit">0</span>	
+									</span>
+									<span class="time-name"><f:translate key='page.hours'/></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-3">
+							<div class="time-box">
+								<div class="time-box-inner dash minutes_dash animated" data-animation="rollIn" data-animation-delay="900">
+									<span class="time-number">
+										<span class="digit">0</span>
+										<span class="digit">0</span>
+									</span>
+									<span class="time-name"><f:translate key='page.minutes'/></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="time-box">
+								<div class="time-box-inner dash seconds_dash animated" data-animation="rollIn" data-animation-delay="1200">
+									<span class="time-number">
+										<span class="digit">0</span>
+										<span class="digit">0</span>
+									</span>
+									<span class="time-name"><f:translate key='page.seconds'/></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</f:if>
+
+				<div class="social-btn-container">
+					<div class="team-socail-btn">
+						<span class="social-btn-box facebook-btn-container">
+							<f:link.external uri="{settings.fblink}" target='_blank' class="facebook-btn">
+								<i class="fa fa-facebook"></i>
+							</f:link.external><!-- /.facebook-btn -->
+						</span><!-- /.social-btn-box -->
+
+						<span class="social-btn-box twitter-btn-container">
+							<f:link.external uri='{settings.twlink}' target='_blank' class="twitter-btn">
+								<i class="fa fa-twitter"></i>
+							</f:link.external><!-- /.twitter-btn -->
+						</span><!-- /.social-btn-box -->
+
+						<span class="social-btn-box linkedin-btn-container">
+							<f:link.external uri='{settings.linkedinlink}' target='_blank' class="linkedin-btn">
+								<i class="fa fa-linkedin"></i>
+							</f:link.external><!-- /.linkedin-btn -->
+						</span><!-- /.social-btn-box -->
+
+					</div><!-- /.team-socail-btn -->
+				</div>
+
+			</div><!-- /.container -->
+		</div><!-- /.pattern -->		
+	</section><!-- /#page-top -->
+	<!-- Page Top Section  End -->
+
+
+	
+	<!-- Footer Section -->
+	<footer id="footer-section">
+		<div class="copyright">
+			<f:format.html>{settings.footertext}</f:format.html>
+		</div>
+	</footer>
+	<!-- Footer Section End -->
+	<f:form.hidden id='day' name='day' value='{settings.enddate -> f:format.date(format:"d")}'/>
+	<f:form.hidden id='month' name='month' value='{settings.enddate -> f:format.date(format:"m")}'/>
+	<f:form.hidden id='year' name='year' value='{settings.enddate -> f:format.date(format:"Y")}'/>
+	<f:form.hidden id='hour' name='hour' value='{settings.enddate -> f:format.date(format:"H")}'/>
+	<f:form.hidden id='min' name='min' value='{settings.enddate -> f:format.date(format:"i")}'/>
+	<f:form.hidden id='sec' name='sec' value='{settings.enddate -> f:format.date(format:"s")}'/>
+	
+</f:section>

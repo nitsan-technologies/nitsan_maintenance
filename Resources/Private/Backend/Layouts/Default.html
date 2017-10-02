@@ -1,0 +1,38 @@
+
+<f:be.container>
+	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap-colorpalette.css')}" />
+	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap.min.css')}" />
+	<script src="{f:uri.resource(path:'js/tinymce.min.js')}"></script>
+	<script src="{f:uri.resource(path:'js/jquery-2.1.0.min.js')}"></script>
+	<script src="{f:uri.resource(path:'js/bootstrap.min.js')}"></script>
+	<script src="{f:uri.resource(path:'js/bootstrap-colorpalette.js')}"></script>
+	
+	<div class="typo3-fullDoc">
+		<div id="typo3-docheader">
+			<div class="typo3-docheader-functions">
+				<div class="left">
+					<f:be.buttons.csh />
+				</div>
+				<div class="right">
+					<f:be.pagePath />
+					<f:be.pageInfo />
+				</div>
+			</div>
+			<div class="typo3-docheader-buttons">
+				<div class="left">
+
+				</div>
+				<div class="right">
+					<f:be.buttons.shortcut />
+				</div>
+			</div>
+
+		</div>
+		<div id="typo3-docbody">
+			<div id="typo3-inner-docbody">
+				<f:flashMessages />
+				<f:render section="content" />
+			</div>
+		</div>
+	</div>
+</f:be.container>

@@ -1,0 +1,217 @@
+
+<f:layout name="Default" />
+
+<f:section name="content">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+	<script>
+		
+		tinymce.init({ 
+			selector: 'textarea',
+			theme: 'modern',
+			plugins: [
+			'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+			'searchreplace wordcount visualblocks visualchars code fullscreen',
+			'insertdatetime media nonbreaking save table contextmenu directionality',
+			'emoticons template paste textcolor colorpicker textpattern imagetools'
+			],
+			toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+			toolbar2: 'print preview media | forecolor backcolor emoticons',
+			image_advtab: true,
+			templates: [
+			{ title: 'Test template 1', content: 'Test 1' },
+			{ title: 'Test template 2', content: 'Test 2' }
+			],
+			
+		});
+	</script>
+	<script>
+		$(function() {
+			//$( "#enddate" ).datepicker();
+			$('#colorpalette1').colorPalette()
+	          .on('selectColor', function(e) {
+	            $('#fontcolor').val(e.color);
+	            $("#colorpalette1").hide();
+	          });
+
+	        $(".colorpicker").on('click',function(){
+	        	$("#colorpalette1").toggle();
+	        });
+	        
+		});
+
+		$(document).ready(function(){
+	      var date_input=$('#enddate'); //our date input has the name "date"
+	      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+	      var options={
+	        format: 'mm/dd/yyyy',
+	        container: container,
+	        todayHighlight: true,
+	        autoclose: true,
+	      };
+	      date_input.datepicker(options);
+	    });
+	</script>
+	<f:form action="create"  enctype="multipart/form-data"  name="newMaintenance" object="{newMaintenance}">
+		<div class='page-header' style='margin-top:0'>
+			<h3 style='margin-top:0;color:#FF8300;'>Maintenance Mode Settings</h3>
+		</div>
+		<div class='row'>
+			<div class='col-sm-12'>
+
+				<div class='row form-group'>
+					<div class='col-sm-2'>
+						<div class="form-group" style='text-align:right;'>
+							<label for="title">Title:</label>
+						</div>
+					</div>
+					<div class='col-sm-6'>
+						<f:form.textfield property="title" class='form-control' id="title"/>
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="heading">Heading:</label>
+						</div>
+					</div>
+					<div class='col-sm-6'>
+						<f:form.textfield property="heading" class='form-control' id="heading"/>
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="text">Text:</label>
+						</div>
+					</div>
+					<div class='col-sm-9'>
+						<f:form.textarea property="text" class='form-control' id="text"/>
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label>Show Countdown:</label>
+						</div>
+					</div>
+					<div class='col-sm-9'>
+						<f:form.radio property="countdown" value="1" id="on1"/> <label for="on1">On</label> &nbsp;
+						<f:form.radio property="countdown" value="0" id="off1"/> <label for="off1">Off</label>
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="enddate">End Date:</label>
+						</div>
+					</div>
+					<div class='col-sm-6'>
+						<div class="input-group input-append date" id="datePicker">
+		                	<f:form.textfield class='t3js-datetimepicker form-control date-picker' property="enddate" id="enddate"  value="{newMaintenance.enddate->f:format.date(format:'m/d/Y')}" />
+		                	<span class="input-group-addon  add-on"><span class="fa fa-calendar"></span></span>
+		            	</div>
+						
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="enddate">Whitelist IP Addresses (comma seperated list of IP addresses):</label>
+						</div>
+					</div>
+					<div class='col-sm-8'>
+	                	<f:form.textfield class='form-control' property="whitelist" id="whitelist" />
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="fontcolor">Font Color:</label>
+						</div>
+					</div>
+					<div class='col-sm-6 btn-group'>
+						<div class="input-group input-append">
+							<f:form.textfield class='form-control' property="fontcolor" id="fontcolor" placeholder="Click on icon for pallete" />
+							<span class="input-group-addon add-on colorpicker" style='cursor:pointer'><span class="fa fa-th"></span></span>
+						</div>
+						<div id="colorpalette1" style='display:none'></div></li>
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="fblink">Facebook Link:</label>
+						</div>
+					</div>
+					<div class='col-sm-6'>
+		                <f:form.textfield class='form-control' property="fblink" id="fblink" />
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="twlink">Twitter Link:</label>
+						</div>
+					</div>
+					<div class='col-sm-6'>
+		                <f:form.textfield class='form-control' property="twlink" id="twlink" />
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="linkedinlink">LinkedIn Link:</label>
+						</div>
+					</div>
+					<div class='col-sm-6'>
+		                <f:form.textfield class='form-control' property="linkedinlink" id="linkedinlink" />
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="gitlink">Github Link:</label>
+						</div>
+					</div>
+					<div class='col-sm-6'>
+		                <f:form.textfield class='form-control' property="gitlink" id="gitlink" />
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="footeretext">Footer Text:</label>
+						</div>
+					</div>
+					<div class='col-sm-9'>
+						<f:form.textarea property="footertext" class='form-control' id="footertext"/>
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							
+						</div>
+					</div>
+					<div class='col-sm-2'>
+						<br>
+						<f:form.submit class='btn btn-block btn-primary' value="Save" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</f:form>
+</f:section>

@@ -1,0 +1,1 @@
+TCEFORM.tt_content.list_type.removeItems = nitsanmaintenance_mode
