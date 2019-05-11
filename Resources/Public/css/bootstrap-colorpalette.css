@@ -20,3 +20,11 @@
 .bootstrap-colorpalette .btn-color:hover {
     border: 1px solid #000;
 }
+
+.datepicker table tr td.active:active, 
+.datepicker table tr td.active.highlighted:active, 
+.datepicker table tr td.active.active, 
+.datepicker table tr td.active.highlighted.active {
+   background-color: green;
+}
+

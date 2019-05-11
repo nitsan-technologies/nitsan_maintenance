@@ -32,5 +32,4 @@ namespace Nitsan\NitsanMaintenance\Domain\Repository;
 class MaintenanceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
-    
 }

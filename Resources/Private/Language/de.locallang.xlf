@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-02T19:18:15Z" product-name="nitsan_maintenance">
+		<header/>
+		<body>
+			<trans-unit id="be.maintenance_mode">
+				<target>Wartungsmodus-Einstellungen:</target>
+			</trans-unit>
+			<trans-unit id="be.visiblity">
+				<target>Sichtweite:</target>
+			</trans-unit>
+			<trans-unit id="be.hide">
+				<target>Verbergen</target>
+			</trans-unit>
+			<trans-unit id="be.show">
+				<target>Show</target>
+			</trans-unit>
+			<trans-unit id="be.title">
+				<target>Titel:</target>
+			</trans-unit>
+			<trans-unit id="be.heading">
+				<target>Überschrift:</target>
+			</trans-unit>
+			<trans-unit id="be.text">
+				<target>Text:</target>
+			</trans-unit>
+			<trans-unit id="be.showcountdown">
+				<target>Countdown anzeigen:</target>
+			</trans-unit>
+			<trans-unit id="be.on">
+				<target>Auf</target>
+			</trans-unit>
+			<trans-unit id="be.off">
+				<target>Aus</target>
+			</trans-unit>
+			<trans-unit id="be.enddate">
+				<target>Endtermin:</target>
+			</trans-unit>
+			<trans-unit id="be.ip">
+				<target>Whitelist-IP-Adressen (durch Kommas getrennte Liste der IP-Adressen):</target>
+			</trans-unit>
+			<trans-unit id="be.fontcolor">
+				<target>Schriftfarbe:</target>
+			</trans-unit>
+			<trans-unit id="be.facebooklink">
+				<target>Facebook Verknüpfung:</target>
+			</trans-unit>
+			<trans-unit id="be.twitterlink">
+				<target>Twitter Verknüpfung:</target>
+			</trans-unit>
+			<trans-unit id="be.linkedinlink">
+				<target>LinkedIn Verknüpfung:</target>
+			</trans-unit>
+			<trans-unit id="be.githublink">
+				<target>Github Verknüpfung:</target>
+			</trans-unit>
+			<trans-unit id="be.footertext">
+				<target>Fusszeile:</target>
+			</trans-unit>
+			<trans-unit id="be.save">
+				<target>Sparen</target>
+			</trans-unit>
+			<trans-unit id="be.bgimage">
+				<target>Hintergrundbild:</target>
+			</trans-unit>
+			<trans-unit id="be.bgimagepixels">
+				<target>(1900 x 1000 Pixel)</target>
+			</trans-unit>
+			<trans-unit id="be.invalid_image">
+				<target>Ungültiges Bild Bitte wählen Sie JPG, JPEG oder PNG Image.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

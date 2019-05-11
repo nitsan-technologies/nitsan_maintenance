@@ -1,12 +1,14 @@
 
-<f:be.container>
+<f:be.container
+ 	includeRequireJsModules="{
+        0:'TYPO3/CMS/NitsanMaintenance/Main'
+    }">
+	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap.css')}" />
 	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap-colorpalette.css')}" />
-	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap.min.css')}" />
 	<script src="{f:uri.resource(path:'js/tinymce.min.js')}"></script>
 	<script src="{f:uri.resource(path:'js/jquery-2.1.0.min.js')}"></script>
 	<script src="{f:uri.resource(path:'js/bootstrap.min.js')}"></script>
 	<script src="{f:uri.resource(path:'js/bootstrap-colorpalette.js')}"></script>
-	
 	<div class="typo3-fullDoc">
 		<div id="typo3-docheader">
 			<div class="typo3-docheader-functions">

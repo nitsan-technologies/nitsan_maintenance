@@ -1,11 +1,7 @@
-
+{namespace h=Nitsan\NitsanMaintenance\ViewHelpers}
 <f:layout name="Default" />
-
 <f:section name="content">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 	<script>
-		
 		tinymce.init({ 
 			selector: 'textarea',
 			theme: 'modern',
@@ -18,16 +14,10 @@
 			toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
 			toolbar2: 'print preview media | forecolor backcolor emoticons',
 			image_advtab: true,
-			templates: [
-			{ title: 'Test template 1', content: 'Test 1' },
-			{ title: 'Test template 2', content: 'Test 2' }
-			],
-			
 		});
 	</script>
 	<script>
 		$(function() {
-			//$( "#enddate" ).datepicker();
 			$('#colorpalette1').colorPalette()
 	          .on('selectColor', function(e) {
 	            $('#fontcolor').val(e.color);
@@ -37,54 +27,54 @@
 	        $(".colorpicker").on('click',function(){
 	        	$("#colorpalette1").toggle();
 	        });
-	        
 		});
-
-		$(document).ready(function(){
-	      var date_input=$('#enddate'); //our date input has the name "date"
-	      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-	      var options={
-	        format: 'mm/dd/yyyy',
-	        container: container,
-	        todayHighlight: true,
-	        autoclose: true,
-	      };
-	      date_input.datepicker(options);
-	    });
 	</script>
-	<f:form action="create"  enctype="multipart/form-data"  name="newMaintenance" object="{newMaintenance}">
+
+	<f:form action="create"  enctype="multipart/form-data"  name="newMaintenance" object="{newMaintenance}" class="nitsan-maintenance">
 		<div class='page-header' style='margin-top:0'>
-			<h3 style='margin-top:0;color:#FF8300;'>Maintenance Mode Settings</h3>
+			<h3 style='margin-top:0;color:#FF8300;'><f:translate key='be.maintenance_mode'/></h3>
 		</div>
 		<div class='row'>
 			<div class='col-sm-12'>
 
 				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label><f:translate key='be.visiblity'/></label>
+						</div>
+					</div>
+					<div class='col-sm-9'>
+						<f:form.radio property="hide" value="1" id="hide1"/> <label for="hide1"><f:translate key='be.hide'/></label> &nbsp;
+						<f:form.radio property="hide" value="0" id="hide0"/> <label for="hide0"><f:translate key='be.show'/></label>
+					</div>
+				</div>
+
+				<div class='row form-group'>
 					<div class='col-sm-2'>
 						<div class="form-group" style='text-align:right;'>
-							<label for="title">Title:</label>
+							<label for="title"><f:translate key='be.title'/></label>
 						</div>
 					</div>
 					<div class='col-sm-6'>
-						<f:form.textfield property="title" class='form-control' id="title"/>
+						<f:form.textfield property="title" class='form-control' id="title" required="required"/>
 					</div>
 				</div>
 
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="heading">Heading:</label>
+							<label for="heading"><f:translate key='be.heading'/></label>
 						</div>
 					</div>
 					<div class='col-sm-6'>
-						<f:form.textfield property="heading" class='form-control' id="heading"/>
+						<f:form.textfield property="heading" class='form-control' id="heading" required="required"/>
 					</div>
 				</div>
 
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="text">Text:</label>
+							<label for="text"><f:translate key='be.text'/></label>
 						</div>
 					</div>
 					<div class='col-sm-9'>
@@ -95,24 +85,24 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label>Show Countdown:</label>
+							<label><f:translate key='be.showcountdown'/></label>
 						</div>
 					</div>
 					<div class='col-sm-9'>
-						<f:form.radio property="countdown" value="1" id="on1"/> <label for="on1">On</label> &nbsp;
-						<f:form.radio property="countdown" value="0" id="off1"/> <label for="off1">Off</label>
+						<f:form.radio property="countdown" value="1" id="on1"/> <label for="on1"><f:translate key='be.on'/></label> &nbsp;
+						<f:form.radio property="countdown" value="0" id="off1"/> <label for="off1"><f:translate key='be.off'/></label>
 					</div>
 				</div>
 
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="enddate">End Date:</label>
+							<label for="enddate"><f:translate key='be.enddate'/></label>
 						</div>
 					</div>
 					<div class='col-sm-6'>
 						<div class="input-group input-append date" id="datePicker">
-		                	<f:form.textfield class='t3js-datetimepicker form-control date-picker' property="enddate" id="enddate"  value="{newMaintenance.enddate->f:format.date(format:'m/d/Y')}" />
+		                	<f:form.textfield class='t3js-datetimepicker form-control t3js-clearable' property="endtime" id="enddate"  value="{newMaintenance.endtime->f:format.date(format:'Y-m-d H:i')}" />
 		                	<span class="input-group-addon  add-on"><span class="fa fa-calendar"></span></span>
 		            	</div>
 						
@@ -122,10 +112,10 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="enddate">Whitelist IP Addresses (comma seperated list of IP addresses):</label>
+							<label for="whitelist"><f:translate key='be.ip'/></label>
 						</div>
 					</div>
-					<div class='col-sm-8'>
+					<div class='col-sm-6'>
 	                	<f:form.textfield class='form-control' property="whitelist" id="whitelist" />
 					</div>
 				</div>
@@ -133,7 +123,7 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="fontcolor">Font Color:</label>
+							<label for="fontcolor"><f:translate key='be.fontcolor'/></label>
 						</div>
 					</div>
 					<div class='col-sm-6 btn-group'>
@@ -148,7 +138,7 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="fblink">Facebook Link:</label>
+							<label for="fblink"><f:translate key='be.facebooklink'/></label>
 						</div>
 					</div>
 					<div class='col-sm-6'>
@@ -159,7 +149,7 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="twlink">Twitter Link:</label>
+							<label for="twlink"><f:translate key='be.twitterlink'/></label>
 						</div>
 					</div>
 					<div class='col-sm-6'>
@@ -170,7 +160,7 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="linkedinlink">LinkedIn Link:</label>
+							<label for="linkedinlink"><f:translate key='be.linkedinlink'/></label>
 						</div>
 					</div>
 					<div class='col-sm-6'>
@@ -181,7 +171,7 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="gitlink">Github Link:</label>
+							<label for="gitlink"><f:translate key='be.githublink'/></label>
 						</div>
 					</div>
 					<div class='col-sm-6'>
@@ -192,13 +182,32 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label for="footeretext">Footer Text:</label>
+							<label for="footeretext"><f:translate key='be.footertext'/></label>
 						</div>
 					</div>
 					<div class='col-sm-9'>
 						<f:form.textarea property="footertext" class='form-control' id="footertext"/>
 					</div>
 				</div>
+
+				<f:if condition="{Maintenance7}!=1">
+					<div class='row form-group'>
+						<div class='col-sm-2' style='text-align:right;'>
+							<div class="form-group">
+								<label for="heading"><f:translate key='be.bgimage'/></label>
+								<label for="heading2"><f:translate key='be.bgimagepixels'/></label>
+							</div>
+						</div>
+						<div class='col-sm-9'>
+							<h:form.upload property="image.0" additionalAttributes="{accept: 'image/*'}" id="imageUpload">
+								<f:if condition="{resource}">
+									<f:image image="{resource}" alt="" width="100"/>
+								</f:if>
+							</h:form.upload>
+							<p style="color: red; display:none" class="invalidImage"><f:translate key='be.invalid_image'/></p>
+						</div>
+					</div>
+				</f:if>
 
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
@@ -208,7 +217,7 @@
 					</div>
 					<div class='col-sm-2'>
 						<br>
-						<f:form.submit class='btn btn-block btn-primary' value="Save" />
+						<f:form.submit class='btn btn-block btn-primary' id="maintenance_Submit" value="<f:translate key='be.save'/>" />
 					</div>
 				</div>
 			</div>

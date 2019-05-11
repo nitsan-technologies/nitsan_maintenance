@@ -1,6 +1,8 @@
 <?php
 namespace Nitsan\NitsanMaintenance\Property\TypeConverter;
-class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\ObjectStorageConverter {
+
+class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\ObjectStorageConverter
+{
     /**
      * Take precedence over the available ObjectStorageConverter
      *
@@ -15,7 +17,8 @@ class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\O
      * @return array
      * @api
      */
-    public function getSourceChildPropertiesToBeConverted($source) {
+    public function getSourceChildPropertiesToBeConverted($source)
+    {
         $propertiesToConvert = array();
         // TODO: Find a nicer way to throw away empty uploads
         foreach ($source as $propertyName => $propertyValue) {
@@ -35,7 +38,8 @@ class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\O
      * @param mixed $propertyValue
      * @return bool
      */
-    protected function isUploadType($propertyValue) {
+    protected function isUploadType($propertyValue)
+    {
         return is_array($propertyValue) && isset($propertyValue['tmp_name']) && isset($propertyValue['error']);
     }
 }

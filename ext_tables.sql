@@ -11,8 +11,7 @@ CREATE TABLE tx_nitsanmaintenance_domain_model_maintenance (
 	heading varchar(255) DEFAULT '' NOT NULL,
 	text text NOT NULL,
 	countdown tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	startdate varchar(255) DEFAULT '' NOT NULL,
-	enddate varchar(255) DEFAULT '' NOT NULL,
+	hide tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	whitelist varchar(255) DEFAULT '' NOT NULL,
 	fontcolor varchar(255) DEFAULT '' NOT NULL,
 	footertext text NOT NULL,
@@ -20,6 +19,7 @@ CREATE TABLE tx_nitsanmaintenance_domain_model_maintenance (
 	twlink varchar(255) DEFAULT '' NOT NULL,
 	linkedinlink varchar(255) DEFAULT '' NOT NULL,
 	gitlink varchar(255) DEFAULT '' NOT NULL,
+	image int(11) unsigned NOT NULL default '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -46,6 +46,6 @@ CREATE TABLE tx_nitsanmaintenance_domain_model_maintenance (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
- KEY language (l10n_parent,sys_language_uid)
+ 	KEY language (l10n_parent,sys_language_uid)
 
 );

@@ -38,77 +38,84 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $robotsmeta = '';
-    
+
     /**
      * title
      *
      * @var string
      */
     protected $title = '';
-    
+
     /**
      * heading
      *
      * @var string
      */
     protected $heading = '';
-    
+
     /**
      * text
      *
      * @var string
      */
     protected $text = '';
-    
+
     /**
      * countdown
      *
      * @var bool
      */
     protected $countdown = false;
-    
+
+    /**
+     * hide
+     *
+     * @var bool
+     */
+    protected $hide = false;
+
     /**
      * startdate
      *
      * @var string
      */
     protected $startdate = null;
-    
+
     /**
-     * enddate
+     * endtime
      *
      * @var string
      */
-    protected $enddate = null;
-    
+    protected $endtime = null;
+
     /**
      * fontcolor
      *
      * @var string
      */
     protected $fontcolor = '';
-    
+
     /**
      * text
      *
      * @var string
      */
     protected $footertext = '';
-    
+
     /**
      * fblink
      *
      * @var string
      */
     protected $fblink = '';
-    
+
     /**
      * twlink
      *
      * @var string
      */
     protected $twlink = '';
-    
+
     /**
      * linkedinlink
      *
@@ -122,14 +129,21 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var string
      */
     protected $whitelist = '';
-    
+
     /**
      * gitlink
      *
      * @var string
      */
     protected $gitlink = '';
-    
+
+    /**
+     * image
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+     */
+    protected $image = null;
+
     /**
      * __construct
      */
@@ -138,7 +152,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         //Do not remove the next line: It would break the functionality
         $this->initStorageObjects();
     }
-    
+
     /**
      * Initializes all ObjectStorage properties
      * Do not modify this method!
@@ -149,9 +163,9 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      */
     protected function initStorageObjects()
     {
-        
+        $this->image = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
-    
+
     /**
      * Returns the boolean state of status
      *
@@ -161,7 +175,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->status;
     }
-    
+
     /**
      * Returns the robotsmeta
      *
@@ -171,7 +185,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->robotsmeta;
     }
-    
+
     /**
      * Sets the robotsmeta
      *
@@ -182,7 +196,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->robotsmeta = $robotsmeta;
     }
-    
+
     /**
      * Returns the title
      *
@@ -192,7 +206,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->title;
     }
-    
+
     /**
      * Sets the title
      *
@@ -203,7 +217,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->title = $title;
     }
-    
+
     /**
      * Returns the heading
      *
@@ -213,7 +227,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->heading;
     }
-    
+
     /**
      * Sets the heading
      *
@@ -224,7 +238,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->heading = $heading;
     }
-    
+
     /**
      * Returns the text
      *
@@ -234,7 +248,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->text;
     }
-    
+
     /**
      * Sets the text
      *
@@ -245,7 +259,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->text = $text;
     }
-    
+
     /**
      * Returns the countdown
      *
@@ -255,7 +269,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->countdown;
     }
-    
+
     /**
      * Sets the countdown
      *
@@ -266,7 +280,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->countdown = $countdown;
     }
-    
+
     /**
      * Returns the boolean state of countdown
      *
@@ -276,7 +290,28 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->countdown;
     }
-    
+
+    /**
+     * Returns the hide
+     *
+     * @return bool $hide
+     */
+    public function getHide()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * Sets the hide
+     *
+     * @param bool $hide
+     * @return void
+     */
+    public function setHide($hide)
+    {
+        $this->hide = $hide;
+    }
+
     /**
      * Returns the fontcolor
      *
@@ -286,7 +321,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->fontcolor;
     }
-    
+
     /**
      * Sets the fontcolor
      *
@@ -297,7 +332,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->fontcolor = $fontcolor;
     }
-    
+
     /**
      * Returns the startdate
      *
@@ -307,7 +342,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->startdate;
     }
-    
+
     /**
      * Sets the startdate
      *
@@ -318,28 +353,28 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->startdate = $startdate;
     }
-    
+
     /**
-     * Returns the enddate
+     * Returns the endtime
      *
-     * @return string enddate
+     * @return string endtime
      */
-    public function getEnddate()
+    public function getEndtime()
     {
-        return $this->enddate;
+        return $this->endtime;
     }
-    
+
     /**
-     * Sets the enddate
+     * Sets the endtime
      *
-     * @param String $enddate
+     * @param String $endtime
      * @return void
      */
-    public function setEnddate($enddate)
+    public function setEndtime($endtime)
     {
-        $this->enddate = $enddate;
+        $this->endtime = $endtime;
     }
-    
+
     /**
      * Returns the text
      *
@@ -349,7 +384,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->footertext;
     }
-    
+
     /**
      * Sets the text
      *
@@ -360,7 +395,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->footertext = $footertext;
     }
-    
+
     /**
      * Returns the fblink
      *
@@ -370,7 +405,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->fblink;
     }
-    
+
     /**
      * Sets the fblink
      *
@@ -381,7 +416,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->fblink = $fblink;
     }
-    
+
     /**
      * Returns the twlink
      *
@@ -391,7 +426,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->twlink;
     }
-    
+
     /**
      * Sets the twlink
      *
@@ -402,7 +437,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->twlink = $twlink;
     }
-    
+
     /**
      * Returns the linkedinlink
      *
@@ -412,7 +447,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->linkedinlink;
     }
-    
+
     /**
      * Sets the linkedinlink
      *
@@ -423,7 +458,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->linkedinlink = $linkedinlink;
     }
-    
+
     /**
      * Returns the gitlink
      *
@@ -433,7 +468,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->gitlink;
     }
-    
+
     /**
      * Sets the gitlink
      *
@@ -454,7 +489,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         return $this->whitelist;
     }
-    
+
     /**
      * Sets the whitelist
      *
@@ -466,4 +501,46 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->whitelist = $whitelist;
     }
 
+    /**
+     * Adds a FileReference
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
+     * @return void
+     */
+    public function addImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image)
+    {
+        $this->image->attach($image);
+    }
+
+    /**
+     * Removes a FileReference
+     *
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $imageToRemove The FileReference to be removed
+     * @return void
+     */
+    public function removeImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $imageToRemove)
+    {
+        $this->image->detach($imageToRemove);
+    }
+
+    /**
+     * Returns the image
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Sets the image
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $image
+     * @return void
+     */
+    public function setImage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $image = null)
+    {
+        $this->image = $image;
+    }
 }

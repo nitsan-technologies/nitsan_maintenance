@@ -33,6 +33,9 @@
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.footertext">
 				<source>Footertext</source>
 			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.image">
+				<source>Image</source>
+			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fblink">
 				<source>Fblink</source>
 			</trans-unit>
@@ -62,6 +65,18 @@
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.bgimage">
 				<source>Bgimage</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.language">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.allLanguages">
+				<source>All</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.hidden">
+				<source>Hidden</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.hide">
+				<source>Hide</source>
 			</trans-unit>
 		</body>
 	</file>

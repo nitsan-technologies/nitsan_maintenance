@@ -1,8 +1,6 @@
-
 plugin.tx_nitsanmaintenance_mode {
 	view {
 		templateRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.templateRootPath}
-		partialRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.partialRootPath}
 		layoutRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.layoutRootPath}
 	}
 	persistence {
@@ -32,7 +30,7 @@ config.tx_extbase{
 	}
 }
 
- # Module configuration
+# Module configuration
 module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 	persistence {
 		storagePid = {$module.tx_nitsanmaintenance_maintenance.persistence.storagePid}
@@ -43,6 +41,7 @@ module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 		layoutRootPaths.0 = {$module.tx_nitsanmaintenance_maintenance.view.layoutRootPath}
 	}
 }
+
 [globalVar = TSFE : beUserLogin = 0] && [Nitsan\NitsanMaintenance\TypoScript\IPCheckCondition]
 	page >
 	page = PAGE
