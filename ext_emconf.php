@@ -1,26 +1,17 @@
 <?php
 
-/***************************************************************
- * Extension Manager/Repository config file for ext "nitsan_maintenance".
- *
- * Auto generated 02-09-2016 12:31
- *
- * Manual updates:
- * Only the data in the array - everything else is removed by next
- * writing. "version" and "dependencies" must not be touched!
- ***************************************************************/
-
 $EM_CONF[$_EXTKEY] = array(
     'title' => '[NITSAN] Maintenance Mode',
     'description' => 'Do you want to make your site temporary offline like Coming soon, Maintenance Mode? This extension will help you with simple plug & play which have special TYPO3 Page & Template. It would be useful on criteria like to set Site Coming Soon Page, Maintanance of Site, Offline while Upgrading your site etc.,',
     'category' => 'plugin',
-    'author' => 'NITSAN Technologies',
-    'author_email' => 'sanjay@nitsan.in',
+    'author' => 'T3:Bhavin Barad, T3:Keval Pandya, QA:Siddharth Sheth',
+	'author_email' => 'sanjay@nitsan.in',
+	'author_company' => 'NITSAN Technologies Pvt Ltd',
     'state' => 'stable',
     'uploadfolder' => false,
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '2.0.0',
+    'version' => '2.0.1',
     'constraints' => array(
         'depends' => array(
             'typo3' => '6.2.0-9.5.99',
@@ -31,5 +22,4 @@ $EM_CONF[$_EXTKEY] = array(
         ),
     ),
     'clearcacheonload' => false,
-    'author_company' => null,
 );
