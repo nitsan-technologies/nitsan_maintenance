@@ -16,19 +16,6 @@
 			image_advtab: true,
 		});
 	</script>
-	<script>
-		$(function() {
-			$('#colorpalette1').colorPalette()
-	          .on('selectColor', function(e) {
-	            $('#fontcolor').val(e.color);
-	            $("#colorpalette1").hide();
-	          });
-
-	        $(".colorpicker").on('click',function(){
-	        	$("#colorpalette1").toggle();
-	        });
-		});
-	</script>
 
 	<f:form action="create"  enctype="multipart/form-data"  name="newMaintenance" object="{newMaintenance}" class="nitsan-maintenance">
 		<div class='page-header' style='margin-top:0'>
@@ -36,7 +23,6 @@
 		</div>
 		<div class='row'>
 			<div class='col-sm-12'>
-
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
@@ -85,18 +71,6 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							<label><f:translate key='be.showcountdown'/></label>
-						</div>
-					</div>
-					<div class='col-sm-9'>
-						<f:form.radio property="countdown" value="1" id="on1"/> <label for="on1"><f:translate key='be.on'/></label> &nbsp;
-						<f:form.radio property="countdown" value="0" id="off1"/> <label for="off1"><f:translate key='be.off'/></label>
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
 							<label for="enddate"><f:translate key='be.enddate'/></label>
 						</div>
 					</div>
@@ -106,76 +80,6 @@
 		                	<span class="input-group-addon  add-on"><span class="fa fa-calendar"></span></span>
 		            	</div>
 						
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="whitelist"><f:translate key='be.ip'/></label>
-						</div>
-					</div>
-					<div class='col-sm-6'>
-	                	<f:form.textfield class='form-control' property="whitelist" id="whitelist" />
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="fontcolor"><f:translate key='be.fontcolor'/></label>
-						</div>
-					</div>
-					<div class='col-sm-6 btn-group'>
-						<div class="input-group input-append">
-							<f:form.textfield class='form-control' property="fontcolor" id="fontcolor" placeholder="Click on icon for pallete" />
-							<span class="input-group-addon add-on colorpicker" style='cursor:pointer'><span class="fa fa-th"></span></span>
-						</div>
-						<div id="colorpalette1" style='display:none'></div></li>
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="fblink"><f:translate key='be.facebooklink'/></label>
-						</div>
-					</div>
-					<div class='col-sm-6'>
-		                <f:form.textfield class='form-control' property="fblink" id="fblink" />
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="twlink"><f:translate key='be.twitterlink'/></label>
-						</div>
-					</div>
-					<div class='col-sm-6'>
-		                <f:form.textfield class='form-control' property="twlink" id="twlink" />
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="linkedinlink"><f:translate key='be.linkedinlink'/></label>
-						</div>
-					</div>
-					<div class='col-sm-6'>
-		                <f:form.textfield class='form-control' property="linkedinlink" id="linkedinlink" />
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="gitlink"><f:translate key='be.githublink'/></label>
-						</div>
-					</div>
-					<div class='col-sm-6'>
-		                <f:form.textfield class='form-control' property="gitlink" id="gitlink" />
 					</div>
 				</div>
 

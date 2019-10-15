@@ -10,63 +10,76 @@ use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Property\Exception\TypeConverterException;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
-use TYPO3\Flow\Utility\Files;
 
+/**
+ * Class UploadedFileReferenceConverter
+ */
 class UploadedFileReferenceConverter extends AbstractTypeConverter
 {
     /**
      * Folder where the file upload should go to (including storage).
      */
     const CONFIGURATION_UPLOAD_FOLDER = 1;
+
     /**
      * How to handle a upload when the name of the uploaded file conflicts.
      */
     const CONFIGURATION_UPLOAD_CONFLICT_MODE = 2;
+
     /**
      * Whether to replace an already present resource.
      * Useful for "maxitems = 1" fields and properties
      * with no ObjectStorage annotation.
      */
     const CONFIGURATION_ALLOWED_FILE_EXTENSIONS = 4;
+
     /**
      * @var string
      */
     protected $defaultUploadFolder = '1:/user_upload/';
-    /**
-     * One of 'cancel', 'replace', 'changeName'
+
+      /**
+     * One of 'cancel', 'replace', 'rename'
      *
      * @var string
      */
-    protected $defaultConflictMode = 'changeName';
+    protected $defaultConflictMode = 'rename';
+
     /**
      * @var array<string>
      */
     protected $sourceTypes = array('array');
+
     /**
      * @var string
      */
     protected $targetType = 'TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference';
+
     /**
      * Take precedence over the available FileReferenceConverter
      *
      * @var integer
      */
-    protected $priority = 2;
+    protected $priority = 30;
+
     /**
      * @var \TYPO3\CMS\Core\Resource\ResourceFactory
      * @inject
      */
     protected $resourceFactory;
+
     /**
      * @var \TYPO3\CMS\Extbase\Security\Cryptography\HashService
      * @inject
      */
     protected $hashService;
+
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      * @inject
      */
     protected $persistenceManager;
+
     /**
      * @var \TYPO3\CMS\Core\Resource\FileInterface[]
      */
@@ -75,7 +88,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
      * Actually convert from $source to $targetType, taking into account the fully
      * built $convertedChildProperties and $configuration.
      *
-     * @param string|integer $source
+     * @param string|int $source
      * @param string $targetType
      * @param array $convertedChildProperties
      * @param \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration
@@ -101,27 +114,32 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
             }
             return null;
         }
+
         if ($source['error'] !== \UPLOAD_ERR_OK) {
             switch ($source['error']) {
                 case \UPLOAD_ERR_INI_SIZE:
                 case \UPLOAD_ERR_FORM_SIZE:
                 case \UPLOAD_ERR_PARTIAL:
-                    return new Error(Files::getUploadErrorMessage($source['error']), 1264440823);
+                    return new Error('Error Code: ' . $source['error'], 1264440823);
                 default:
                     return new Error('An error occurred while uploading. Please try again or contact the administrator if the problem remains', 1340193849);
             }
         }
+
         if (isset($this->convertedResources[$source['tmp_name']])) {
             return $this->convertedResources[$source['tmp_name']];
         }
+
         try {
             $resource = $this->importUploadedResource($source, $configuration);
         } catch (\Exception $e) {
             return new Error($e->getMessage(), $e->getCode());
         }
+
         $this->convertedResources[$source['tmp_name']] = $resource;
         return $resource;
     }
+
     /**
      * Import a resource and respect configuration given for properties
      *
@@ -136,15 +154,25 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
         if (!GeneralUtility::verifyFilenameAgainstDenyPattern($uploadInfo['name'])) {
             throw new TypeConverterException('Uploading files with PHP file extensions is not allowed!', 1399312430);
         }
-        $allowedFileExtensions = $configuration->getConfigurationValue('ARM\\Braasbautafel\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_ALLOWED_FILE_EXTENSIONS);
+
+        $allowedFileExtensions = $configuration->getConfigurationValue('Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_ALLOWED_FILE_EXTENSIONS);
+
         if ($allowedFileExtensions !== null) {
             $filePathInfo = PathUtility::pathinfo($uploadInfo['name']);
             if (!GeneralUtility::inList($allowedFileExtensions, strtolower($filePathInfo['extension']))) {
                 throw new TypeConverterException('File extension is not allowed!', 1399312430);
             }
         }
-        $uploadFolderId = $configuration->getConfigurationValue('ARM\\Braasbautafel\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_UPLOAD_FOLDER) ?: $this->defaultUploadFolder;
-        $conflictMode = $configuration->getConfigurationValue('ARM\\Braasbautafel\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_UPLOAD_CONFLICT_MODE) ?: $this->defaultConflictMode;
+
+        $uploadFolderId = $configuration->getConfigurationValue('Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_UPLOAD_FOLDER) ?: $this->defaultUploadFolder;
+        
+        if (class_exists('TYPO3\\CMS\\Core\\Resource\\DuplicationBehavior')) {
+            $defaultConflictMode = \TYPO3\CMS\Core\Resource\DuplicationBehavior::RENAME;
+        } else {
+            $defaultConflictMode = 'rename';
+        }
+        $conflictMode = $configuration->getConfigurationValue('Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_UPLOAD_CONFLICT_MODE) ?: $this->defaultConflictMode;
+
         $uploadFolder = $this->resourceFactory->retrieveFileOrFolderObject($uploadFolderId);
         $uploadedFile = $uploadFolder->addUploadedFile($uploadInfo, $conflictMode);
         $resourcePointer = isset($uploadInfo['submittedFile']['resourcePointer']) && strpos($uploadInfo['submittedFile']['resourcePointer'], 'file:') === false
@@ -156,7 +184,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
     /**
      * @param FalFile $file
      * @param int $resourcePointer
-     * @return \ARM\Braasbautafel\Domain\Model\FileReference
+     * @return \Nitsan\NitsanMaintenance\Domain\Model\FileReference
      */
     protected function createFileReferenceFromFalFileObject(FalFile $file, $resourcePointer = null)
     {

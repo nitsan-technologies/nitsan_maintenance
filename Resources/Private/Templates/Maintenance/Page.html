@@ -1,16 +1,16 @@
 <f:layout name='Default' />
 <f:section name="main">
-    <f:if condition="{settings.fontcolor}">
-        <style>
-        .site-title,
-        .section-title,
-        .section-name,
-        .time-box,
-        body {
-            color: {settings.fontcolor} !important;
-        }
-        </style>
-    </f:if>
+   
+	<style>
+	.site-title,
+	.section-title,
+	.section-name,
+	.time-box,
+	body {
+		color: #fff;
+	}
+	</style>
+    
     <!-- Preloader -->
     <div id="preloader">
         <div id="loader">
@@ -47,93 +47,10 @@
 					</h3>
 					<f:format.html>{settings.text}</f:format.html>
 					<!-- /.Section-title  -->
-					<f:if condition="{settings.countdown}">
-						<div id="time_countdown" class="time-count-container">
-							<div class="col-sm-3">
-								<div class="time-box">
-									<div class="time-box-inner dash days_dash animated" data-animation="rollIn" data-animation-delay="300">
-										<span class="time-number">
-											<span class="digit">0</span>
-											<span class="digit">0</span>
-											<span class="digit">0</span>
-										</span>
-										<span class="time-name"><f:translate key='page.day'/></span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<div class="time-box">
-									<div class="time-box-inner dash hours_dash animated" data-animation="rollIn" data-animation-delay="600">
-										<span class="time-number">
-											<span class="digit">0</span>
-											<span class="digit">0</span>	
-										</span>
-										<span class="time-name"><f:translate key='page.hours'/></span>
-									</div>
-								</div>
-							</div>
-
-							<div class="col-sm-3">
-								<div class="time-box">
-									<div class="time-box-inner dash minutes_dash animated" data-animation="rollIn" data-animation-delay="900">
-										<span class="time-number">
-											<span class="digit">0</span>
-											<span class="digit">0</span>
-										</span>
-										<span class="time-name"><f:translate key='page.minutes'/></span>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-3">
-								<div class="time-box">
-									<div class="time-box-inner dash seconds_dash animated" data-animation="rollIn" data-animation-delay="1200">
-										<span class="time-number">
-											<span class="digit">0</span>
-											<span class="digit">0</span>
-										</span>
-										<span class="time-name"><f:translate key='page.seconds'/></span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</f:if>
-
-					<div class="social-btn-container">
-						<div class="team-socail-btn">
-							<f:if condition="{settings.fblink}">
-								<span class="social-btn-box facebook-btn-container">
-									<f:link.external uri="{settings.fblink}" target='_blank' class="facebook-btn">
-										<i class="fa fa-facebook"></i>
-									</f:link.external><!-- /.facebook-btn -->
-								</span><!-- /.social-btn-box -->
-							</f:if>
-
-							<f:if condition="{settings.twlink}">
-								<span class="social-btn-box twitter-btn-container">
-									<f:link.external uri='{settings.twlink}' target='_blank' class="twitter-btn">
-										<i class="fa fa-twitter"></i>
-									</f:link.external><!-- /.twitter-btn -->
-								</span><!-- /.social-btn-box -->
-							</f:if>
-
-							<f:if condition="{settings.linkedinlink}">
-								<span class="social-btn-box linkedin-btn-container">
-									<f:link.external uri='{settings.linkedinlink}' target='_blank' class="linkedin-btn">
-										<i class="fa fa-linkedin"></i>
-									</f:link.external><!-- /.linkedin-btn -->
-								</span><!-- /.social-btn-box -->
-							</f:if>
-
-							<f:if condition="{settings.gitlink}">
-								<span class="social-btn-box linkedin-btn-container">
-									<f:link.external uri='{settings.gitlink}' target='_blank' class="linkedin-btn">
-										<i class="fa fa-git"></i>
-									</f:link.external><!-- /.linkedin-btn -->
-								</span><!-- /.social-btn-box -->
-							</f:if>
-
-						</div><!-- /.team-socail-btn -->
+					<div id="time_countdown" class="time-count-container">
+						<h1 class="text-center"><f:translate key="availableon" /> <span class="enddate"><f:format.date format="m.d.Y">{settings.endtime}</f:format.date></span></h1>
 					</div>
+					
 				</div>
 			</div><!-- /.container -->
 		</div><!-- /.pattern -->		

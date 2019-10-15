@@ -16,3 +16,5 @@ if (!defined('TYPO3_MODE')) {
 
     )
 );
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\UploadedFileReferenceConverter');
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\ObjectStorageConverter');

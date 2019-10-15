@@ -15,23 +15,21 @@ return array(
         'delete' => 'deleted',
         'enablecolumns' => array(
             'disabled' => 'hidden',
-            'starttime' => 'starttime',
             'endtime' => 'endtime',
         ),
-        'searchFields' => 'robotsmeta,title,heading,text,countdown,fontcolor,footertext,fblink,twlink,linkedinlink,gitlink,',
+        'searchFields' => 'title,heading,text,countdown,fontcolor,footertext,fblink,twlink,linkedinlink,gitlink,',
         'iconfile' => 'EXT:nitsan_maintenance/Resources/Public/Icons/tx_nitsanmaintenance_domain_model_maintenance.gif',
     ),
     'interface' => array(
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, robotsmeta, hide, title, heading, text, countdown, whitelist, fontcolor, footertext, fblink, twlink, linkedinlink, gitlink',
+        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,  hide, title, heading, text, countdown, whitelist, fontcolor, footertext, fblink, twlink, linkedinlink, gitlink',
     ),
     'types' => array(
-        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links], countdown, starttime, endtime, whitelist, fontcolor, footertext;;;richtext:rte_transform[mode=ts_links], fblink, twlink, linkedinlink, gitlink, image, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links], countdown,  endtime, whitelist, fontcolor, footertext;;;richtext:rte_transform[mode=ts_links], fblink, twlink, linkedinlink, gitlink, image, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,  endtime'),
     ),
     'palettes' => array(
         '1' => array('showitem' => ''),
     ),
     'columns' => array(
-
         'sys_language_uid' => [
             'exclude' => true,
             'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.language',
@@ -85,20 +83,12 @@ return array(
                 'type' => 'check',
             ),
         ),
-        'starttime' => array(
+        'hide' => array(
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.startdate',
+            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.hide',
             'config' => array(
-                'type' => 'input',
-                'size' => 13,
-                'max' => 20,
-                'eval' => 'datetime',
-                'checkbox' => 0,
+                'type' => 'check',
                 'default' => 0,
-                'range' => array(
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
-                ),
             ),
         ),
         'endtime' => array(
@@ -115,25 +105,6 @@ return array(
                 'range' => array(
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
                 ),
-            ),
-        ),
-
-        'robotsmeta' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.robotsmeta',
-            'config' => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
-
-        'hide' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.hide',
-            'config' => array(
-                'type' => 'check',
-                'default' => 0,
             ),
         ),
 
@@ -181,32 +152,6 @@ return array(
                 ),
             ),
         ),
-        'countdown' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.countdown',
-            'config' => array(
-                'type' => 'check',
-                'default' => 0,
-            ),
-        ),
-        'whitelist' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.whitelist',
-            'config' => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
-        'fontcolor' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.fontcolor',
-            'config' => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
         'footertext' => array(
             'exclude' => 1,
             'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.footertext',
@@ -231,42 +176,6 @@ return array(
                         'type' => 'script',
                     ),
                 ),
-            ),
-        ),
-        'fblink' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.fblink',
-            'config' => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
-        'twlink' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.twlink',
-            'config' => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
-        'linkedinlink' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.linkedinlink',
-            'config' => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ),
-        ),
-        'gitlink' => array(
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.gitlink',
-            'config' => array(
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
             ),
         ),
         'image' => [

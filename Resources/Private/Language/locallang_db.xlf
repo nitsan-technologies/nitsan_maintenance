@@ -21,44 +21,14 @@
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.countdown">
 				<source>Countdown</source>
 			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.startdate">
-				<source>Startdate</source>
-			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.enddate">
 				<source>Enddate</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fontcolor">
-				<source>Fontcolor</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.footertext">
 				<source>Footertext</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.image">
 				<source>Image</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fblink">
-				<source>Fblink</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.twlink">
-				<source>Twlink</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.linkedinlink">
-				<source>Linkedinlink</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.gitlink">
-				<source>Gitlink</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.social">
-				<source>Social</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks">
-				<source>Social Links</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks.link">
-				<source>Link</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks.icon">
-				<source>Icon</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.status">
 				<source>Status</source>

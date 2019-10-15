@@ -65,7 +65,6 @@ module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 		Modernizr = EXT:nitsan_maintenance/Resources/Public/js/modernizr-2.8.0.min.js
 		Plugin = EXT:nitsan_maintenance/Resources/Public/js/plugins.js
 		Functions = EXT:nitsan_maintenance/Resources/Public/js/functions.js
-		Ajax = EXT:nitsan_maintenance/Resources/Public/js/jquery.ajaxchimp.min.js
 	}
 	page.headerData{
 		10 = TEXT
