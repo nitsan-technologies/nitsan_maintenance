@@ -1,13 +1,13 @@
 {
   "name": "nitsan/nitsan-maintenance",
   "type": "typo3-cms-extension",
-  "description": "Do you want to make your site temporary offline like Coming soon, Maintenance Mode? This extension will help you with simple plug & play which have special TYPO3 Page & Template. It would be useful on criteria like to set Site Coming Soon Page, Maintanance of Site, Offline while Upgrading your site etc.,",
+  "description": "Do you want to make your site temporary offline like coming soon and maintenance mode? This extension will help you with simple plug & play to your TYPO3 instance. You can download PRO version with more-features & free-support at https://t3terminal.com/nitsan-maintenance-pro",
   "homepage": "https://extensions.typo3.org/extension/nitsan_maintenance/",
   "license": "GPL-2.0+",
   "keywords": [
-    "TYPO3 CMS",
+    "TYPO3",
     "Sliders",
-    "Nitsan"
+    "NITSAN"
   ],
   "support": {
     "issues": "https://github.com/nitsan-technologies/nitsan_maintenance/issues"
