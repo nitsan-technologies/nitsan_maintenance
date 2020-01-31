@@ -115,6 +115,10 @@ a:focus{
 	text-transform:uppercase;
 	font-weight:300;
 	font-size:80px;
+	margin-bottom: 20px;
+}
+.content-text {
+	margin-top: 30px;
 }
 .section-description{
 	font-weight:300;

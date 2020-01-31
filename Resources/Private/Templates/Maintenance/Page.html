@@ -45,7 +45,9 @@
 	                <h3 class="section-name">
 						{settings.heading}
 					</h3>
-					<f:format.html>{settings.text}</f:format.html>
+					<div class="content-text">
+						<f:format.html>{settings.text}</f:format.html>
+					</div>
 					<!-- /.Section-title  -->
 					<div id="time_countdown" class="time-count-container">
 						<h1 class="text-center"><f:translate key="availableon" /> <span class="enddate"><f:format.date format="m.d.Y">{settings.endtime}</f:format.date></span></h1>

@@ -145,7 +145,7 @@
 				<source>Invalid Image. Please select JPG, JPEG or PNG Image.</source>
 			</trans-unit>
 			<trans-unit id="availableon">
-				<source>We are available on</source>
+				<source>We will be available on</source>
 			</trans-unit>
 		</body>
 	</file>

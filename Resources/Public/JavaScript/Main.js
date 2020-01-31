@@ -4,10 +4,11 @@ define(
         'twbs/bootstrap-datetimepicker'
     ],
     function($, NProgress, Modal, SplitButtons, Tooltip, Notification, Severity) {
- 
+    var dateToday = new Date();
     $(document).ready(function() {
         $('#enddate').datetimepicker({
-            defaultDate: +1,
+            minDate: dateToday,
+            defaultDate: dateToday,
             format:'YYYY-MM-DD HH:mm'
         });
 
