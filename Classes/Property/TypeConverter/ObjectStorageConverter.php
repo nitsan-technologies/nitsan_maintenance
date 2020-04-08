@@ -6,7 +6,7 @@ class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\O
     /**
      * Take precedence over the available ObjectStorageConverter
      *
-     * @var integer
+     * @var int
      */
     protected $priority = 2;
     /**
@@ -17,9 +17,9 @@ class ObjectStorageConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\O
      * @return array
      * @api
      */
-    public function getSourceChildPropertiesToBeConverted($source)
+    public function getSourceChildPropertiesToBeConverted($source): array
     {
-        $propertiesToConvert = array();
+        $propertiesToConvert = [];
         // TODO: Find a nicer way to throw away empty uploads
         foreach ($source as $propertyName => $propertyValue) {
             if ($this->isUploadType($propertyValue)) {

@@ -2,7 +2,7 @@
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
-
+$_EXTKEY = 'nitsan_maintenance';
 if (TYPO3_MODE === 'BE') {
     /**
      * Registers a Backend Module
@@ -12,14 +12,14 @@ if (TYPO3_MODE === 'BE') {
         'web', // Make module a submodule of 'web'
         'maintenance', // Submodule key
         '', // Position
-        array(
+        [
             'Maintenance' => 'list, new, create',
-        ),
-        array(
+        ],
+        [
             'access' => 'user,group',
-            'icon' => 'EXT:' . $_EXTKEY . '/ext_icon.gif',
+            'icon'   => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/Extension.svg',
             'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_maintenance.xlf',
-        )
+        ]
     );
 }
 

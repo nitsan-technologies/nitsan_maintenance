@@ -1,6 +1,8 @@
 <?php
 namespace Nitsan\NitsanMaintenance\ViewHelpers\Form;
 
+use TYPO3\CMS\Extbase\Annotation\Inject as inject;
+
 /***************************************************************
  *  Copyright notice
  *

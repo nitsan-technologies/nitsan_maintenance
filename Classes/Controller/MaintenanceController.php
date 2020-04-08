@@ -2,8 +2,9 @@
 namespace Nitsan\NitsanMaintenance\Controller;
 
 use Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConverter;
+use TYPO3\CMS\Extbase\Annotation\Inject as inject;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility as Debug;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -55,6 +56,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         if (version_compare(TYPO3_branch, '8.0', '<')) {
             $this->view->assign('Maintenance7', 1);
         }
+        if (version_compare(TYPO3_branch, '10.0', '>=')) {
+            $this->view->assign('Maintenance10', 1);
+        }
     }
 
     protected function initializeCreateAction()
@@ -74,7 +78,6 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function createAction(\Nitsan\NitsanMaintenance\Domain\Model\Maintenance $newMaintenance)
     {
-
         $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
         $image = $newMaintenance->getImage();
         if (is_null($image[0])) {
@@ -99,9 +102,8 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
             UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/user_upload/'
         ];
-        
-        /** @var PropertyMappingConfiguration $newExampleConfiguration */
 
+        /** @var PropertyMappingConfiguration $newExampleConfiguration */
         $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
 
         $newExampleConfiguration->forProperty('image.0')
@@ -109,7 +111,6 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                 'Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\UploadedFileReferenceConverter',
                 $uploadConfiguration
             );
-        
     }
 
     /**
@@ -121,6 +122,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     {
         $maintenanceSettings = $this->maintenanceRepository->findAll();
         $maintenanceSettings[0]->setEndtime(date('Y-m-d H:i:s', $maintenanceSettings[0]->getEndtime()));
+        if (version_compare(TYPO3_branch, '10.0', '>=')) {
+            $this->view->assign('Maintenance10', 1);
+        }
         $this->view->assign('settings', $maintenanceSettings[0]);
     }
 }

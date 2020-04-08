@@ -1,6 +1,6 @@
 <f:layout name='Default' />
 <f:section name="main">
-   
+
 	<style>
 	.site-title,
 	.section-title,
@@ -10,7 +10,7 @@
 		color: #fff;
 	}
 	</style>
-    
+
     <!-- Preloader -->
     <div id="preloader">
         <div id="loader">
@@ -27,15 +27,28 @@
     </div>
     <!-- Preloader End-->
     <!-- Page Top Section -->
-    <f:if condition="{settings.image.0}">
-    	<f:then>
-    		<section id="page-top" class="section-style" data-background-image="{f:uri.image(src:settings.image.0.uid, treatIdAsReference:1)}">
-    	</f:then>
-    	<f:else>
-    		<section id="page-top" class="section-style" data-background-image="typo3conf/ext/nitsan_maintenance/Resources/Public/images/background/page-top.jpg">
-    	</f:else>
+    <f:if condition="{Maintenance10}">
+        <f:then>
+            <f:if condition="{settings.tenimage}">
+                <f:then>
+                    <section id="page-top" class="section-style" data-background-image="{settings.tenimage}">
+                </f:then>
+                <f:else>
+                    <section id="page-top" class="section-style" data-background-image="typo3conf/ext/nitsan_maintenance/Resources/Public/images/background/page-top.jpg">
+                </f:else>
+            </f:if>
+        </f:then>
+        <f:else>
+            <f:if condition="{settings.image.0}">
+                <f:then>
+                    <section id="page-top" class="section-style" data-background-image="{f:uri.image(src:settings.image.0.uid, treatIdAsReference:1)}">
+                </f:then>
+                <f:else>
+                    <section id="page-top" class="section-style" data-background-image="typo3conf/ext/nitsan_maintenance/Resources/Public/images/background/page-top.jpg">
+                </f:else>
+            </f:if>
+        </f:else>
     </f:if>
-    
         <div class="pattern height-resize">
             <div class="container">
             	<div class="row">
@@ -52,15 +65,11 @@
 					<div id="time_countdown" class="time-count-container">
 						<h1 class="text-center"><f:translate key="availableon" /> <span class="enddate"><f:format.date format="m.d.Y">{settings.endtime}</f:format.date></span></h1>
 					</div>
-					
 				</div>
 			</div><!-- /.container -->
-		</div><!-- /.pattern -->		
+		</div><!-- /.pattern -->
 	</section><!-- /#page-top -->
 	<!-- Page Top Section  End -->
-
-
-	
 	<!-- Footer Section -->
 	<footer id="footer-section">
 		<div class="copyright">
@@ -74,5 +83,5 @@
 	<f:form.hidden id='hour' name='hour' value='{settings.endtime -> f:format.date(format:"H")}'/>
 	<f:form.hidden id='min' name='min' value='{settings.endtime -> f:format.date(format:"i")}'/>
 	<f:form.hidden id='sec' name='sec' value='{settings.endtime -> f:format.date(format:"s")}'/>
-	
+
 </f:section>

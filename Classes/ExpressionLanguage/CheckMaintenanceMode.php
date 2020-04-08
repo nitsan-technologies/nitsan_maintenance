@@ -1,26 +1,18 @@
 <?php
-namespace Nitsan\NitsanMaintenance\TypoScript;
+namespace Nitsan\NitsanMaintenance\ExpressionLanguage;
 
+use TYPO3\CMS\Core\ExpressionLanguage\AbstractProvider;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * IPCheck condition
- */
-class IPCheckCondition extends \TYPO3\CMS\Core\Configuration\TypoScript\ConditionMatching\AbstractCondition
+class CheckMaintenanceMode extends AbstractProvider
 {
-
-    /**
-     * Evaluate condition
-     *
-     * @param array $conditionParameters
-     * @return bool
-     */
-    public function matchCondition(array $conditionParameters)
+    public function __construct()
     {
-        if (TYPO3_MODE === 'BE') {
+        /* if (TYPO3_MODE === 'BE') {
             return true;
-        }
+        } */
 
+        $returnTrueFalse = true;
         // For lower version from TYPO3 9
         if (version_compare(TYPO3_branch, '9.0', '<')) {
             $settingsRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_nitsanmaintenance_domain_model_maintenance', 'hidden!=1 and deleted!=1');
@@ -38,19 +30,18 @@ class IPCheckCondition extends \TYPO3\CMS\Core\Configuration\TypoScript\Conditio
         }
 
         if ($settings === null) {
-            return false;
+            $returnTrueFalse = false;
         } elseif ($settings['hide'] == 1) {
-            return false;
+            $returnTrueFalse = false;
         }
 
-        $ips = explode(',', $settings['whitelist']);
-        foreach ($ips as $ip) {
-            if (!empty($ip)) {
-                if (strstr(getenv('REMOTE_ADDR'), trim($ip))) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        $this->expressionLanguageVariables = [
+            'CheckMaintenanceMode' => $returnTrueFalse,
+        ];
+        /* $this->expressionLanguageProviders = [
+            UtilitiesConditionFunctionsProvider::class,
+            SomeOtherConditionFunctionsProvider::class,
+            AThirdConditionFunctionsProvider::class,
+        ]; */
     }
 }

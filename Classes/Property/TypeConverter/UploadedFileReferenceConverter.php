@@ -6,6 +6,7 @@ use TYPO3\CMS\Core\Resource\File as FalFile;
 use TYPO3\CMS\Core\Resource\FileReference as FalFileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Annotation\Inject as inject;
 use TYPO3\CMS\Extbase\Error\Error;
 use TYPO3\CMS\Extbase\Property\Exception\TypeConverterException;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
@@ -38,7 +39,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
      */
     protected $defaultUploadFolder = '1:/user_upload/';
 
-      /**
+    /**
      * One of 'cancel', 'replace', 'rename'
      *
      * @var string
@@ -48,7 +49,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
     /**
      * @var array<string>
      */
-    protected $sourceTypes = array('array');
+    protected $sourceTypes = ['array'];
 
     /**
      * @var string
@@ -58,7 +59,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
     /**
      * Take precedence over the available FileReferenceConverter
      *
-     * @var integer
+     * @var int
      */
     protected $priority = 30;
 
@@ -83,7 +84,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
     /**
      * @var \TYPO3\CMS\Core\Resource\FileInterface[]
      */
-    protected $convertedResources = array();
+    protected $convertedResources = [];
     /**
      * Actually convert from $source to $targetType, taking into account the fully
      * built $convertedChildProperties and $configuration.
@@ -96,7 +97,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
      * @return \TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder
      * @api
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = array(), PropertyMappingConfigurationInterface $configuration = null)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
         if (!isset($source['error']) || $source['error'] === \UPLOAD_ERR_NO_FILE) {
             if (isset($source['submittedFile']['resourcePointer'])) {
@@ -165,7 +166,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
         }
 
         $uploadFolderId = $configuration->getConfigurationValue('Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\UploadedFileReferenceConverter', self::CONFIGURATION_UPLOAD_FOLDER) ?: $this->defaultUploadFolder;
-        
+
         if (class_exists('TYPO3\\CMS\\Core\\Resource\\DuplicationBehavior')) {
             $defaultConflictMode = \TYPO3\CMS\Core\Resource\DuplicationBehavior::RENAME;
         } else {
@@ -189,11 +190,11 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
     protected function createFileReferenceFromFalFileObject(FalFile $file, $resourcePointer = null)
     {
         $fileReference = $this->resourceFactory->createFileReferenceObject(
-            array(
+            [
                 'uid_local' => $file->getUid(),
                 'uid_foreign' => uniqid('NEW_'),
                 'uid' => uniqid('NEW_'),
-            )
+            ]
         );
         return $this->createFileReferenceFromFalFileReferenceObject($fileReference, $resourcePointer);
     }

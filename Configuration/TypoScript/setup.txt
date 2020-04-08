@@ -42,7 +42,10 @@ module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 	}
 }
 
-[globalVar = TSFE : beUserLogin = 0] && [Nitsan\NitsanMaintenance\TypoScript\IPCheckCondition]
+#[globalVar = TSFE : beUserLogin = 0] && [Nitsan\NitsanMaintenance\TypoScript\IPCheckCondition]
+# Is Maintenance mode is enabled? Let's check for both TYPO3 v10 and below
+[Nitsan\NitsanMaintenance\ExpressionLanguage\ConditionProvider]
+[CheckMaintenanceMode]
 	page >
 	page = PAGE
 	page.typeNum = 0
@@ -78,7 +81,7 @@ module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 	    pluginName = Mode
 	    controller = Maintenance
 	    switchableControllerActions {
-	      Maintenance { 
+	      Maintenance {
 	        1 = page
 	      }
 	    }

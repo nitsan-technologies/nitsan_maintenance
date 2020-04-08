@@ -2,7 +2,7 @@
 <f:layout name="Default" />
 <f:section name="content">
 	<script>
-		tinymce.init({ 
+		tinymce.init({
 			selector: 'textarea',
 			theme: 'modern',
 			plugins: [
@@ -79,7 +79,7 @@
 		                	<f:form.textfield class='t3js-datetimepicker form-control t3js-clearable' property="endtime" id="enddate"  value="{newMaintenance.endtime->f:format.date(format:'Y-m-d H:i')}" />
 		                	<span class="input-group-addon  add-on"><span class="fa fa-calendar"></span></span>
 		            	</div>
-						
+
 					</div>
 				</div>
 
@@ -103,12 +103,19 @@
 							</div>
 						</div>
 						<div class='col-sm-9'>
-							<h:form.upload property="image.0" additionalAttributes="{accept: 'image/*'}" id="imageUpload">
-								<f:if condition="{resource}">
-									<f:image image="{resource}" alt="" width="100"/>
-								</f:if>
-							</h:form.upload>
-							<p style="color: red; display:none" class="invalidImage"><f:translate key='be.invalid_image'/></p>
+                            <f:if condition="{Maintenance10}">
+                                <f:then>
+                                    <f:form.textfield property="tenimage" class='form-control' />
+                                </f:then>
+                                <f:else>
+                                    <h:form.upload property="image.0" additionalAttributes="{accept: 'image/*'}" id="imageUpload">
+                                        <f:if condition="{resource}">
+                                            <f:image image="{resource}" alt="" width="100"/>
+                                        </f:if>
+                                    </h:form.upload>
+                                    <p style="color: red; display:none" class="invalidImage"><f:translate key='be.invalid_image'/></p>
+                                </f:else>
+                            </f:if>
 						</div>
 					</div>
 				</f:if>
@@ -116,7 +123,7 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
-							
+
 						</div>
 					</div>
 					<div class='col-sm-2'>
