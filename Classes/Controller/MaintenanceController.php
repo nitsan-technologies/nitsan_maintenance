@@ -120,6 +120,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function pageAction()
     {
+        $querySetting = $this->maintenanceRepository->createQuery()->getQuerySettings();
+        $querySetting->setRespectStoragePage(false);
+        $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
         $maintenanceSettings = $this->maintenanceRepository->findAll();
         $maintenanceSettings[0]->setEndtime(date('Y-m-d H:i:s', $maintenanceSettings[0]->getEndtime()));
         if (version_compare(TYPO3_branch, '10.0', '>=')) {
