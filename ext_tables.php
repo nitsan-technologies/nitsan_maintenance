@@ -3,6 +3,16 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 $_EXTKEY = 'nitsan_maintenance';
+
+
+if (version_compare(TYPO3_branch, '11.0', '>=')) {
+    $moduleClass = \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class;
+} else {
+    $moduleClass = 'Maintenance';
+}
+
+
+
 if (TYPO3_MODE === 'BE') {
     /**
      * Registers a Backend Module
@@ -13,7 +23,7 @@ if (TYPO3_MODE === 'BE') {
         'maintenance', // Submodule key
         '', // Position
         [
-            'Maintenance' => 'list, new, create',
+            $moduleClass  => 'list, new, create',
         ],
         [
             'access' => 'user,group',

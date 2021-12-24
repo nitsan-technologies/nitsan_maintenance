@@ -3,16 +3,26 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 $_EXTKEY = 'nitsan_maintenance';
+
+
+if (version_compare(TYPO3_branch, '11.0', '>=')) {
+    $moduleClass = \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class;
+} else {
+    $moduleClass = 'Maintenance';
+}
+
+
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'Nitsan.' . $_EXTKEY,
     'Mode',
     [
-        'Maintenance' => 'list, new, create',
+        $moduleClass => 'list, new, create',
 
     ],
     // non-cacheable actions
     [
-        'Maintenance' => 'list, new, create',
+         $moduleClass => 'list, new, create',
 
     ]
 );

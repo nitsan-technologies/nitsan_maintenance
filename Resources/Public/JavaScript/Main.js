@@ -1,17 +1,7 @@
-define(
-    [
-        'jquery',
-        'twbs/bootstrap-datetimepicker'
-    ],
+define(['jquery',],
     function($, NProgress, Modal, SplitButtons, Tooltip, Notification, Severity) {
     var dateToday = new Date();
     $(document).ready(function() {
-        $('#enddate').datetimepicker({
-            minDate: dateToday,
-            defaultDate: dateToday,
-            format:'YYYY-MM-DD HH:mm'
-        });
-
         $('#maintenance_Submit').on("click",function() {
             var imgaeexist = $('#imageUpload').val()
             var fileUpload = document.getElementById("imageUpload");

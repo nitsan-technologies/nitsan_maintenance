@@ -40,9 +40,16 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      * maintenanceRepository
      *
      * @var \Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository
-     * @inject
      */
     protected $maintenanceRepository = null;
+
+    /**
+     * @param \Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository $maintenanceRepository
+     */
+    public function injectMaintenanceRepository(\Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository $maintenanceRepository)
+    {
+        $this->maintenanceRepository = $maintenanceRepository;
+    }
 
     /**
      * action list
