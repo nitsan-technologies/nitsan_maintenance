@@ -24,7 +24,7 @@
     }
   },
   "replace": {
-      "nitsan/nitsan-maintenance": "self.version"
+      "typo3-ter/nitsan-maintenance": "self.version"
   },
   "config": {
     "vendor-dir": ".Build/vendor/",
