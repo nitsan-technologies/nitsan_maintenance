@@ -58,7 +58,7 @@
 				<target>Fusszeile:</target>
 			</trans-unit>
 			<trans-unit id="be.save">
-				<target>Sparen</target>
+				<target>Speichern</target>
 			</trans-unit>
 			<trans-unit id="be.bgimage">
 				<target>Hintergrundbild:</target>
