@@ -87,7 +87,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     {
         $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
         $image = $newMaintenance->getImage();
-        if (is_null($image[0])) {
+        if (is_null($image)) {
             if($newMaintenance->getImage()[0]){
                 unset($newMaintenance->getImage()[0]);
             }
