@@ -26,6 +26,7 @@ class CheckMaintenanceMode extends AbstractProvider
                 ->from('tx_nitsanmaintenance_domain_model_maintenance')
                 ->execute()
                 ->fetchAll();
+            $setting[0] = isset($setting[0]) ? $setting[0] : null;
             $settings = $setting[0];
         }
 
