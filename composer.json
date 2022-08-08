@@ -2,7 +2,7 @@
   "name": "nitsan/nitsan-maintenance",
   "type": "typo3-cms-extension",
   "description": "Do you want to make your site temporary offline like coming soon and maintenance mode? This extension will help you with simple plug & play to your TYPO3 instance. Demo: https://demo.t3terminal.com/t3t-extensions/maintenance-mode/ You can download PRO version for more-features & free-support at https://t3planet.com/typo3-maintenance-mode-extension",
-  "homepage": "https://t3planet.com/typo3-maintenance-mode-extension",
+  "homepage": "https://t3planet.com/nitsan-maintenance-free/",
   "license": "GPL-2.0+",
   "keywords": [
     "TYPO3",
