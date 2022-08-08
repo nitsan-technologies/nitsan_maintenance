@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => '[NITSAN] Maintenance Mode',
-    'description' => 'Do you want to make your site temporary offline like coming soon and maintenance mode? This extension will help you with simple plug & play to your TYPO3 instance. Demo: https://demo.t3terminal.com/t3t-extensions/maintenance-mode/ You can download PRO version for more-features & free-support at https://t3terminal.com/nitsan-maintenance-pro/',
+    'description' => 'Do you want to make your site temporary offline like coming soon and maintenance mode? This extension will help you with simple plug & play to your TYPO3 instance. Demo: https://demo.t3terminal.com/t3t-extensions/maintenance-mode/ You can download PRO version for more-features & free-support at https://t3planet.com/nitsan-maintenance-pro/',
     'category' => 'plugin',
     'author' => 'NITSAN Technologies Pvt Ltd',
     'author_email' => 'sanjay@nitsan.in',
