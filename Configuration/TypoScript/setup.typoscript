@@ -31,7 +31,7 @@ config.tx_extbase{
 }
 
 # Module configuration
-module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
+module.tx_nitsanmaintenance {
 	persistence {
 		storagePid = {$module.tx_nitsanmaintenance_maintenance.persistence.storagePid}
 	}

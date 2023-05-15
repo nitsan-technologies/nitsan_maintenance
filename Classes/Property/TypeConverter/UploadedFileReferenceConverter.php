@@ -99,6 +99,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
      */
     public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($source, __FILE__ . ' - Line no: ' . __LINE__); die();
         if (!isset($source['error']) || $source['error'] === \UPLOAD_ERR_NO_FILE) {
             if (isset($source['submittedFile']['resourcePointer'])) {
                 try {

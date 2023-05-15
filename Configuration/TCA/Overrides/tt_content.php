@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3') or die();
 
 $_EXTKEY = 'nitsan_maintenance';
 
@@ -8,7 +8,7 @@ $_EXTKEY = 'nitsan_maintenance';
  * Plugin
  */
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Nitsan.' . $_EXTKEY,
+    $_EXTKEY,
     'Mode',
     'NITSAN Maintenance Mode'
 );

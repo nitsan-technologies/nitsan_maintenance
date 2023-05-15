@@ -1,7 +1,6 @@
 <?php
 namespace Nitsan\NitsanMaintenance\ViewHelpers\Form;
 
-use TYPO3\CMS\Extbase\Annotation\Inject as inject;
 
 /***************************************************************
  *  Copyright notice
@@ -32,17 +31,17 @@ use TYPO3\CMS\Extbase\Annotation\Inject as inject;
 /**
  * Class UploadViewHelper
  */
-class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelper
+class UploadViewHelper extends \Nitsan\NitsanMaintenance\ViewHelpers\Form\UploadCoreViewHelper
 {
     /**
      * @var \TYPO3\CMS\Extbase\Security\Cryptography\HashService
-     * @inject
+     * 
      */
     protected $hashService;
 
     /**
      * @var \TYPO3\CMS\Extbase\Property\PropertyMapper
-     * @inject
+     * 
      */
     protected $propertyMapper;
 
@@ -52,7 +51,7 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
      * @return string
      * @api
      */
-    public function render()
+    public function render(): string
     {
         $output = '';
 

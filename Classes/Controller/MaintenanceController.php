@@ -1,9 +1,12 @@
 <?php
 namespace Nitsan\NitsanMaintenance\Controller;
 
-use Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConverter;
-use TYPO3\CMS\Extbase\Annotation\Inject as inject;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
+use Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConverter;
 
 /***************************************************************
  *
@@ -35,6 +38,10 @@ use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
  */
 class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
+    public function __construct(
+        protected readonly ModuleTemplateFactory $moduleTemplateFactory
+    ) {
+    }
 
     /**
      * maintenanceRepository
@@ -54,18 +61,15 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * action list
      *
-     * @return void
+     * @return ResponseInterface
      */
-    public function listAction()
+    public function listAction(): ResponseInterface
     {
+		$view = $this->initializeModuleTemplate($this->request);
         $maintenances = $this->maintenanceRepository->findAll();
-        $this->view->assign('newMaintenance', $maintenances[0]);
-        if (version_compare(TYPO3_branch, '8.0', '<')) {
-            $this->view->assign('Maintenance7', 1);
-        }
-        if (version_compare(TYPO3_branch, '10.0', '>=')) {
-            $this->view->assign('Maintenance10', 1);
-        }
+        $view->assign('newMaintenance', $maintenances[0]);
+        $view->assign('Maintenance10', 1);
+        return $view->renderResponse();
     }
 
     protected function initializeCreateAction()
@@ -81,9 +85,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      * action create
      *
      * @param \Nitsan\NitsanMaintenance\Domain\Model\Maintenance $newMaintenance
-     * @return void
+     * @return ResponseInterface
      */
-    public function createAction(\Nitsan\NitsanMaintenance\Domain\Model\Maintenance $newMaintenance)
+    public function createAction(\Nitsan\NitsanMaintenance\Domain\Model\Maintenance $newMaintenance): ResponseInterface
     {
         $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
         $image = $newMaintenance->getImage();
@@ -99,7 +103,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         }
         $this->addFlashMessage('Settings were updated', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->view->assign('maintenances', $newMaintenance);
-        $this->redirect('list');
+        return $this->redirect('list');
     }
 
     /**
@@ -125,18 +129,26 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * action page
      *
-     * @return void
+     * @return ResponseInterface
      */
-    public function pageAction()
+    public function pageAction(): ResponseInterface
     {
         $querySetting = $this->maintenanceRepository->createQuery()->getQuerySettings();
         $querySetting->setRespectStoragePage(false);
         $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
         $maintenanceSettings = $this->maintenanceRepository->findAll();
         $maintenanceSettings[0]->setEndtime(date('Y-m-d H:i:s', $maintenanceSettings[0]->getEndtime()));
-        if (version_compare(TYPO3_branch, '10.0', '>=')) {
-            $this->view->assign('Maintenance10', 1);
-        }
+        $this->view->assign('Maintenance10', 1);
         $this->view->assign('settings', $maintenanceSettings[0]);
+        return $this->htmlResponse();
+    }
+
+    /**
+     * Generates the action menu
+     */
+    protected function initializeModuleTemplate(
+        ServerRequestInterface $request
+    ): ModuleTemplate {
+        return $this->moduleTemplateFactory->create($request);
     }
 }
