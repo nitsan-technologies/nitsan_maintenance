@@ -82,6 +82,13 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $image = null;
 
     /**
+     * status
+     *
+     * @var bool
+     */
+    protected $status = null;
+
+    /**
      * text
      *
      * @var string

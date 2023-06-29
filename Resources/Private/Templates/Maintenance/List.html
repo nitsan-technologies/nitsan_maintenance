@@ -1,36 +1,25 @@
-{namespace h=Nitsan\NitsanMaintenance\ViewHelpers}
 <f:layout name="Backend" />
 <f:section name="content">
-	<f:be.pageRenderer 
-	includeRequireJsModules="{
-		0:'TYPO3/CMS/NitsanMaintenance/Main'
-	}" 
 
-	includeJsFiles="{0: '{f:uri.resource(path:\'js/tinymce.min.js\'), extensionName: 'nitsan_maintenance'}'}"
-	includeJsFiles="{1: '{f:uri.resource(path:\'js/jquery-2.1.0.min.js\'), extensionName: 'nitsan_maintenance'}'}"
-	includeJsFiles="{2: '{f:uri.resource(path:\'js/bootstrap.min.js\'), extensionName: 'nitsan_maintenance'}'}"
-	includeJsFiles="{3: '{f:uri.resource(path:\'js/bootstrap-colorpalette.js\'), extensionName: 'nitsan_maintenance'}'}"
-
-/>
-<script src="{f:uri.resource(path:'js/tinymce.min.js', extensionName: 'nitsan_maintenance')}"></script>
-<script src="{f:uri.resource(path:'js/jquery-2.1.0.min.js', extensionName: 'nitsan_maintenance')}"></script>
-<script src="{f:uri.resource(path:'js/bootstrap.min.js', extensionName: 'nitsan_maintenance')}"></script>
-<script src="{f:uri.resource(path:'js/bootstrap-colorpalette.js', extensionName: 'nitsan_maintenance')}"></script>
-<script>
-	tinymce.init({
-		selector: 'textarea',
-		theme: 'modern',
-		plugins: [
-		'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-		'searchreplace wordcount visualblocks visualchars code fullscreen',
-		'insertdatetime media nonbreaking save table contextmenu directionality',
-		'emoticons template paste textcolor colorpicker textpattern imagetools'
-		],
-		toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-		toolbar2: 'print preview media | forecolor backcolor emoticons',
-		image_advtab: true,
-	});
-</script>
+	<script src="{f:uri.resource(path:'js/tinymce.min.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script src="{f:uri.resource(path:'js/jquery-2.1.0.min.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script src="{f:uri.resource(path:'js/bootstrap.min.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script src="{f:uri.resource(path:'js/bootstrap-colorpalette.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script>
+		tinymce.init({
+			selector: 'textarea',
+			theme: 'modern',
+			plugins: [
+			'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+			'searchreplace wordcount visualblocks visualchars code fullscreen',
+			'insertdatetime media nonbreaking save table contextmenu directionality',
+			'emoticons template paste textcolor colorpicker textpattern imagetools'
+			],
+			toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+			toolbar2: 'print preview media | forecolor backcolor emoticons',
+			image_advtab: true,
+		});
+	</script>
 
 	<f:form action="create"  enctype="multipart/form-data"  name="newMaintenance" object="{newMaintenance}" class="nitsan-maintenance">
 		<div class='page-header' style='margin-top:0'>
@@ -106,32 +95,6 @@
 						<f:form.textarea property="footertext" class='form-control' id="footertext"/>
 					</div>
 				</div>
-
-				<f:if condition="{Maintenance7}!=1">
-					<div class='row form-group'>
-						<div class='col-sm-2' style='text-align:right;'>
-							<div class="form-group">
-								<label for="heading"><f:translate key='be.bgimage'/></label>
-								<label for="heading2"><f:translate key='be.bgimagepixels'/></label>
-							</div>
-						</div>
-						<div class='col-sm-9'>
-                            <f:if condition="{Maintenance10}">
-                                <f:then>
-                                    <f:form.textfield property="tenimage" class='form-control' />
-                                </f:then>
-                                <f:else>
-                                    <h:form.upload property="image.0" additionalAttributes="{accept: 'image/*'}" id="imageUpload">
-                                        <f:if condition="{resource}">
-                                            <f:image image="{resource}" alt="" width="100"/>
-                                        </f:if>
-                                    </h:form.upload>
-                                    <p style="color: red; display:none" class="invalidImage"><f:translate key='be.invalid_image'/></p>
-                                </f:else>
-                            </f:if>
-						</div>
-					</div>
-				</f:if>
 
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>

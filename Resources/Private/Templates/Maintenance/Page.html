@@ -34,7 +34,7 @@
                     <section id="page-top" class="section-style" data-background-image="{settings.tenimage}">
                 </f:then>
                 <f:else>
-                    <section id="page-top" class="section-style" data-background-image="typo3conf/ext/nitsan_maintenance/Resources/Public/images/background/page-top.jpg">
+                    <section id="page-top" class="section-style" data-background-image="{f:uri.resource(path: 'images/background/page-top.jpg', extensionName: 'nitsan_maintenance')}">
                 </f:else>
             </f:if>
         </f:then>
@@ -43,8 +43,8 @@
                 <f:then>
                     <section id="page-top" class="section-style" data-background-image="{f:uri.image(src:settings.image.0.uid, treatIdAsReference:1)}">
                 </f:then>
-                <f:else>
-                    <section id="page-top" class="section-style" data-background-image="typo3conf/ext/nitsan_maintenance/Resources/Public/images/background/page-top.jpg">
+                <f:else> 
+                    <section id="page-top" class="section-style" data-background-image="{f:uri.resource(path: 'images/background/page-top.jpg', extensionName: 'nitsan_maintenance')}">
                 </f:else>
             </f:if>
         </f:else>

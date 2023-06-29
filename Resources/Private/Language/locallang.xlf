@@ -147,6 +147,9 @@
 			<trans-unit id="availableon">
 				<source>We will be available on</source>
 			</trans-unit>
+			<trans-unit id="updateMassage">
+				<source>Settings were updated</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

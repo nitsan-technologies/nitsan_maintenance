@@ -1,8 +1,9 @@
 <?php
 namespace Nitsan\NitsanMaintenance\ExpressionLanguage;
 
-use TYPO3\CMS\Core\ExpressionLanguage\AbstractProvider;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\ExpressionLanguage\AbstractProvider;
 
 class CheckMaintenanceMode extends AbstractProvider
 {
@@ -10,14 +11,14 @@ class CheckMaintenanceMode extends AbstractProvider
     {
         $returnTrueFalse = true;
        
-        $queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('tx_nitsanmaintenance_domain_model_maintenance');
 
         $setting = $queryBuilder
             ->select('*')
             ->from('tx_nitsanmaintenance_domain_model_maintenance')
-            ->execute()
-            ->fetchAll();
+            ->executeQuery()
+            ->fetchAllAssociative();
         $setting[0] = isset($setting[0]) ? $setting[0] : null;
         $settings = $setting[0];
         

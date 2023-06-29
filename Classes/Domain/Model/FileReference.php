@@ -2,6 +2,8 @@
 
 namespace Nitsan\NitsanMaintenance\Domain\Model;
 
+use TYPO3\CMS\Core\Resource\ResourceInterface;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -38,9 +40,9 @@ class FileReference extends \TYPO3\CMS\Extbase\Domain\Model\FileReference
      */
     protected $originalFileIdentifier;
     /**
-     * @param \TYPO3\CMS\Core\Resource\ResourceInterface $originalResource
+     * @param ResourceInterface $originalResource
      */
-    public function setOriginalResource(\TYPO3\CMS\Core\Resource\ResourceInterface $originalResource)
+    public function setOriginalResource(ResourceInterface $originalResource)
     {
         $this->setFileReference($originalResource);
     }

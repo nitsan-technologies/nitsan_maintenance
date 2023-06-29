@@ -20,3 +20,6 @@ services:
         priority: 102
         target: object
         sources: string,array
+
+  Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository:
+    public: true

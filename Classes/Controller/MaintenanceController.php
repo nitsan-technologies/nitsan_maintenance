@@ -4,8 +4,12 @@ namespace Nitsan\NitsanMaintenance\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use Nitsan\NitsanMaintenance\Domain\Model\Maintenance;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
+use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
 use Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConverter;
 
 /***************************************************************
@@ -38,10 +42,6 @@ use Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConvert
  */
 class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-    public function __construct(
-        protected readonly ModuleTemplateFactory $moduleTemplateFactory
-    ) {
-    }
 
     /**
      * maintenanceRepository
@@ -50,13 +50,12 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     protected $maintenanceRepository = null;
 
-    /**
-     * @param \Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository $maintenanceRepository
-     */
-    public function injectMaintenanceRepository(\Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository $maintenanceRepository)
-    {
-        $this->maintenanceRepository = $maintenanceRepository;
-    }
+    public function __construct(
+		protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+		MaintenanceRepository $maintenanceRepository,
+	) {
+		$this->maintenanceRepository = $maintenanceRepository;
+	}
 
     /**
      * action list
@@ -87,12 +86,12 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      * @param \Nitsan\NitsanMaintenance\Domain\Model\Maintenance $newMaintenance
      * @return ResponseInterface
      */
-    public function createAction(\Nitsan\NitsanMaintenance\Domain\Model\Maintenance $newMaintenance): ResponseInterface
+    public function createAction(Maintenance $newMaintenance): ResponseInterface
     {
         $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
         $image = $newMaintenance->getImage();
         if (is_null($image)) {
-            if($newMaintenance->getImage()[0]){
+            if(isset($newMaintenance->getImage()[0])){
                 unset($newMaintenance->getImage()[0]);
             }
         }
@@ -101,7 +100,11 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         } else {
             $this->maintenanceRepository->add($newMaintenance);
         }
-        $this->addFlashMessage('Settings were updated', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
+
+
+        $updateMassage = LocalizationUtility::translate('LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage', 'nitsan_maintenance');
+		$this->addFlashMessage($updateMassage, '', ContextualFeedbackSeverity::OK);
+
         $this->view->assign('maintenances', $newMaintenance);
         return $this->redirect('list');
     }
