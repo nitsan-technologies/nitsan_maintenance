@@ -1,6 +1,8 @@
 <?php
 namespace Nitsan\NitsanMaintenance\Domain\Model;
 
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -37,63 +39,63 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @var string
      */
-    protected $title = '';
+    protected string $title = '';
 
     /**
      * heading
      *
      * @var string
      */
-    protected $heading = '';
+    protected string $heading = '';
 
     /**
      * text
      *
      * @var string
      */
-    protected $text = '';
+    protected string $text = '';
 
     /**
      * hide
      *
      * @var bool
      */
-    protected $hide = false;
+    protected bool $hide = false;
 
     /**
      * endtime
      *
      * @var string
      */
-    protected $endtime = null;
+    protected string $endtime = '';
 
     /**
      * text
      *
      * @var string
      */
-    protected $footertext = '';
+    protected string $footertext = '';
 
     /**
      * image
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
+     * @var ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference>
      */
-    protected $image = null;
+    protected ObjectStorage $image;
 
     /**
      * status
      *
      * @var bool
      */
-    protected $status = null;
+    protected ?bool $status = null;
 
     /**
      * text
      *
      * @var string
      */
-    protected $tenimage = '';
+    protected string $tenimage = '';
 
     /**
      * __construct
@@ -112,17 +114,17 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return void
      */
-    protected function initStorageObjects()
+    protected function initStorageObjects(): void
     {
-        $this->image = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->image = new ObjectStorage();
     }
 
     /**
      * Returns the boolean state of status
      *
-     * @return bool
+     * @return bool|null
      */
-    public function isStatus()
+    public function isStatus(): ?bool
     {
         return $this->status;
     }
@@ -132,7 +134,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $title
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -143,7 +145,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $title
      * @return void
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -153,7 +155,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $heading
      */
-    public function getHeading()
+    public function getHeading(): string
     {
         return $this->heading;
     }
@@ -164,7 +166,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $heading
      * @return void
      */
-    public function setHeading($heading)
+    public function setHeading(string $heading): void
     {
         $this->heading = $heading;
     }
@@ -174,7 +176,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $text
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }
@@ -185,7 +187,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $text
      * @return void
      */
-    public function setText($text)
+    public function setText(string $text): void
     {
         $this->text = $text;
     }
@@ -195,7 +197,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return bool $hide
      */
-    public function getHide()
+    public function getHide(): bool
     {
         return $this->hide;
     }
@@ -206,7 +208,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param bool $hide
      * @return void
      */
-    public function setHide($hide)
+    public function setHide(bool $hide): void
     {
         $this->hide = $hide;
     }
@@ -216,7 +218,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string endtime
      */
-    public function getEndtime()
+    public function getEndtime(): string
     {
         return $this->endtime;
     }
@@ -227,7 +229,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param String $endtime
      * @return void
      */
-    public function setEndtime($endtime)
+    public function setEndtime(string $endtime): void
     {
         $this->endtime = $endtime;
     }
@@ -237,7 +239,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $footertext
      */
-    public function getFootertext()
+    public function getFootertext(): string
     {
         return $this->footertext;
     }
@@ -248,7 +250,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $footertext
      * @return void
      */
-    public function setFootertext($footertext)
+    public function setFootertext(string $footertext): void
     {
         $this->footertext = $footertext;
     }
@@ -259,7 +261,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $image
      * @return void
      */
-    public function addImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image)
+    public function addImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $image): void
     {
         $this->image->attach($image);
     }
@@ -270,7 +272,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param \TYPO3\CMS\Extbase\Domain\Model\FileReference $imageToRemove The FileReference to be removed
      * @return void
      */
-    public function removeImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $imageToRemove)
+    public function removeImage(\TYPO3\CMS\Extbase\Domain\Model\FileReference $imageToRemove): void
     {
         $this->image->detach($imageToRemove);
     }
@@ -278,9 +280,9 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Returns the image
      *
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $image
+     * @return ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $image
      */
-    public function getImage()
+    public function getImage(): ObjectStorage
     {
         return $this->image;
     }
@@ -288,10 +290,10 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Sets the image
      *
-     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CMS\Extbase\Domain\Model\FileReference> $image
+     * @param ObjectStorage|null $image
      * @return void
      */
-    public function setImage(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $image = null)
+    public function setImage(ObjectStorage $image = null): void
     {
         $this->image = $image;
     }
@@ -301,7 +303,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      *
      * @return string $tenimage
      */
-    public function getTenimage()
+    public function getTenimage(): string
     {
         return $this->tenimage;
     }
@@ -312,7 +314,7 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $tenimage
      * @return void
      */
-    public function setTenimage($tenimage)
+    public function setTenimage(string $tenimage): void
     {
         $this->tenimage = $tenimage;
     }

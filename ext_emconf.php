@@ -10,7 +10,6 @@ $EM_CONF['nitsan_maintenance'] = [
     'state' => 'stable',
     'uploadfolder' => false,
     'createDirs' => '',
-    'clearCacheOnLoad' => 0,
     'version' => '12.0.0',
     'constraints' => [
         'depends' => [

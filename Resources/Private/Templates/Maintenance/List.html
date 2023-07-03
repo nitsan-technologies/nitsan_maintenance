@@ -99,6 +99,22 @@
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>
 						<div class="form-group">
+							<label for="heading"><f:translate key='be.bgimage'/></label>
+							<label for="heading2"><f:translate key='be.bgimagepixels'/></label>
+						</div>
+					</div>
+					<div class='col-sm-9'>
+						<f:if condition="{Maintenance10}">
+							<f:then>
+								<f:form.textfield property="tenimage" class='form-control' />
+							</f:then>
+						</f:if>
+					</div>
+				</div>
+
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
 
 						</div>
 					</div>

@@ -8,7 +8,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use Nitsan\NitsanMaintenance\Domain\Model\Maintenance;
-use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
 use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
 use Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConverter;
 
@@ -46,9 +45,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * maintenanceRepository
      *
-     * @var \Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository
+     * @var MaintenanceRepository
      */
-    protected $maintenanceRepository = null;
+    protected MaintenanceRepository $maintenanceRepository;
 
     public function __construct(
 		protected readonly ModuleTemplateFactory $moduleTemplateFactory,
@@ -71,7 +70,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         return $view->renderResponse();
     }
 
-    protected function initializeCreateAction()
+    protected function initializeCreateAction(): void
     {
         if (isset($this->arguments['newMaintenance'])) {
             $this->arguments['newMaintenance']->getPropertyMappingConfiguration()->forProperty('endtime')->setTypeConverterOption('TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter', \TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter::CONFIGURATION_DATE_FORMAT, 'Y-m-d H:i:s');
@@ -83,18 +82,13 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * action create
      *
-     * @param \Nitsan\NitsanMaintenance\Domain\Model\Maintenance $newMaintenance
+     * @param Maintenance $newMaintenance
      * @return ResponseInterface
      */
     public function createAction(Maintenance $newMaintenance): ResponseInterface
     {
         $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
         $image = $newMaintenance->getImage();
-        if (is_null($image)) {
-            if(isset($newMaintenance->getImage()[0])){
-                unset($newMaintenance->getImage()[0]);
-            }
-        }
         if ($maintenances = $this->maintenanceRepository->findAll()->count() > 0) {
             $this->maintenanceRepository->update($newMaintenance);
         } else {
@@ -112,14 +106,13 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      *
      */
-    protected function setTypeConverterConfigurationForImageUpload($argumentName)
+    protected function setTypeConverterConfigurationForImageUpload($argumentName): void
     {
         $uploadConfiguration = [
             UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
             UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/user_upload/'
         ];
 
-        /** @var PropertyMappingConfiguration $newExampleConfiguration */
         $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
 
         $newExampleConfiguration->forProperty('image.0')

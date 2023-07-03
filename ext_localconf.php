@@ -12,12 +12,12 @@ $_EXTKEY = 'nitsan_maintenance';
     ],
     // non-cacheable actions
     [
-         \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class => 'page',
+        \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class => 'page',
     ]
 );
 
 //# Add page TSConfig
- \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:nitsan_maintenance/Configuration/TypoScript/TsConfig/pageTsConfig.typoscript"/>');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:nitsan_maintenance/Configuration/TypoScript/TsConfig/pageTsConfig.typoscript"/>');
 
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['security.backend.enforceContentSecurityPolicy'] = false;
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['security.frontend.enforceContentSecurityPolicy'] = false;

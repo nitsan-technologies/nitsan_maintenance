@@ -10,3 +10,5 @@ defined('TYPO3') or die();
     'Mode',
     'NITSAN Maintenance Mode'
 );
+
+$GLOBALS['TCA']['tx_nitsanmaintenance_domain_model_maintenance']['ctrl']['security']['ignorePageTypeRestriction'] = true;

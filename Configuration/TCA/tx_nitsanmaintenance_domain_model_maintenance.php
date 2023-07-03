@@ -57,12 +57,10 @@ return [
         'label' => 'title',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'dividers2tabs' => true,
         'versioningWS' => 2,
         'versioning_followPages' => true,
-        'languageField' => 'sys_language_uid',
-        'transOrigPointerField' => 'l10n_parent',
+        'language' => 'sys_language_uid',
         'transOrigDiffSourceField' => 'l10n_diffsource',
         'delete' => 'deleted',
         'enablecolumns' => [
@@ -72,11 +70,8 @@ return [
         'searchFields' => 'title,heading,text,countdown,fontcolor,footertext,fblink,twlink,linkedinlink,gitlink,',
         'iconfile' => 'EXT:nitsan_maintenance/Resources/Public/Icons/tx_nitsanmaintenance_domain_model_maintenance.gif',
     ],
-    'interface' => [
-        'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,  hide, title, heading, text, countdown, whitelist, fontcolor, footertext, fblink, twlink, linkedinlink, gitlink',
-    ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links], countdown,  endtime, whitelist, fontcolor, footertext;;;richtext:rte_transform[mode=ts_links], fblink, twlink, linkedinlink, gitlink, image, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,  endtime'],
+        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links], countdown,  endtime, whitelist, fontcolor, footertext;;;richtext:rte_transform[mode=ts_links], fblink, twlink, linkedinlink, gitlink, image, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,  endtime'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -86,33 +81,10 @@ return [
             'exclude' => true,
             'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.language',
             'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'special' => 'languages',
-                'items' => [
-                    [
-                        'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.allLanguages',
-                        -1,
-                        'flags-multiple',
-                    ],
-                ],
-                'default' => 0,
+                'type' => 'language',
             ],
         ],
-        'l10n_parent' => [
-            'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 1,
-            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'items' => [
-                    ['', 0],
-                ],
-                'foreign_table' => 'tx_nitsanmaintenance_domain_model_maintenance',
-                'foreign_table_where' => 'AND tx_nitsanmaintenance_domain_model_maintenance.pid=###CURRENT_PID### AND tx_nitsanmaintenance_domain_model_maintenance.sys_language_uid IN (-1,0)',
-            ],
-        ],
+
         'l10n_diffsource' => [
             'config' => [
                 'type' => 'passthrough',
