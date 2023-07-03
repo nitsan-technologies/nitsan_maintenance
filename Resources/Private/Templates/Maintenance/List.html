@@ -1,6 +1,10 @@
-{namespace h=Nitsan\NitsanMaintenance\ViewHelpers}
-<f:layout name="Default" />
+<f:layout name="Backend" />
 <f:section name="content">
+
+	<script src="{f:uri.resource(path:'js/tinymce.min.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script src="{f:uri.resource(path:'js/jquery-2.1.0.min.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script src="{f:uri.resource(path:'js/bootstrap.min.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script src="{f:uri.resource(path:'js/bootstrap-colorpalette.js', extensionName: 'nitsan_maintenance')}"></script>
 	<script>
 		tinymce.init({
 			selector: 'textarea',
@@ -92,31 +96,21 @@
 					</div>
 				</div>
 
-				<f:if condition="{Maintenance7}!=1">
-					<div class='row form-group'>
-						<div class='col-sm-2' style='text-align:right;'>
-							<div class="form-group">
-								<label for="heading"><f:translate key='be.bgimage'/></label>
-								<label for="heading2"><f:translate key='be.bgimagepixels'/></label>
-							</div>
-						</div>
-						<div class='col-sm-9'>
-                            <f:if condition="{Maintenance10}">
-                                <f:then>
-                                    <f:form.textfield property="tenimage" class='form-control' />
-                                </f:then>
-                                <f:else>
-                                    <h:form.upload property="image.0" additionalAttributes="{accept: 'image/*'}" id="imageUpload">
-                                        <f:if condition="{resource}">
-                                            <f:image image="{resource}" alt="" width="100"/>
-                                        </f:if>
-                                    </h:form.upload>
-                                    <p style="color: red; display:none" class="invalidImage"><f:translate key='be.invalid_image'/></p>
-                                </f:else>
-                            </f:if>
+				<div class='row form-group'>
+					<div class='col-sm-2' style='text-align:right;'>
+						<div class="form-group">
+							<label for="heading"><f:translate key='be.bgimage'/></label>
+							<label for="heading2"><f:translate key='be.bgimagepixels'/></label>
 						</div>
 					</div>
-				</f:if>
+					<div class='col-sm-9'>
+						<f:if condition="{Maintenance10}">
+							<f:then>
+								<f:form.textfield property="tenimage" class='form-control' />
+							</f:then>
+						</f:if>
+					</div>
+				</div>
 
 				<div class='row form-group'>
 					<div class='col-sm-2' style='text-align:right;'>

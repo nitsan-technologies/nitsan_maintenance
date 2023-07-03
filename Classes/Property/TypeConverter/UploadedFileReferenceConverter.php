@@ -1,16 +1,16 @@
 <?php
 namespace Nitsan\NitsanMaintenance\Property\TypeConverter;
 
-use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
-use TYPO3\CMS\Core\Resource\File as FalFile;
-use TYPO3\CMS\Core\Resource\FileReference as FalFileReference;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Extbase\Annotation\Inject as inject;
 use TYPO3\CMS\Extbase\Error\Error;
+use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Resource\File as FalFile;
+use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
+use TYPO3\CMS\Core\Resource\FileReference as FalFileReference;
 use TYPO3\CMS\Extbase\Property\Exception\TypeConverterException;
-use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
 use TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter;
+use TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface;
+use TYPO3\CMS\Core\Resource\Exception\ExistingTargetFileNameException;
 
 /**
  * Class UploadedFileReferenceConverter
@@ -65,19 +65,19 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
 
     /**
      * @var \TYPO3\CMS\Core\Resource\ResourceFactory
-     * @inject
+     * 
      */
     protected $resourceFactory;
 
     /**
      * @var \TYPO3\CMS\Extbase\Security\Cryptography\HashService
-     * @inject
+     * 
      */
     protected $hashService;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @inject
+     * 
      */
     protected $persistenceManager;
 
@@ -99,6 +99,7 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
      */
     public function convertFrom($source, $targetType, array $convertedChildProperties = [], PropertyMappingConfigurationInterface $configuration = null)
     {
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($source, __FILE__ . ' - Line no: ' . __LINE__); die();
         if (!isset($source['error']) || $source['error'] === \UPLOAD_ERR_NO_FILE) {
             if (isset($source['submittedFile']['resourcePointer'])) {
                 try {
@@ -152,7 +153,8 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
      */
     protected function importUploadedResource(array $uploadInfo, PropertyMappingConfigurationInterface $configuration)
     {
-        if (!GeneralUtility::verifyFilenameAgainstDenyPattern($uploadInfo['name'])) {
+        
+        if (!GeneralUtility::makeInstance(FileNameValidator::class)->isValid($uploadInfo['name'])) {
             throw new TypeConverterException('Uploading files with PHP file extensions is not allowed!', 1399312430);
         }
 
@@ -201,13 +203,13 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
     /**
      * @param FalFileReference $falFileReference
      * @param int $resourcePointer
-     * @return \ARM\Gallery\Domain\Model\FileReference
+     * @return \Nitsan\NitsanMaintenance\Domain\Model\FileReference
      */
     protected function createFileReferenceFromFalFileReferenceObject(FalFileReference $falFileReference, $resourcePointer = null)
     {
         if ($resourcePointer === null) {
-            /** @var $fileReference \ARM\Gallery\Domain\Model\FileReference */
-            $fileReference = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference');
+            /**@var $fileReference \ARM\Gallery\Domain\Model\FileReference */
+            $fileReference = GeneralUtility::makeInstance(FalFileReference::class);
         } else {
             $fileReference = $this->persistenceManager->getObjectByIdentifier($resourcePointer, 'TYPO3\\CMS\\Extbase\\Domain\\Model\\FileReference', false);
         }

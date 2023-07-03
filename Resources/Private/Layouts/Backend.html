@@ -1,31 +1,26 @@
+<html xmlns:f="https://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
-<f:be.container
- 	includeRequireJsModules="{
-        0:'TYPO3/CMS/NitsanMaintenance/Main'
-    }">
+	<style>body{overflow: scroll !important;}</style>
 	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap.css')}" />
 	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap-colorpalette.css')}" />
-	<script src="{f:uri.resource(path:'js/tinymce.min.js')}"></script>
-	<script src="{f:uri.resource(path:'js/jquery-2.1.0.min.js')}"></script>
-	<script src="{f:uri.resource(path:'js/bootstrap.min.js')}"></script>
-	<script src="{f:uri.resource(path:'js/bootstrap-colorpalette.js')}"></script>
-	<div class="typo3-fullDoc">
+	<div class="typo3-fullDoc" >
 		<div id="typo3-docheader">
 			<div class="typo3-docheader-functions">
-				<div class="left">
+				<div class="left" style="float: left !important;">
 					<f:be.buttons.csh />
 				</div>
-				<div class="right">
+				<div class="right" style="float: right !important;">
 					<f:be.pagePath />
 					<f:be.pageInfo />
 				</div>
 			</div>
 		</div>
 		<div id="typo3-docbody">
-			<div id="typo3-inner-docbody">
+			<div id="typo3-inner-docbody" >
 				<f:flashMessages />
 				<f:render section="content" />
 			</div>
 		</div>
 	</div>
-</f:be.container>
+
+</html>

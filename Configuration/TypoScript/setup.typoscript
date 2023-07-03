@@ -31,7 +31,7 @@ config.tx_extbase{
 }
 
 # Module configuration
-module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
+module.tx_nitsanmaintenance {
 	persistence {
 		storagePid = {$module.tx_nitsanmaintenance_maintenance.persistence.storagePid}
 	}
@@ -42,7 +42,6 @@ module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 	}
 }
 
-#[globalVar = TSFE : beUserLogin = 0] && [Nitsan\NitsanMaintenance\TypoScript\IPCheckCondition]
 # Is Maintenance mode is enabled? Let's check for both TYPO3 v10 and below
 [Nitsan\NitsanMaintenance\ExpressionLanguage\ConditionProvider]
 [CheckMaintenanceMode]
@@ -88,45 +87,3 @@ module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 	}
 [global]
 
-[Nitsan\NitsanMaintenance\TypoScript\IPCheckCondition]
-	page >
-	page = PAGE
-	page.typeNum = 0
-	# INCLUDE CSS
-	page.includeCSS{
-		Bootstrap = EXT:nitsan_maintenance/Resources/Public/css/bootstrap.min.css
-		FontAwesome = EXT:nitsan_maintenance/Resources/Public/css/font-awesome.min.css
-		Style = EXT:nitsan_maintenance/Resources/Public/css/style.css
-
-	}
-	# Meta for Viewport
-	page.meta.viewport = width=device-width, initial-scale=1
-
-	# INCLUDE JS Header
-	page.includeJS{
-		jQueryLib = EXT:nitsan_maintenance/Resources/Public/js/jquery-2.1.0.min.js
-	}
-	# INCLUDE JS Footer
-	page.includeJSFooter{
-		Modernizr = EXT:nitsan_maintenance/Resources/Public/js/modernizr-2.8.0.min.js
-		Plugin = EXT:nitsan_maintenance/Resources/Public/js/plugins.js
-		Functions = EXT:nitsan_maintenance/Resources/Public/js/functions.js
-	}
-	page.headerData{
-		10 = TEXT
-		10.value = <title>NITSAN Maintenance Mode</title>
-	}
-	page.10 = USER_INT
-	page.10 {
-	    vendorName = Nitsan
-	    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-	    extensionName = NitsanMaintenance
-	    pluginName = Mode
-	    controller = Maintenance
-	    switchableControllerActions {
-	      Maintenance {
-	        1 = page
-	      }
-	    }
-	}
-[global]

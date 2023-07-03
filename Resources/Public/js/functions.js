@@ -63,7 +63,6 @@ $(window).load(function () {
 -------------------------------------------------------------------*/
    
 function autoResizeDiv() {
-  console.log($(window).width());
   if ($(window).width() <= 768) {
       $('#page-top').height($(window.outerHeight));
   }else{

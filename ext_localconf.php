@@ -1,30 +1,25 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 $_EXTKEY = 'nitsan_maintenance';
 
-
-if (version_compare(TYPO3_branch, '11.0', '>=')) {
-    $moduleClass = \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class;
-} else {
-    $moduleClass = 'Maintenance';
-}
-
-
-
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'Nitsan.' . $_EXTKEY,
+    $_EXTKEY,
     'Mode',
     [
-        $moduleClass => 'list, new, create',
-
+        \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class => 'page',
     ],
     // non-cacheable actions
     [
-         $moduleClass => 'list, new, create',
-
+        \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class => 'page',
     ]
 );
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\UploadedFileReferenceConverter');
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter('Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\ObjectStorageConverter');
+
+//# Add page TSConfig
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:nitsan_maintenance/Configuration/TypoScript/TsConfig/pageTsConfig.typoscript"/>');
+
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['security.backend.enforceContentSecurityPolicy'] = false;
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['features']['security.frontend.enforceContentSecurityPolicy'] = false;
+
+$GLOBALS['TCA']['tx_nitsanmaintenance_domain_model_maintenance']['ctrl']['security']['ignorePageTypeRestriction'] = true;

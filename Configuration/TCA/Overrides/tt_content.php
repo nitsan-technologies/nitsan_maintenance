@@ -1,14 +1,14 @@
 <?php
 
-defined('TYPO3_MODE') or die();
-
-$_EXTKEY = 'nitsan_maintenance';
+defined('TYPO3') or die();
 
 /***************
  * Plugin
  */
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'Nitsan.' . $_EXTKEY,
+    'nitsan_maintenance',
     'Mode',
     'NITSAN Maintenance Mode'
 );
+
+$GLOBALS['TCA']['tx_nitsanmaintenance_domain_model_maintenance']['ctrl']['security']['ignorePageTypeRestriction'] = true;
