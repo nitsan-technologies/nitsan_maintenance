@@ -54,6 +54,7 @@ module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 		Bootstrap = EXT:nitsan_maintenance/Resources/Public/css/bootstrap.min.css
 		FontAwesome = EXT:nitsan_maintenance/Resources/Public/css/font-awesome.min.css
 		Style = EXT:nitsan_maintenance/Resources/Public/css/style.css
+		Roboto = EXT:nitsan_maintenance/Resources/Public/css/Roboto.css
 
 	}
 	# Meta for Viewport

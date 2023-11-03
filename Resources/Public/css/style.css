@@ -36,19 +36,6 @@ Tags: HTML, Template, Coming Soon, Kite
 *
 ---------------------------------------------------------------------- */
 
-
-
-
-/* 1 - Import Google Font
----------------------------------------------------------------------- */
-@import url(https://fonts.googleapis.com/css?family=Pacifico);
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,400italic,700);
-/* 1 - Import Google Font End 
----------------------------------------------------------------------- */
-
-
-
-
 /* 2 - Global Style
 ---------------------------------------------------------------------- */
 body{
@@ -473,7 +460,6 @@ a:focus{
 .site-title{
 	text-align:center;
 	font-size:66px;
-	font-family:'Pacifico';
 	margin:0 0 50px 0;
 	padding-bottom:50px;
 	position:relative;
