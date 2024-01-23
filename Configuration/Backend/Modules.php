@@ -4,7 +4,7 @@ return [
     'nitsan_maintenance' => [
         'parent' => '',
         'position' => 'web',
-        'access' => 'user,group',
+        'access' => 'user',
         'icon'   => 'EXT:nitsan_maintenance/Resources/Public/Icons/Extension.svg',
         'labels' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_maintenance.xlf',
         'path' => '/module/web/NitsanMaintenance',
