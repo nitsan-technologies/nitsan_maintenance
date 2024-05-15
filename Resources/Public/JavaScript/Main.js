@@ -16,5 +16,10 @@ define(['jquery',],
                 }
             }
         });
+
+        $('.remove-image').on('click', () => {
+            $('.image-wrapper').hide();
+            $('#image-delete').val('1');
+        });
     });
 });

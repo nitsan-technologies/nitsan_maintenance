@@ -14,12 +14,5 @@ services:
         target: string
         sources: array
 
-  Nitsan\NitsanMaintenance\Property\TypeConverter\ObjectStorageConverter:
-    tags:
-      - name: extbase.type_converter
-        priority: 102
-        target: object
-        sources: string,array
-
   Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository:
     public: true

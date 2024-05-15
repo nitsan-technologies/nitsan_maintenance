@@ -1,11 +1,23 @@
 <f:layout name="Backend" />
 <f:section name="content">
 
+<f:be.pageRenderer
+	includeRequireJsModules="{
+		0:'TYPO3/CMS/NitsanMaintenance/Main'
+	}" 
+
+	includeJavaScriptModules="{
+		0: '@typo3/backend/global-event-handler.js',
+		1: '@typo3/belog/backend-log.js'
+	}"
+/>
+
+
 	<script src="{f:uri.resource(path:'js/tinymce.min.js', extensionName: 'nitsan_maintenance')}"></script>
 	<script src="{f:uri.resource(path:'js/jquery-2.1.0.min.js', extensionName: 'nitsan_maintenance')}"></script>
 	<script src="{f:uri.resource(path:'js/bootstrap.min.js', extensionName: 'nitsan_maintenance')}"></script>
 	<script src="{f:uri.resource(path:'js/bootstrap-colorpalette.js', extensionName: 'nitsan_maintenance')}"></script>
-	<script>
+	<script nonce="{f:security.nonce()}">
 		tinymce.init({
 			selector: 'textarea',
 			theme: 'modern',
@@ -20,6 +32,48 @@
 			image_advtab: true,
 		});
 	</script>
+
+	<style>
+		.input-group > .form-control-clearable-wrapper {
+			height: 30px !important;
+			width: 25% !important;
+		}
+
+		.image-wrapper {
+			position: relative;
+			display: inline-block;
+		
+		}
+		.remove-image {
+			position: absolute;
+			height: 25px;
+			width: 25px;
+			top: -5px;
+			right: -5px;
+			background-color: #151515;
+			border-radius: 50%;
+			margin: auto;
+			border: 1px solid #151515;
+		}
+
+		.remove-image svg {
+			position: absolute;
+			fill: #fff;
+  			height: 20px;
+  			width: 20px;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.remove-image:hover {
+			background-color: #fff;
+			
+		}
+		.remove-image:hover svg {
+			fill: #151515;
+		}
+	</style>
 
 	<f:form action="create"  enctype="multipart/form-data"  name="newMaintenance" object="{newMaintenance}" class="nitsan-maintenance">
 		<div class='page-header' style='margin-top:0'>
@@ -80,7 +134,12 @@
 					</div>
 					<div class='col-sm-6'>
 						<div class="input-group input-append date" id="datePicker">
-		                	<f:form.textfield class='t3js-datetimepicker form-control t3js-clearable' property="endtime" value="{newMaintenance.endtime->f:format.date(format:'Y-m-d H:i')}" placeholder="YYYY-MM-DD 00:00" required="required"/>
+		                	<f:form.textfield
+											class='t3js-datetimepicker form-control t3js-clearable form-control'
+											property="endtime" id="enddate"
+											value="{newMaintenance.endtime -> f:format.date(format:'H:i d-m-Y')}"
+											data="{date-type: 'datetime'}"
+											additionalAttributes="{required:'required'}" placeholder="HH:MM DD-MM-YYYY" />
 		            	</div>
 					</div>
 				</div>
@@ -106,7 +165,14 @@
 					<div class='col-sm-9'>
 						<f:if condition="{Maintenance10}">
 							<f:then>
-								<f:form.textfield property="tenimage" class='form-control' />
+								<f:form.upload property="image" name="image"  class="form-control" additionalAttributes="{accept: '.jpg, .jpeg, .png, .webp'}" />
+								<f:if condition="{newMaintenance.image}">
+									<div class="image-wrapper mt-2">
+										<f:image image="{newMaintenance.image.0}" alt="" width="100" id="bg-image"/>
+										<a class="remove-image" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></a>
+										<f:form.hidden name="image-delete" id="image-delete" value="0" />
+									</div>
+								</f:if>
 							</f:then>
 						</f:if>
 					</div>
