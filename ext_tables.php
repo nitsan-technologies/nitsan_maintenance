@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 }
 $_EXTKEY = 'nitsan_maintenance';
 
-
+//@extensionScannerIgnoreLine
 if (version_compare(TYPO3_branch, '11.0', '>=')) {
     $moduleClass = \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class;
 } else {
@@ -12,7 +12,7 @@ if (version_compare(TYPO3_branch, '11.0', '>=')) {
 }
 
 
-
+//@extensionScannerIgnoreLine
 if (TYPO3_MODE === 'BE') {
     /**
      * Registers a Backend Module

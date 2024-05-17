@@ -36,12 +36,14 @@ class UploadViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\UploadViewHelpe
 {
     /**
      * @var \TYPO3\CMS\Extbase\Security\Cryptography\HashService
+     * //@extensionScannerIgnoreLine
      * @inject
      */
     protected $hashService;
 
     /**
      * @var \TYPO3\CMS\Extbase\Property\PropertyMapper
+     * //@extensionScannerIgnoreLine
      * @inject
      */
     protected $propertyMapper;

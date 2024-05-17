@@ -18,9 +18,6 @@
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.text">
 				<source>Text</source>
 			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.countdown">
-				<source>Countdown</source>
-			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.startdate">
 				<source>Startdate</source>
 			</trans-unit>
@@ -33,47 +30,11 @@
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.footertext">
 				<source>Footertext</source>
 			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fblink">
-				<source>Fblink</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.twlink">
-				<source>Twlink</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.linkedinlink">
-				<source>Linkedinlink</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.gitlink">
-				<source>Gitlink</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.social">
-				<source>Social</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks">
-				<source>Social Links</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks.link">
-				<source>Link</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks.icon">
-				<source>Icon</source>
-			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.status">
 				<source>Status</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.bgimage">
 				<source>Bgimage</source>
-			</trans-unit>
-			<trans-unit id="page.day">
-				<source>Days</source>
-			</trans-unit>
-			<trans-unit id="page.hours">
-				<source>Hours</source>
-			</trans-unit>
-			<trans-unit id="page.minutes">
-				<source>Minutes</source>
-			</trans-unit>
-			<trans-unit id="page.seconds">
-				<source>Seconds</source>
 			</trans-unit>
 			<trans-unit id="page.until">
 				<source>Time Until Launce</source>
@@ -91,16 +52,13 @@
 				<source>Show</source>
 			</trans-unit>
 			<trans-unit id="be.title">
-				<source>Title:</source>
+				<source>Title* :</source>
 			</trans-unit>
 			<trans-unit id="be.heading">
-				<source>Heading:</source>
+				<source>Heading* :</source>
 			</trans-unit>
 			<trans-unit id="be.text">
 				<source>Text:</source>
-			</trans-unit>
-			<trans-unit id="be.showcountdown">
-				<source>Show Countdown:</source>
 			</trans-unit>
 			<trans-unit id="be.on">
 				<source>On</source>
@@ -109,25 +67,13 @@
 				<source>Off</source>
 			</trans-unit>
 			<trans-unit id="be.enddate">
-				<source>End Date:</source>
+				<source>End Date* :</source>
 			</trans-unit>
 			<trans-unit id="be.ip">
 				<source>Whitelist IP Addresses (comma separated list of IP addresses):</source>
 			</trans-unit>
 			<trans-unit id="be.fontcolor">
 				<source>Font Color:</source>
-			</trans-unit>
-			<trans-unit id="be.facebooklink">
-				<source>Facebook Link:</source>
-			</trans-unit>
-			<trans-unit id="be.twitterlink">
-				<source>Twitter Link:</source>
-			</trans-unit>
-			<trans-unit id="be.linkedinlink">
-				<source>LinkedIn Link:</source>
-			</trans-unit>
-			<trans-unit id="be.githublink">
-				<source>Github Link:</source>
 			</trans-unit>
 			<trans-unit id="be.footertext">
 				<source>Footer Text:</source>
@@ -146,6 +92,12 @@
 			</trans-unit>
 			<trans-unit id="availableon">
 				<source>We will be available on</source>
+			</trans-unit>
+			<trans-unit id="error.enddate">
+				<source>Please add end date greater then today</source>
+			</trans-unit>
+			<trans-unit id="error.title">
+				<source>Error</source>
 			</trans-unit>
 		</body>
 	</file>

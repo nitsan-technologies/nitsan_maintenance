@@ -2,8 +2,8 @@
 namespace Nitsan\NitsanMaintenance\Controller;
 
 use Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConverter;
-use TYPO3\CMS\Extbase\Annotation\Inject as inject;
 use TYPO3\CMS\Extbase\Property\PropertyMappingConfiguration;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /***************************************************************
  *
@@ -60,6 +60,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     {
         $maintenances = $this->maintenanceRepository->findAll();
         $this->view->assign('newMaintenance', $maintenances[0]);
+        //@extensionScannerIgnoreLine
         if (version_compare(TYPO3_branch, '8.0', '<')) {
             $this->view->assign('Maintenance7', 1);
         }
@@ -85,19 +86,27 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function createAction(\Nitsan\NitsanMaintenance\Domain\Model\Maintenance $newMaintenance)
     {
-        $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
-        $image = $newMaintenance->getImage();
-        if (is_null($image)) {
-            if($newMaintenance->getImage()[0]){
-                unset($newMaintenance->getImage()[0]);
-            }
-        }
-        if ($maintenances = $this->maintenanceRepository->findAll()->count() > 0) {
-            $this->maintenanceRepository->update($newMaintenance);
+        if(strtotime($newMaintenance->getEndtime()) < time()){
+            $this->addFlashMessage(
+                LocalizationUtility::translate('error.enddate','nitsan_maintenance'),
+                LocalizationUtility::translate('error.title','nitsan_maintenance'),
+                \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR
+            );
         } else {
-            $this->maintenanceRepository->add($newMaintenance);
+            $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
+            $image = $newMaintenance->getImage();
+            if (is_null($image)) {
+                if ($newMaintenance->getImage()[0]) {
+                    unset($newMaintenance->getImage()[0]);
+                }
+            }
+            if ($this->maintenanceRepository->findByUid($newMaintenance->getUid())) {
+                $this->maintenanceRepository->update($newMaintenance);
+            } else {
+                $this->maintenanceRepository->add($newMaintenance);
+            }
+            $this->addFlashMessage('Settings were updated', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         }
-        $this->addFlashMessage('Settings were updated', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::OK);
         $this->view->assign('maintenances', $newMaintenance);
         $this->redirect('list');
     }

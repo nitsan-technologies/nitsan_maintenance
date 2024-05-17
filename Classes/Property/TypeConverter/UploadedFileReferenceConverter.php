@@ -65,18 +65,21 @@ class UploadedFileReferenceConverter extends AbstractTypeConverter
 
     /**
      * @var \TYPO3\CMS\Core\Resource\ResourceFactory
+     * //@extensionScannerIgnoreLine
      * @inject
      */
     protected $resourceFactory;
 
     /**
      * @var \TYPO3\CMS\Extbase\Security\Cryptography\HashService
+     * //@extensionScannerIgnoreLine
      * @inject
      */
     protected $hashService;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     * //@extensionScannerIgnoreLine
      * @inject
      */
     protected $persistenceManager;

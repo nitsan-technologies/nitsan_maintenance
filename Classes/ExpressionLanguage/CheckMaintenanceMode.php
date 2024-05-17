@@ -14,6 +14,7 @@ class CheckMaintenanceMode extends AbstractProvider
 
         $returnTrueFalse = true;
         // For lower version from TYPO3 9
+        //@extensionScannerIgnoreLine
         if (version_compare(TYPO3_branch, '9.0', '<')) {
             $settingsRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_nitsanmaintenance_domain_model_maintenance', 'hidden!=1 and deleted!=1');
             $settings = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($settingsRes);
