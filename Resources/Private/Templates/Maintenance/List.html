@@ -5,11 +5,6 @@
 	includeRequireJsModules="{
 		0:'TYPO3/CMS/NitsanMaintenance/Main'
 	}" 
-
-	includeJavaScriptModules="{
-		0: '@typo3/backend/global-event-handler.js',
-		1: '@typo3/belog/backend-log.js'
-	}"
 />
 
 
@@ -134,12 +129,7 @@
 					</div>
 					<div class='col-sm-6'>
 						<div class="input-group input-append date" id="datePicker">
-		                	<f:form.textfield
-											class='t3js-datetimepicker form-control t3js-clearable form-control'
-											property="endtime" id="enddate"
-											value="{newMaintenance.endtime -> f:format.date(format:'H:i d-m-Y')}"
-											data="{date-type: 'datetime'}"
-											additionalAttributes="{required:'required'}" placeholder="HH:MM DD-MM-YYYY" />
+							<f:form.textfield class='t3js-datetimepicker form-control t3js-clearable' property="endtime" value="{newMaintenance.endtime->f:format.date(format:'Y-m-d H:i')}" placeholder="YYYY-MM-DD 00:00" required="required"/>
 		            	</div>
 					</div>
 				</div>

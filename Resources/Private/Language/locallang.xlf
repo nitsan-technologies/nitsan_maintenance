@@ -18,17 +18,11 @@
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.text">
 				<source>Text</source>
 			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.countdown">
-				<source>Countdown</source>
-			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.startdate">
 				<source>Startdate</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.enddate">
 				<source>Enddate</source>
-			</trans-unit>
-			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fontcolor">
-				<source>Fontcolor</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.footertext">
 				<source>Footertext</source>
@@ -38,18 +32,6 @@
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.bgimage">
 				<source>Bgimage</source>
-			</trans-unit>
-			<trans-unit id="page.day">
-				<source>Days</source>
-			</trans-unit>
-			<trans-unit id="page.hours">
-				<source>Hours</source>
-			</trans-unit>
-			<trans-unit id="page.minutes">
-				<source>Minutes</source>
-			</trans-unit>
-			<trans-unit id="page.seconds">
-				<source>Seconds</source>
 			</trans-unit>
 			<trans-unit id="page.until">
 				<source>Time Until Launce</source>
@@ -67,16 +49,13 @@
 				<source>Show</source>
 			</trans-unit>
 			<trans-unit id="be.title">
-				<source>Title:</source>
+				<source>Title* :</source>
 			</trans-unit>
 			<trans-unit id="be.heading">
-				<source>Heading:</source>
+				<source>Heading* :</source>
 			</trans-unit>
 			<trans-unit id="be.text">
 				<source>Text:</source>
-			</trans-unit>
-			<trans-unit id="be.showcountdown">
-				<source>Show Countdown:</source>
 			</trans-unit>
 			<trans-unit id="be.on">
 				<source>On</source>
@@ -85,7 +64,7 @@
 				<source>Off</source>
 			</trans-unit>
 			<trans-unit id="be.enddate">
-				<source>End Date:</source>
+				<source>End Date* :</source>
 			</trans-unit>
 			<trans-unit id="be.footertext">
 				<source>Footer Text:</source>
@@ -107,6 +86,12 @@
 			</trans-unit>
 			<trans-unit id="updateMassage">
 				<source>Settings were updated</source>
+			</trans-unit>
+			<trans-unit id="error.enddate">
+				<source>Please add end date greater then today</source>
+			</trans-unit>
+			<trans-unit id="error.title">
+				<source>Error</source>
 			</trans-unit>
 		</body>
 	</file>

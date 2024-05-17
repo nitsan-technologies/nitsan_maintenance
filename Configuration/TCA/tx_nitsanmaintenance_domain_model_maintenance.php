@@ -51,6 +51,7 @@ $imageConfigurationFalMedia = [
     'behaviour' => $imageSettingsFalMedia['behaviour'],
     'overrideChildTca' => $imageSettingsFalMedia['overrideChildTca'],
     'allowed' => 'common-image-types',
+    'maxitems' => 1
 ];
 return [
     'ctrl' => [
@@ -75,7 +76,7 @@ return [
         'iconfile' => 'EXT:nitsan_maintenance/Resources/Public/Icons/tx_nitsanmaintenance_domain_model_maintenance.gif',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links], countdown,  endtime, whitelist, fontcolor, footertext;;;richtext:rte_transform[mode=ts_links], fblink, twlink, linkedinlink, gitlink, image'],
+        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links],  endtime, footertext;;;richtext:rte_transform[mode=ts_links], image'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],

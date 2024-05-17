@@ -66,8 +66,8 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     public function listAction(): ResponseInterface
     {
         $view = $this->initializeModuleTemplate($this->request);
-        $maintenances = $this->maintenanceRepository->findAll();
-        $view->assign('newMaintenance', $maintenances[0]);
+        $maintenances = $this->maintenanceRepository->findOneBy([]);
+        $view->assign('newMaintenance', $maintenances);
         $view->assign('Maintenance10', 1);
         return $view->renderResponse();
     }
@@ -89,18 +89,27 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function createAction(Maintenance $newMaintenance): ResponseInterface
     {
-        $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
-        $this->processImageUpload($newMaintenance, 'image', 'image-delete');
-
-        if ($this->maintenanceRepository->findAll()->count() > 0) {
-            $this->maintenanceRepository->update($newMaintenance);
+        if(strtotime($newMaintenance->getEndtime()) < time()){
+            $this->addFlashMessage(
+                LocalizationUtility::translate('error.enddate','nitsan_maintenance'),
+                LocalizationUtility::translate('error.title','nitsan_maintenance'),
+                ContextualFeedbackSeverity::ERROR
+            );
         } else {
-            $this->maintenanceRepository->add($newMaintenance);
-        }
-        $this->processFileUpload($newMaintenance, 'image');
+            $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
+            $this->processImageRemove($newMaintenance, 'image', 'image-delete');
 
-        $updateMassage = LocalizationUtility::translate('LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage', 'nitsan_maintenance');
-        $this->addFlashMessage($updateMassage, '', ContextualFeedbackSeverity::OK);
+            if ($this->maintenanceRepository->findByUid($newMaintenance->getUid())) {
+                $this->maintenanceRepository->update($newMaintenance);
+            } else {
+                $this->maintenanceRepository->add($newMaintenance);
+            }
+            $this->processFileUpload($newMaintenance, 'image');
+
+            $updateMassage = LocalizationUtility::translate('LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage', 'nitsan_maintenance');
+            $this->addFlashMessage($updateMassage, '', ContextualFeedbackSeverity::OK);
+        }
+        
 
         $this->view->assign('maintenances', $newMaintenance);
         return $this->redirect('list');
@@ -142,7 +151,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         return $this->htmlResponse();
     }
 
-    private function processImageUpload(Maintenance $newMaintenance, string $fieldName, string $deleteFlag): void
+    private function processImageRemove(Maintenance $newMaintenance, string $fieldName, string $deleteFlag): void
     {
         $images = $newMaintenance->getImage();
         if (count($images) > 0 && ($_FILES['newMaintenance']['name'][$fieldName] !== '' || $this->request->getArguments()[$deleteFlag] === '1')) {
