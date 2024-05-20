@@ -12,6 +12,7 @@ use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use Nitsan\NitsanMaintenance\Domain\Model\Maintenance;
 use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 /***************************************************************
  *
@@ -53,6 +54,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     public function __construct(
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
         MaintenanceRepository $maintenanceRepository,
+        protected PersistenceManager     $persistenceManager,
     ) {
         $this->maintenanceRepository = $maintenanceRepository;
     }
@@ -105,6 +107,8 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             } else {
                 $this->maintenanceRepository->add($newMaintenance);
             }
+            $this->persistenceManager->persistAll();
+
             $this->processFileUpload($newMaintenance, 'image');
 
             $updateMassage = LocalizationUtility::translate(
