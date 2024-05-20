@@ -7,5 +7,5 @@ $extKey = 'nitsan_maintenance';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
     $extKey,
     'Configuration/TypoScript',
-    'NITSAN Maintenance'
+    'Maintenance'
 );

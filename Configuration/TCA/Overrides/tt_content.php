@@ -10,5 +10,5 @@ $_EXTKEY = 'nitsan_maintenance';
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     'Nitsan.' . $_EXTKEY,
     'Mode',
-    'NITSAN Maintenance Mode'
+    'Maintenance Mode'
 );
