@@ -7,7 +7,7 @@
 				<source>Maintenance</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.robotsmeta">
-				<source>Robotsmeta</source>
+				<source>Robots meta</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.title">
 				<source>Title</source>
@@ -22,10 +22,10 @@
 				<source>Countdown</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.enddate">
-				<source>Enddate</source>
+				<source>End date</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.footertext">
-				<source>Footertext</source>
+				<source>Footer text</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.image">
 				<source>Image</source>
@@ -34,7 +34,7 @@
 				<source>Status</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.bgimage">
-				<source>Bgimage</source>
+				<source>Bg image</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.language">
 				<source>Language</source>

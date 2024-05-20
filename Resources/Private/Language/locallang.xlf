@@ -19,22 +19,22 @@
 				<source>Text</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.startdate">
-				<source>Startdate</source>
+				<source>Start date</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.enddate">
-				<source>Enddate</source>
+				<source>End date</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fontcolor">
-				<source>Fontcolor</source>
+				<source>Font color</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.footertext">
-				<source>Footertext</source>
+				<source>Footer text</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.status">
 				<source>Status</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.bgimage">
-				<source>Bgimage</source>
+				<source>Bg image</source>
 			</trans-unit>
 			<trans-unit id="page.until">
 				<source>Time Until Launce</source>

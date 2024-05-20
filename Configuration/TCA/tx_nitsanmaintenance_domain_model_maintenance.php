@@ -5,11 +5,11 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
 if (version_compare((string)$typo3VersionArray['version_main'], '11', '=')) {
     $types = [
-        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links],  endtime,  footertext;;;richtext:rte_transform[mode=ts_links], tenimage, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,  endtime'],
+        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links],  endtime,  footertext;;;richtext:rte_transform[mode=ts_links], tenimage '],
     ];
 } else {
     $types = [
-        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links],  endtime,  footertext;;;richtext:rte_transform[mode=ts_links], image, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,  endtime'],
+        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links],  endtime,  footertext;;;richtext:rte_transform[mode=ts_links], image '],
     ];
 }
 return [
@@ -212,7 +212,7 @@ return [
         ],
         'tenimage' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.bgimage',
+            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.image',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
