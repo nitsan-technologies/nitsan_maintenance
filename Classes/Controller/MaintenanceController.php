@@ -12,7 +12,6 @@ use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use Nitsan\NitsanMaintenance\Domain\Model\Maintenance;
 use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
-use Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConverter;
 
 /***************************************************************
  *
@@ -68,7 +67,6 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $view = $this->initializeModuleTemplate($this->request);
         $maintenances = $this->maintenanceRepository->findOneBy([]);
         $view->assign('newMaintenance', $maintenances);
-        $view->assign('Maintenance10', 1);
         return $view->renderResponse();
     }
 
@@ -76,8 +74,6 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     {
         if (isset($this->arguments['newMaintenance'])) {
             $this->arguments['newMaintenance']->getPropertyMappingConfiguration()->forProperty('endtime')->setTypeConverterOption('TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter', \TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter::CONFIGURATION_DATE_FORMAT, 'Y-m-d H:i:s');
-
-            $this->setTypeConverterConfigurationForImageUpload('newMaintenance');
         }
     }
 
@@ -116,25 +112,6 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     }
 
     /**
-     *
-     */
-    protected function setTypeConverterConfigurationForImageUpload($argumentName): void
-    {
-        $uploadConfiguration = [
-            UploadedFileReferenceConverter::CONFIGURATION_ALLOWED_FILE_EXTENSIONS => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-            UploadedFileReferenceConverter::CONFIGURATION_UPLOAD_FOLDER => '1:/user_upload/'
-        ];
-
-        $newExampleConfiguration = $this->arguments[$argumentName]->getPropertyMappingConfiguration();
-
-        $newExampleConfiguration->forProperty('image.0')
-            ->setTypeConverterOptions(
-                'Nitsan\\NitsanMaintenance\\Property\\TypeConverter\\UploadedFileReferenceConverter',
-                $uploadConfiguration
-            );
-    }
-
-    /**
      * action page
      *
      * @return ResponseInterface
@@ -146,7 +123,6 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
         $maintenanceSettings = $this->maintenanceRepository->findAll();
         $maintenanceSettings[0]->setEndtime(date('Y-m-d H:i:s', $maintenanceSettings[0]->getEndtime()));
-        $this->view->assign('Maintenance10', 1);
         $this->view->assign('settings', $maintenanceSettings[0]);
         return $this->htmlResponse();
     }

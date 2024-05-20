@@ -6,28 +6,8 @@ plugin.tx_nitsanmaintenance_mode {
 	persistence {
 		storagePid = {$plugin.tx_nitsanmaintenance_mode.persistence.storagePid}
 		updateReferenceIndex = 1
-		classes.Nitsan\NitsanMaintenance\Domain\Model\FileReference.mapping.tableName = sys_file_reference
 	}
 
-}
-
-config.tx_extbase{
-	persistence {
-		classes {
-			Nitsan\NitsanMaintenance\Domain\Model\FileReference {
-				mapping {
-					tableName = sys_file_reference
-					columns {
-						uid_local.mapOnProperty = originalFileIdentifier
-					}
-				}
-			}
-		}
-		objects {
-			TYPO3\CMS\Extbase\Domain\Model\FileReference.className = Nitsan\NitsanMaintenance\Domain\Model\FileReference
-		}
-		updateReferenceIndex = 1
-	}
 }
 
 # Module configuration

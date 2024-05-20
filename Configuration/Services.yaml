@@ -7,12 +7,5 @@ services:
   Nitsan\NitsanMaintenance\:
     resource: '../Classes/*'
 
-  Nitsan\NitsanMaintenance\Property\TypeConverter\UploadedFileReferenceConverter:
-    tags:
-      - name: extbase.type_converter
-        priority: 101
-        target: string
-        sources: array
-
   Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository:
     public: true
