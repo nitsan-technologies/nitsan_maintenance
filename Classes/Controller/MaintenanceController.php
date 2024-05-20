@@ -73,7 +73,12 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     protected function initializeCreateAction(): void
     {
         if (isset($this->arguments['newMaintenance'])) {
-            $this->arguments['newMaintenance']->getPropertyMappingConfiguration()->forProperty('endtime')->setTypeConverterOption('TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter', \TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter::CONFIGURATION_DATE_FORMAT, 'Y-m-d H:i:s');
+            $this->arguments['newMaintenance']
+            ->getPropertyMappingConfiguration()
+            ->forProperty('endtime')
+            ->setTypeConverterOption('TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter', 
+                \TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter::CONFIGURATION_DATE_FORMAT, 'Y-m-d H:i:s'
+            );
         }
     }
 
@@ -102,7 +107,10 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             }
             $this->processFileUpload($newMaintenance, 'image');
 
-            $updateMassage = LocalizationUtility::translate('LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage', 'nitsan_maintenance');
+            $updateMassage = LocalizationUtility::translate(
+                'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage', 
+                'nitsan_maintenance'
+            );
             $this->addFlashMessage($updateMassage, '', ContextualFeedbackSeverity::OK);
         }
         
@@ -163,7 +171,12 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                 foreach ($fileImage['upload'] as $files) {
                     /** @var \TYPO3\CMS\Core\Resource\File $file */
                     foreach ($files as $file) {
-                        $this->maintenanceRepository->updateSysFileReferenceRecord($file->getUid(), $newMaintenance->getUid(), $fieldName, $newMaintenance->getPid());
+                        $this->maintenanceRepository->updateSysFileReferenceRecord(
+                            $file->getUid(), 
+                            $newMaintenance->getUid(), 
+                            $fieldName, 
+                            $newMaintenance->getPid()
+                        );
                     }
                 }
             }

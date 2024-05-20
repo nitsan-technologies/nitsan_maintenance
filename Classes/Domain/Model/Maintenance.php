@@ -91,13 +91,6 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected ?bool $status = null;
 
     /**
-     * text
-     *
-     * @var string
-     */
-    protected string $tenimage = '';
-
-    /**
      * __construct
      */
     public function __construct()
@@ -117,16 +110,6 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected function initStorageObjects(): void
     {
         $this->image = new ObjectStorage();
-    }
-
-    /**
-     * Returns the boolean state of status
-     *
-     * @return bool|null
-     */
-    public function isStatus(): ?bool
-    {
-        return $this->status;
     }
 
     /**
@@ -296,26 +279,5 @@ class Maintenance extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setImage(ObjectStorage $image = null): void
     {
         $this->image = $image;
-    }
-
-    /**
-     * Returns the tenimage
-     *
-     * @return string $tenimage
-     */
-    public function getTenimage(): string
-    {
-        return $this->tenimage;
-    }
-
-    /**
-     * Sets the tenimage
-     *
-     * @param string $tenimage
-     * @return void
-     */
-    public function setTenimage(string $tenimage): void
-    {
-        $this->tenimage = $tenimage;
     }
 }

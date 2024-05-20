@@ -22,7 +22,7 @@ module.tx_nitsanmaintenance {
 	}
 }
 
-# Is Maintenance mode is enabled? Let's check for both TYPO3 v10 and below
+# Is Maintenance mode is enabled? Let's check for both TYPO3 v12 and below
 [Nitsan\NitsanMaintenance\ExpressionLanguage\ConditionProvider]
 [CheckMaintenanceMode]
 	page >
@@ -50,7 +50,7 @@ module.tx_nitsanmaintenance {
 	}
 	page.headerData{
 		10 = TEXT
-		10.value = <title>NITSAN Maintenance Mode</title>
+		10.value = <title>Maintenance Mode</title>
 	}
 	page.10 = USER_INT
 	page.10 {
