@@ -4,7 +4,6 @@ plugin.tx_nitsanmaintenance_mode {
 		layoutRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.layoutRootPath}
 	}
 	persistence {
-		storagePid = {$plugin.tx_nitsanmaintenance_mode.persistence.storagePid}
 		updateReferenceIndex = 1
 		classes.Nitsan\NitsanMaintenance\Domain\Model\FileReference.mapping.tableName = sys_file_reference
 	}
