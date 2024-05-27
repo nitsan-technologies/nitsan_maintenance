@@ -4,7 +4,6 @@ plugin.tx_nitsanmaintenance_mode {
 		layoutRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.layoutRootPath}
 	}
 	persistence {
-		storagePid = {$plugin.tx_nitsanmaintenance_mode.persistence.storagePid}
 		updateReferenceIndex = 1
 		classes.Nitsan\NitsanMaintenance\Domain\Model\FileReference.mapping.tableName = sys_file_reference
 	}
@@ -72,50 +71,7 @@ module.tx_nitsanmaintenance_web_nitsanmaintenancemaintenance {
 	}
 	page.headerData{
 		10 = TEXT
-		10.value = <title>NITSAN Maintenance Mode</title>
-	}
-	page.10 = USER_INT
-	page.10 {
-	    vendorName = Nitsan
-	    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-	    extensionName = NitsanMaintenance
-	    pluginName = Mode
-	    controller = Maintenance
-	    switchableControllerActions {
-	      Maintenance {
-	        1 = page
-	      }
-	    }
-	}
-[global]
-
-[Nitsan\NitsanMaintenance\TypoScript\IPCheckCondition]
-	page >
-	page = PAGE
-	page.typeNum = 0
-	# INCLUDE CSS
-	page.includeCSS{
-		Bootstrap = EXT:nitsan_maintenance/Resources/Public/css/bootstrap.min.css
-		FontAwesome = EXT:nitsan_maintenance/Resources/Public/css/font-awesome.min.css
-		Style = EXT:nitsan_maintenance/Resources/Public/css/style.css
-
-	}
-	# Meta for Viewport
-	page.meta.viewport = width=device-width, initial-scale=1
-
-	# INCLUDE JS Header
-	page.includeJS{
-		jQueryLib = EXT:nitsan_maintenance/Resources/Public/js/jquery-2.1.0.min.js
-	}
-	# INCLUDE JS Footer
-	page.includeJSFooter{
-		Modernizr = EXT:nitsan_maintenance/Resources/Public/js/modernizr-2.8.0.min.js
-		Plugin = EXT:nitsan_maintenance/Resources/Public/js/plugins.js
-		Functions = EXT:nitsan_maintenance/Resources/Public/js/functions.js
-	}
-	page.headerData{
-		10 = TEXT
-		10.value = <title>NITSAN Maintenance Mode</title>
+		10.value = <title>Maintenance Mode</title>
 	}
 	page.10 = USER_INT
 	page.10 {

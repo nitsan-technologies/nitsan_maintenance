@@ -1,4 +1,17 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
+$typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+if (version_compare((string)$typo3VersionArray['version_main'], '11', '=')) {
+    $types = [
+        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links],  endtime,  footertext;;;richtext:rte_transform[mode=ts_links], tenimage '],
+    ];
+} else {
+    $types = [
+        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links],  endtime,  footertext;;;richtext:rte_transform[mode=ts_links], image '],
+    ];
+}
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance',
@@ -23,9 +36,7 @@ return [
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden,  hide, title, heading, text, countdown, whitelist, fontcolor, footertext, fblink, twlink, linkedinlink, gitlink',
     ],
-    'types' => [
-        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links], countdown,  endtime, whitelist, fontcolor, footertext;;;richtext:rte_transform[mode=ts_links], fblink, twlink, linkedinlink, gitlink, image, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,  endtime'],
-    ],
+    'types' => $types,
     'palettes' => [
         '1' => ['showitem' => ''],
     ],
@@ -134,22 +145,7 @@ return [
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim',
-                'wizards' => [
-                    'RTE' => [
-                        'icon' => 'wizard_rte2.gif',
-                        'notNewRecords' => 1,
-                        'RTEonly' => 1,
-                        'module' => [
-                            'name' => 'wizard_rich_text_editor',
-                            'urlParameters' => [
-                                'mode' => 'wizard',
-                                'act' => 'wizard_rte.php',
-                            ],
-                        ],
-                        'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
-                        'type' => 'script',
-                    ],
-                ],
+                'enableRichtext' => true,
             ],
         ],
         'footertext' => [
@@ -160,22 +156,7 @@ return [
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim',
-                'wizards' => [
-                    'RTE' => [
-                        'icon' => 'wizard_rte2.gif',
-                        'notNewRecords' => 1,
-                        'RTEonly' => 1,
-                        'module' => [
-                            'name' => 'wizard_rich_text_editor',
-                            'urlParameters' => [
-                                'mode' => 'wizard',
-                                'act' => 'wizard_rte.php',
-                            ],
-                        ],
-                        'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
-                        'type' => 'script',
-                    ],
-                ],
+                'enableRichtext' => true,
             ],
         ],
         'image' => [
@@ -231,7 +212,7 @@ return [
         ],
         'tenimage' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.bgimage',
+            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.image',
             'config' => [
                 'type' => 'input',
                 'size' => 30,

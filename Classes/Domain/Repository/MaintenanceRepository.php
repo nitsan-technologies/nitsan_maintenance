@@ -31,4 +31,10 @@ namespace Nitsan\NitsanMaintenance\Domain\Repository;
  */
 class MaintenanceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+
+    public function findMaintenance()
+    {
+        $query = $this->createQuery();
+        return $query->setLimit(1)->execute();
+    }
 }
