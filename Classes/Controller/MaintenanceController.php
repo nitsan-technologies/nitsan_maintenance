@@ -67,6 +67,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     public function listAction(): ResponseInterface
     {
         $view = $this->initializeModuleTemplate($this->request);
+        $querySetting = $this->maintenanceRepository->createQuery()->getQuerySettings();
+        $querySetting->setRespectStoragePage(false);
+        $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
         $maintenances = $this->maintenanceRepository->findOneBy([]);
         $view->assign('newMaintenance', $maintenances);
         return $view->renderResponse();
@@ -78,7 +81,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $this->arguments['newMaintenance']
             ->getPropertyMappingConfiguration()
             ->forProperty('endtime')
-            ->setTypeConverterOption('TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter', 
+            ->setTypeConverterOption('TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter',
                 \TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter::CONFIGURATION_DATE_FORMAT, 'Y-m-d H:i:s'
             );
         }
@@ -112,12 +115,12 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $this->processFileUpload($newMaintenance, 'image');
 
             $updateMassage = LocalizationUtility::translate(
-                'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage', 
+                'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage',
                 'nitsan_maintenance'
             );
             $this->addFlashMessage($updateMassage, '', ContextualFeedbackSeverity::OK);
         }
-        
+
 
         $this->view->assign('maintenances', $newMaintenance);
         return $this->redirect('list');
@@ -176,9 +179,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                     /** @var \TYPO3\CMS\Core\Resource\File $file */
                     foreach ($files as $file) {
                         $this->maintenanceRepository->updateSysFileReferenceRecord(
-                            $file->getUid(), 
-                            $newMaintenance->getUid(), 
-                            $fieldName, 
+                            $file->getUid(),
+                            $newMaintenance->getUid(),
+                            $fieldName,
                             $newMaintenance->getPid()
                         );
                     }

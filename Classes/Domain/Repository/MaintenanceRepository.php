@@ -4,6 +4,7 @@ namespace Nitsan\NitsanMaintenance\Domain\Repository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /***************************************************************
  *
@@ -35,6 +36,9 @@ use TYPO3\CMS\Core\Information\Typo3Version;
  */
 class MaintenanceRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+
+    protected $defaultOrderings = ['crdate' => QueryInterface::ORDER_DESCENDING];
+
         /**
      * @param $uid_local
      * @param $uid_foreign
