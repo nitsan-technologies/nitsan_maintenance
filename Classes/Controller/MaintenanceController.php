@@ -61,6 +61,9 @@ class MaintenanceController extends ActionController
      */
     public function listAction()
     {
+        $querySetting = $this->maintenanceRepository->createQuery()->getQuerySettings();
+        $querySetting->setRespectStoragePage(false);
+        $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
         $maintenances = $this->maintenanceRepository->findMaintenance();
         $this->view->assign('newMaintenance', $maintenances[0]);
         //@extensionScannerIgnoreLine
