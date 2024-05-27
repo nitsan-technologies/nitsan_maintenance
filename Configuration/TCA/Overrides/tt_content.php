@@ -8,7 +8,5 @@ defined('TYPO3') or die();
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     'nitsan_maintenance',
     'Mode',
-    'NITSAN Maintenance Mode'
+    'Maintenance Mode'
 );
-
-$GLOBALS['TCA']['tx_nitsanmaintenance_domain_model_maintenance']['ctrl']['security']['ignorePageTypeRestriction'] = true;

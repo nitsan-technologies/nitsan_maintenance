@@ -1,4 +1,5 @@
 <?php
+
 $imageSettingsFalMedia = [
     'behaviour' => [
         'allowLanguageSynchronization' => true,
@@ -50,6 +51,7 @@ $imageConfigurationFalMedia = [
     'behaviour' => $imageSettingsFalMedia['behaviour'],
     'overrideChildTca' => $imageSettingsFalMedia['overrideChildTca'],
     'allowed' => 'common-image-types',
+    'maxitems' => 1
 ];
 return [
     'ctrl' => [
@@ -67,11 +69,14 @@ return [
             'disabled' => 'hidden',
             'endtime' => 'endtime',
         ],
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ],
         'searchFields' => 'title,heading,text,countdown,fontcolor,footertext,fblink,twlink,linkedinlink,gitlink,',
         'iconfile' => 'EXT:nitsan_maintenance/Resources/Public/Icons/tx_nitsanmaintenance_domain_model_maintenance.gif',
     ],
     'types' => [
-        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links], countdown,  endtime, whitelist, fontcolor, footertext;;;richtext:rte_transform[mode=ts_links], fblink, twlink, linkedinlink, gitlink, image, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,  endtime'],
+        '1' => ['showitem' => 'sys_language_uid;;;;1-1-1, l10n_diffsource, hidden;;1, hide, title, heading, text;;;richtext:rte_transform[mode=ts_links],  endtime, footertext;;;richtext:rte_transform[mode=ts_links], image'],
     ],
     'palettes' => [
         '1' => ['showitem' => ''],
@@ -120,15 +125,13 @@ return [
             'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.enddate',
             'config' => [
-                'type' => 'input',
+                'type' => 'datetime',
+                'format' => 'datetime',
                 'size' => 13,
                 'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
-                ],
             ],
         ],
 
@@ -158,22 +161,7 @@ return [
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim',
-                'wizards' => [
-                    'RTE' => [
-                        'icon' => 'wizard_rte2.gif',
-                        'notNewRecords' => 1,
-                        'RTEonly' => 1,
-                        'module' => [
-                            'name' => 'wizard_rich_text_editor',
-                            'urlParameters' => [
-                                'mode' => 'wizard',
-                                'act' => 'wizard_rte.php',
-                            ],
-                        ],
-                        'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
-                        'type' => 'script',
-                    ],
-                ],
+                'enableRichtext' => true,
             ],
         ],
         'footertext' => [
@@ -184,37 +172,13 @@ return [
                 'cols' => 40,
                 'rows' => 15,
                 'eval' => 'trim',
-                'wizards' => [
-                    'RTE' => [
-                        'icon' => 'wizard_rte2.gif',
-                        'notNewRecords' => 1,
-                        'RTEonly' => 1,
-                        'module' => [
-                            'name' => 'wizard_rich_text_editor',
-                            'urlParameters' => [
-                                'mode' => 'wizard',
-                                'act' => 'wizard_rte.php',
-                            ],
-                        ],
-                        'title' => 'LLL:EXT:cms/locallang_ttc.xlf:bodytext.W.RTE',
-                        'type' => 'script',
-                    ],
-                ],
+                'enableRichtext' => true,
             ],
         ],
         'image' => [
             'exclude' => true,
             'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.image',
             'config' => $imageConfigurationFalMedia,
-        ],
-        'tenimage' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang_db.xlf:tx_nitsanmaintenance_domain_model_maintenance.bgimage',
-            'config' => [
-                'type' => 'input',
-                'size' => 30,
-                'eval' => 'trim',
-            ],
         ],
     ],
 ];

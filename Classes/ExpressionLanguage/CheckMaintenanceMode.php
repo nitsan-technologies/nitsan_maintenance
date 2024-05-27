@@ -1,4 +1,5 @@
 <?php
+
 namespace Nitsan\NitsanMaintenance\ExpressionLanguage;
 
 use Doctrine\DBAL\Exception;

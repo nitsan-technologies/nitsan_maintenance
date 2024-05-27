@@ -12,7 +12,6 @@ CREATE TABLE tx_nitsanmaintenance_domain_model_maintenance (
 	hide tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	footertext text NOT NULL,
 	image int(11) unsigned NOT NULL default '0',
-    tenimage varchar(500) DEFAULT '' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

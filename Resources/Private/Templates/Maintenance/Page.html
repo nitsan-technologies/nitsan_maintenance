@@ -26,29 +26,16 @@
         </div>
     </div>
     <!-- Preloader End-->
-    <!-- Page Top Section -->
-    <f:if condition="{Maintenance10}">
-        <f:then>
-            <f:if condition="{settings.tenimage}">
-                <f:then>
-                    <section id="page-top" class="section-style" data-background-image="{settings.tenimage}">
-                </f:then>
-                <f:else>
-                    <section id="page-top" class="section-style" data-background-image="{f:uri.resource(path: 'images/background/page-top.jpg', extensionName: 'nitsan_maintenance')}">
-                </f:else>
-            </f:if>
-        </f:then>
-        <f:else>
-            <f:if condition="{settings.image.0}">
-                <f:then>
-                    <section id="page-top" class="section-style" data-background-image="{f:uri.image(src:settings.image.0.uid, treatIdAsReference:1)}">
-                </f:then>
-                <f:else> 
-                    <section id="page-top" class="section-style" data-background-image="{f:uri.resource(path: 'images/background/page-top.jpg', extensionName: 'nitsan_maintenance')}">
-                </f:else>
-            </f:if>
-        </f:else>
-    </f:if>
+    <!-- Page Top Section -->    
+	<f:if condition="{settings.image.0}">
+		<f:then>
+			<section id="page-top" class="section-style" data-background-image="{f:uri.image(src:settings.image.0.uid, treatIdAsReference:1)}">
+		</f:then>
+		<f:else> 
+			<section id="page-top" class="section-style" data-background-image="{f:uri.resource(path: 'images/background/page-top.jpg', extensionName: 'nitsan_maintenance')}">
+		</f:else>
+	</f:if>
+
         <div class="pattern height-resize">
             <div class="container">
             	<div class="row">
