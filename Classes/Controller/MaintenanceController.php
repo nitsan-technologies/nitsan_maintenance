@@ -87,44 +87,67 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         }
     }
 
-    /**
-     * action create
-     *
-     * @param Maintenance $newMaintenance
-     * @return ResponseInterface
-     */
-    public function createAction(Maintenance $newMaintenance): ResponseInterface
-    {
-        if(strtotime($newMaintenance->getEndtime()) < time()){
-            $this->addFlashMessage(
-                LocalizationUtility::translate('error.enddate','nitsan_maintenance'),
-                LocalizationUtility::translate('error.title','nitsan_maintenance'),
-                ContextualFeedbackSeverity::ERROR
-            );
+/**
+ * action create
+ *
+ * @param Maintenance $newMaintenance
+ * @return ResponseInterface
+ */
+public function createAction(Maintenance $newMaintenance): ResponseInterface
+{
+    // Check if end time is valid
+    $endTime = strtotime($newMaintenance->getEndtime());
+    if ($endTime < time()) {
+        $errorEndDateMessage = LocalizationUtility::translate('error.enddate', 'nitsan_maintenance');
+        $errorTitleMessage = LocalizationUtility::translate('error.title', 'nitsan_maintenance');
+        
+        // Fallback to default message if translation returns null
+        $this->addFlashMessage(
+            $errorEndDateMessage ?: 'End date cannot be in the past.',
+            $errorTitleMessage ?: 'Error',
+            ContextualFeedbackSeverity::ERROR
+        );
+    } else {
+        // Ensure end time is set as a timestamp
+        $newMaintenance->setEndtime($endTime);
+
+        // Remove old image if it exists
+        $this->processImageRemove($newMaintenance, 'image', 'image-delete');
+
+        // Check if a UID exists
+        $uid = $newMaintenance->getUid();
+        if ($uid !== null && $this->maintenanceRepository->findByUid($uid)) {
+            $this->maintenanceRepository->update($newMaintenance);
         } else {
-            $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
-            $this->processImageRemove($newMaintenance, 'image', 'image-delete');
-
-            if ($this->maintenanceRepository->findByUid($newMaintenance->getUid())) {
-                $this->maintenanceRepository->update($newMaintenance);
-            } else {
-                $this->maintenanceRepository->add($newMaintenance);
-            }
-            $this->persistenceManager->persistAll();
-
-            $this->processFileUpload($newMaintenance, 'image');
-
-            $updateMassage = LocalizationUtility::translate(
-                'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage',
-                'nitsan_maintenance'
-            );
-            $this->addFlashMessage($updateMassage, '', ContextualFeedbackSeverity::OK);
+            // If no UID or object not found, add the new maintenance record
+            $this->maintenanceRepository->add($newMaintenance);
         }
 
+        // Persist all changes
+        $this->persistenceManager->persistAll();
 
-        $this->view->assign('maintenances', $newMaintenance);
-        return $this->redirect('list');
+        // Handle file upload
+        $this->processFileUpload($newMaintenance, 'image');
+
+        // Add success message
+        $updateMessage = LocalizationUtility::translate(
+            'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMessage',
+            'nitsan_maintenance'
+        );
+        
+        // Fallback to default message if translation returns null
+        $this->addFlashMessage(
+            $updateMessage ?: 'Update successful.',
+            '',
+            ContextualFeedbackSeverity::OK
+        );
     }
+
+    // Assign view variable and redirect
+    $this->view->assign('maintenances', $newMaintenance);
+    return $this->redirect('list');
+}
+    
 
     /**
      * action page
@@ -152,43 +175,46 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         }
     }
 
-    private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
-    {
-        if ($_FILES['newMaintenance']['name'][$fieldName] !== '') {
-            $fileData = [];
-            $namespace = key($_FILES);
-            $targetFalDirectory = '1:/user_upload/';
+ private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
+{
+    if ($_FILES['newMaintenance']['name'][$fieldName] !== '') {
+        $fileData = [];
+        $namespace = key($_FILES);
+        $targetFalDirectory = '1:/user_upload/';
 
-            // Register every upload field from the form:
-            $this->registerUploadField($fileData, $namespace, $fieldName, $targetFalDirectory);
+        // Register every upload field from the form:
+        $this->registerUploadField($fileData, $namespace, $fieldName, $targetFalDirectory);
 
-            // Initializing:
-            /** @var ExtendedFileUtility $fileProcessor */
-            $fileProcessor = GeneralUtility::makeInstance('TYPO3\CMS\Core\Utility\File\ExtendedFileUtility');
-            $fileProcessor->setActionPermissions(['addFile' => true]);
-            $fileProcessor->setExistingFilesConflictMode(DuplicationBehavior::REPLACE);
-            $fileProcessor->setExistingFilesConflictMode(DuplicationBehavior::RENAME);
-            // Actual upload
-            // @extensionScannerIgnoreLine
-            $fileProcessor->start($fileData);
-            $fileImage = $fileProcessor->processData();
+        // Initializing:
+        /** @var ExtendedFileUtility $fileProcessor */
+        $fileProcessor = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Utility\File\ExtendedFileUtility::class);
+        $fileProcessor->setActionPermissions(['addFile' => true]);
+        
+        // Set conflict mode using string constants
+        $fileProcessor->setExistingFilesConflictMode('replace');
+        $fileProcessor->setExistingFilesConflictMode('rename');
+        
+        // Actual upload
+        $fileProcessor->start($fileData);
+        $fileImage = $fileProcessor->processData();
 
-            $fileImage['upload'] = $fileImage['upload'] ?? '';
-            if ($fileImage['upload']) {
-                foreach ($fileImage['upload'] as $files) {
-                    /** @var \TYPO3\CMS\Core\Resource\File $file */
-                    foreach ($files as $file) {
-                        $this->maintenanceRepository->updateSysFileReferenceRecord(
-                            $file->getUid(),
-                            $newMaintenance->getUid(),
-                            $fieldName,
-                            $newMaintenance->getPid()
-                        );
-                    }
+        $fileImage['upload'] = $fileImage['upload'] ?? '';
+        if ($fileImage['upload']) {
+            foreach ($fileImage['upload'] as $files) {
+                /** @var \TYPO3\CMS\Core\Resource\File $file */
+                foreach ($files as $file) {
+                    $this->maintenanceRepository->updateSysFileReferenceRecord(
+                        $file->getUid(),
+                        $newMaintenance->getUid(),
+                        $fieldName,
+                        $newMaintenance->getPid()
+                    );
                 }
             }
         }
     }
+}
+
 
         /**
      * Registers an uploaded file for TYPO3 native upload handling.
