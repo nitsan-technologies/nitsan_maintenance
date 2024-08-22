@@ -17,7 +17,3 @@ $_EXTKEY = 'nitsan_maintenance';
     ]
 );
 
-//# Add page TSConfig
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:nitsan_maintenance/Configuration/TypoScript/TsConfig/pageTsConfig.typoscript"/>'
-);
