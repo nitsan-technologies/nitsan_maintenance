@@ -72,7 +72,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
         $maintenances = $this->maintenanceRepository->findOneBy([]);
         $view->assign('newMaintenance', $maintenances);
-        return $view->renderResponse();
+        return $view->renderResponse("Maintenance/List");
     }
 
     protected function initializeCreateAction(): void
@@ -170,7 +170,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     private function processImageRemove(Maintenance $newMaintenance, string $fieldName, string $deleteFlag): void
     {
         $images = $newMaintenance->getImage();
-        if (count($images) > 0 && ($_FILES['newMaintenance']['name'][$fieldName] !== '' || $this->request->getArguments()[$deleteFlag] === '1')) {
+        if (count(value: $images) > 0 && ($_FILES['image'] !== '' || $this->request->getArguments()[$deleteFlag] === '1')) {
             foreach ($images as $img) {
                 $newMaintenance->removeImage($img);
             }
@@ -179,7 +179,8 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
     private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
     {
-        if ($_FILES['newMaintenance']['name'][$fieldName] !== '') {
+        
+        if ($_FILES['image']['name']!== '') {
             $fileData = [];
             $namespace = key($_FILES);
             $targetFalDirectory = '1:/user_upload/';
@@ -231,10 +232,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $data['upload'] = array();
         }
         $counter = count($data['upload']) + 1;
-
-        $keys = array_keys($_FILES[$namespace]);
+        $keys = array_keys($_FILES['image']);
         foreach ($keys as $key) {
-            $_FILES['upload_' . $counter][$key] = $_FILES[$namespace][$key][$fieldName];
+            $_FILES['upload_' . $counter][$key] = $_FILES['image'][$key];
         }
         $data['upload'][$counter] = array(
             'data' => $counter,

@@ -153,7 +153,7 @@
 						</div>
 					</div>
 					<div class='col-sm-9'>
-					<f:form.upload property="image" name="image"  class="form-control" additionalAttributes="{accept: '.jpg, .jpeg, .png, .webp'}" />
+					<f:form.upload  name="image"  class="form-control" additionalAttributes="{accept: '.jpg, .jpeg, .png, .webp'}" />
 					<f:if condition="{newMaintenance.image}">
 						<div class="image-wrapper mt-2">
 							<f:image image="{newMaintenance.image.0}" alt="" width="100" id="bg-image"/>
