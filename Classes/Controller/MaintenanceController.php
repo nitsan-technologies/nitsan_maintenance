@@ -12,7 +12,7 @@ use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use Nitsan\NitsanMaintenance\Domain\Model\Maintenance;
 use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
-use TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior;
+
 
 /***************************************************************
  *
@@ -192,8 +192,8 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             /** @var ExtendedFileUtility $fileProcessor */
             $fileProcessor = GeneralUtility::makeInstance('TYPO3\CMS\Core\Utility\File\ExtendedFileUtility');
             $fileProcessor->setActionPermissions(['addFile' => true]);
-            $fileProcessor->setExistingFilesConflictMode(DuplicationBehavior::tryFrom('rename'));
-            $fileProcessor->setExistingFilesConflictMode(DuplicationBehavior::tryFrom('replace'));
+            $fileProcessor->setExistingFilesConflictMode('replace');
+            $fileProcessor->setExistingFilesConflictMode('rename');
             // Actual upload
             $fileProcessor->start($fileData);
             $fileImage = $fileProcessor->processData();
