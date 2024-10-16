@@ -171,7 +171,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     private function processImageRemove(Maintenance $newMaintenance, string $fieldName, string $deleteFlag): void
     {
         $images = $newMaintenance->getImage();
-        if (count(value: $images) > 0 && ($_FILES['image'] !== '' || $this->request->getArguments()[$deleteFlag] === '1')) {
+        if (count($images) > 0 && ($_FILES['image']['name'] !== '' || $this->request->getArguments()[$deleteFlag] === '1')) {
             foreach ($images as $img) {
                 $newMaintenance->removeImage($img);
             }
@@ -202,9 +202,8 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                 $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::REPLACE);
                 $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::RENAME);
             } else {
-                
-                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('rename'));
                 $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('replace'));
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('rename'));
             }
             // Actual upload
             $fileProcessor->start($fileData);
@@ -238,7 +237,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      * @param string $targetDirectory
      * @return void
      */
-    protected function registerUploadField(array &$data, $namespace, $fieldName, $targetDirectory = '1:/_temp_/'): void
+    protected function registerUploadField(array &$data, $targetDirectory = '1:/_temp_/'): void
     {
         if (!isset($data['upload'])) {
             $data['upload'] = array();
