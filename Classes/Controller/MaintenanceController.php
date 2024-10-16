@@ -12,6 +12,7 @@ use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use Nitsan\NitsanMaintenance\Domain\Model\Maintenance;
 use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 
 /***************************************************************
@@ -179,8 +180,8 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
     private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
     {
-        
-        if ($_FILES['image']['name']!== '') {
+
+        if ($_FILES['image']['name'] !== '') {
             $fileData = [];
             $namespace = key($_FILES);
             $targetFalDirectory = '1:/user_upload/';
@@ -192,8 +193,19 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             /** @var ExtendedFileUtility $fileProcessor */
             $fileProcessor = GeneralUtility::makeInstance('TYPO3\CMS\Core\Utility\File\ExtendedFileUtility');
             $fileProcessor->setActionPermissions(['addFile' => true]);
-            $fileProcessor->setExistingFilesConflictMode('replace');
-            $fileProcessor->setExistingFilesConflictMode('rename');
+
+            $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(
+                VersionNumberUtility::getCurrentTypo3Version()
+            );
+
+            if (version_compare((string)$typo3VersionArray['version_main'], '12', '=')) {
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::REPLACE);
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::RENAME);
+            } else {
+                
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('rename'));
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('replace'));
+            }
             // Actual upload
             $fileProcessor->start($fileData);
             $fileImage = $fileProcessor->processData();
