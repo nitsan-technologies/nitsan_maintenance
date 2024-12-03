@@ -12,7 +12,7 @@ body {
 .form-control,
 .form-select:focus .form-control:focus {
   background-color: light-dark(#fff, transparent);
-  border-color: light-dark(#c2c2c2, #d9d9d9);
+  border-color: light-dark(#c2c2c2, #383838);
   box-shadow: none !important;
   color: light-dark(#000, #fff);
   font-size: 14px;
