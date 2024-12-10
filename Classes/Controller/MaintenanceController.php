@@ -128,7 +128,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
             // Persist all changes
             $this->persistenceManager->persistAll();
-
+            
             // Handle file upload
             $this->processFileUpload($newMaintenance, 'image');
 
@@ -137,7 +137,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                 'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMessage',
                 'nitsan_maintenance'
             );
-
+            
             // Fallback to default message if translation returns null
             $this->addFlashMessage(
                 $updateMessage ?: 'Update successful.',
@@ -145,7 +145,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
                 ContextualFeedbackSeverity::OK
             );
         }
-
+        
         // Assign view variable and redirect
         $this->view->assign('maintenances', $newMaintenance);
         return $this->redirect('list');
@@ -181,7 +181,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
     {
 
-        if ($_FILES['image']['name'] !== '') {
+        if ($_FILES['image'] !== '') {
             $fileData = [];
             $namespace = key($_FILES);
             $targetFalDirectory = '1:/user_upload/';
@@ -208,7 +208,6 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             // Actual upload
             $fileProcessor->start($fileData);
             $fileImage = $fileProcessor->processData();
-
             $fileImage['upload'] = $fileImage['upload'] ?? '';
             if ($fileImage['upload']) {
                 foreach ($fileImage['upload'] as $files) {
@@ -237,7 +236,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      * @param string $targetDirectory
      * @return void
      */
-    protected function registerUploadField(array &$data, $targetDirectory = '1:/_temp_/'): void
+    protected function registerUploadField(array &$data, $namespace, $fieldName, $targetDirectory = '1:/_temp_/'): void
     {
         if (!isset($data['upload'])) {
             $data['upload'] = array();
