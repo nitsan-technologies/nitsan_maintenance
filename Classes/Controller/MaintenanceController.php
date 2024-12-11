@@ -159,6 +159,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function pageAction(): ResponseInterface
     {
+
         $querySetting = $this->maintenanceRepository->createQuery()->getQuerySettings();
         $querySetting->setRespectStoragePage(false);
         $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
