@@ -1,13 +1,18 @@
-<html xmlns:f="https://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 
-	<style>body{overflow: scroll !important;}</style>
+	<style>
+		body {
+			overflow-y: scroll !important; /* Enables vertical scrolling */
+			overflow-x: hidden; /* Prevents horizontal scrolling */
+		}
+	</style>
 	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap.css')}" />
 	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/bootstrap-colorpalette.css')}" />
+	<link rel="stylesheet" type="text/css" media="all" href="{f:uri.resource(path:'css/dark-mode.css')}" />
 	<div class="typo3-fullDoc" >
 		<div id="typo3-docheader">
 			<div class="typo3-docheader-functions">
 				<div class="left" style="float: left !important;">
-					<f:be.buttons.csh />
 				</div>
 				<div class="right" style="float: right !important;">
 					<f:be.pagePath />

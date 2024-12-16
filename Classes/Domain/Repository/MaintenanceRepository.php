@@ -3,7 +3,6 @@ namespace Nitsan\NitsanMaintenance\Domain\Repository;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /***************************************************************

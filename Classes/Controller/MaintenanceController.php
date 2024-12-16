@@ -6,13 +6,14 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
-use TYPO3\CMS\Core\Resource\DuplicationBehavior;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use Nitsan\NitsanMaintenance\Domain\Model\Maintenance;
 use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 
 /***************************************************************
  *
@@ -72,18 +73,20 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
         $maintenances = $this->maintenanceRepository->findOneBy([]);
         $view->assign('newMaintenance', $maintenances);
-        return $view->renderResponse();
+        return $view->renderResponse("Maintenance/List");
     }
 
     protected function initializeCreateAction(): void
     {
         if (isset($this->arguments['newMaintenance'])) {
             $this->arguments['newMaintenance']
-            ->getPropertyMappingConfiguration()
-            ->forProperty('endtime')
-            ->setTypeConverterOption('TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter',
-                \TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter::CONFIGURATION_DATE_FORMAT, 'Y-m-d H:i:s'
-            );
+                ->getPropertyMappingConfiguration()
+                ->forProperty('endtime')
+                ->setTypeConverterOption(
+                    'TYPO3\\CMS\\Extbase\\Property\\TypeConverter\\DateTimeConverter',
+                    \TYPO3\CMS\Extbase\Property\TypeConverter\DateTimeConverter::CONFIGURATION_DATE_FORMAT,
+                    'Y-m-d H:i:s'
+                );
         }
     }
 
@@ -95,36 +98,59 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function createAction(Maintenance $newMaintenance): ResponseInterface
     {
-        if(strtotime($newMaintenance->getEndtime()) < time()){
+        // Check if end time is valid
+        $endTime = strtotime($newMaintenance->getEndtime());
+        if ($endTime < time()) {
+            $errorEndDateMessage = LocalizationUtility::translate('error.enddate', 'nitsan_maintenance');
+            $errorTitleMessage = LocalizationUtility::translate('error.title', 'nitsan_maintenance');
+
+            // Fallback to default message if translation returns null
             $this->addFlashMessage(
-                LocalizationUtility::translate('error.enddate','nitsan_maintenance'),
-                LocalizationUtility::translate('error.title','nitsan_maintenance'),
+                $errorEndDateMessage ?: 'End date cannot be in the past.',
+                $errorTitleMessage ?: 'Error',
                 ContextualFeedbackSeverity::ERROR
             );
         } else {
-            $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime()));
+            // Ensure end time is set as a timestamp
+            $newMaintenance->setEndtime($endTime);
+
+            // Remove old image if it exists
             $this->processImageRemove($newMaintenance, 'image', 'image-delete');
 
-            if ($this->maintenanceRepository->findByUid($newMaintenance->getUid())) {
+            // Check if a UID exists
+            $uid = $newMaintenance->getUid();
+            if ($uid !== null && $this->maintenanceRepository->findByUid($uid)) {
                 $this->maintenanceRepository->update($newMaintenance);
             } else {
+                // If no UID or object not found, add the new maintenance record
                 $this->maintenanceRepository->add($newMaintenance);
             }
-            $this->persistenceManager->persistAll();
 
+            // Persist all changes
+            $this->persistenceManager->persistAll();
+            
+            // Handle file upload
             $this->processFileUpload($newMaintenance, 'image');
 
-            $updateMassage = LocalizationUtility::translate(
-                'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMassage',
+            // Add success message
+            $updateMessage = LocalizationUtility::translate(
+                'LLL:EXT:nitsan_maintenance/Resources/Private/Language/locallang.xlf:updateMessage',
                 'nitsan_maintenance'
             );
-            $this->addFlashMessage($updateMassage, '', ContextualFeedbackSeverity::OK);
+            
+            // Fallback to default message if translation returns null
+            $this->addFlashMessage(
+                $updateMessage ?: 'Update successful.',
+                '',
+                ContextualFeedbackSeverity::OK
+            );
         }
-
-
+        
+        // Assign view variable and redirect
         $this->view->assign('maintenances', $newMaintenance);
         return $this->redirect('list');
     }
+
 
     /**
      * action page
@@ -133,6 +159,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
      */
     public function pageAction(): ResponseInterface
     {
+
         $querySetting = $this->maintenanceRepository->createQuery()->getQuerySettings();
         $querySetting->setRespectStoragePage(false);
         $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
@@ -145,7 +172,7 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     private function processImageRemove(Maintenance $newMaintenance, string $fieldName, string $deleteFlag): void
     {
         $images = $newMaintenance->getImage();
-        if (count($images) > 0 && ($_FILES['newMaintenance']['name'][$fieldName] !== '' || $this->request->getArguments()[$deleteFlag] === '1')) {
+        if (count($images) > 0 && ($_FILES['image']['name'] !== '' || $this->request->getArguments()[$deleteFlag] === '1')) {
             foreach ($images as $img) {
                 $newMaintenance->removeImage($img);
             }
@@ -154,7 +181,8 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
 
     private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
     {
-        if ($_FILES['newMaintenance']['name'][$fieldName] !== '') {
+
+        if ($_FILES['image'] !== '') {
             $fileData = [];
             $namespace = key($_FILES);
             $targetFalDirectory = '1:/user_upload/';
@@ -166,13 +194,21 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             /** @var ExtendedFileUtility $fileProcessor */
             $fileProcessor = GeneralUtility::makeInstance('TYPO3\CMS\Core\Utility\File\ExtendedFileUtility');
             $fileProcessor->setActionPermissions(['addFile' => true]);
-            $fileProcessor->setExistingFilesConflictMode(DuplicationBehavior::REPLACE);
-            $fileProcessor->setExistingFilesConflictMode(DuplicationBehavior::RENAME);
+
+            $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(
+                VersionNumberUtility::getCurrentTypo3Version()
+            );
+
+            if (version_compare((string)$typo3VersionArray['version_main'], '12', '=')) {
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::REPLACE);
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::RENAME);
+            } else {
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('replace'));
+                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('rename'));
+            }
             // Actual upload
-            // @extensionScannerIgnoreLine
             $fileProcessor->start($fileData);
             $fileImage = $fileProcessor->processData();
-
             $fileImage['upload'] = $fileImage['upload'] ?? '';
             if ($fileImage['upload']) {
                 foreach ($fileImage['upload'] as $files) {
@@ -190,7 +226,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
         }
     }
 
-        /**
+
+
+    /**
      * Registers an uploaded file for TYPO3 native upload handling.
      *
      * @param array &$data
@@ -205,10 +243,9 @@ class MaintenanceController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
             $data['upload'] = array();
         }
         $counter = count($data['upload']) + 1;
-
-        $keys = array_keys($_FILES[$namespace]);
+        $keys = array_keys($_FILES['image']);
         foreach ($keys as $key) {
-            $_FILES['upload_' . $counter][$key] = $_FILES[$namespace][$key][$fieldName];
+            $_FILES['upload_' . $counter][$key] = $_FILES['image'][$key];
         }
         $data['upload'][$counter] = array(
             'data' => $counter,
