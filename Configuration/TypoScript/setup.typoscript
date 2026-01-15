@@ -4,9 +4,33 @@ plugin.tx_nitsanmaintenance_mode {
 		layoutRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.layoutRootPath}
 	}
 	persistence {
+		storagePid = {$plugin.tx_nitsanmaintenance_mode.persistence.storagePid}
 		updateReferenceIndex = 1
+		classes.Nitsan\NitsanMaintenance\Domain\Model\FileReference.mapping.tableName = sys_file_reference
+	}
+	settings {
+		adminEmail = {$plugin.tx_nitsanmaintenance_mode.settings.adminEmail}
 	}
 
+}
+
+config.tx_extbase{
+	persistence {
+		classes {
+			Nitsan\NitsanMaintenance\Domain\Model\FileReference {
+				mapping {
+					tableName = sys_file_reference
+					columns {
+						uid_local.mapOnProperty = originalFileIdentifier
+					}
+				}
+			}
+		}
+		objects {
+			TYPO3\CMS\Extbase\Domain\Model\FileReference.className = Nitsan\NitsanMaintenance\Domain\Model\FileReference
+		}
+		updateReferenceIndex = 1
+	}
 }
 
 # Module configuration
@@ -15,24 +39,21 @@ module.tx_nitsanmaintenance {
 		storagePid = {$module.tx_nitsanmaintenance_maintenance.persistence.storagePid}
 	}
 	view {
-		templateRootPaths.0 = {$module.tx_nitsanmaintenance_maintenance.view.templateRootPath}
-		partialRootPaths.0 = {$module.tx_nitsanmaintenance_maintenance.view.partialRootPath}
-		layoutRootPaths.0 = {$module.tx_nitsanmaintenance_maintenance.view.layoutRootPath}
+		templateRootPaths.1 = {$module.tx_nitsanmaintenance_maintenance.view.templateRootPath}
+		partialRootPaths.1 = {$module.tx_nitsanmaintenance_maintenance.view.partialRootPath}
+		layoutRootPaths.1 = {$module.tx_nitsanmaintenance_maintenance.view.layoutRootPath}
 	}
 }
 
-# Is Maintenance mode is enabled? Let's check for both TYPO3 v12 and below
-[Nitsan\NitsanMaintenance\ExpressionLanguage\ConditionProvider]
-[CheckMaintenanceMode]
+
+[frontend.user.isLoggedIn && usercheck()]
 	page >
 	page = PAGE
 	page.typeNum = 0
 	# INCLUDE CSS
 	page.includeCSS{
-		Bootstrap = EXT:nitsan_maintenance/Resources/Public/css/bootstrap.min.css
-		FontAwesome = EXT:nitsan_maintenance/Resources/Public/css/font-awesome.min.css
-		Style = EXT:nitsan_maintenance/Resources/Public/css/style.css
-
+		Style = EXT:nitsan_maintenance/Resources/Public/css/app.css
+		ns_maintenancecss = EXT:nitsan_maintenance/Resources/Public/css/custom.css
 	}
 	# Meta for Viewport
 	page.meta.viewport = width=device-width, initial-scale=1
@@ -43,26 +64,66 @@ module.tx_nitsanmaintenance {
 	}
 	# INCLUDE JS Footer
 	page.includeJSFooter{
-		Modernizr = EXT:nitsan_maintenance/Resources/Public/js/modernizr-2.8.0.min.js
-		Plugin = EXT:nitsan_maintenance/Resources/Public/js/plugins.js
-		Functions = EXT:nitsan_maintenance/Resources/Public/js/functions.js
+		Plugin = EXT:nitsan_maintenance/Resources/Public/js/themes/plugin.js
+		Scrpt = EXT:nitsan_maintenance/Resources/Public/js/themes/script.js
 	}
 	page.headerData{
 		10 = TEXT
 		10.value = <title>Maintenance Mode</title>
 	}
-	page.10 = USER_INT
+	page.10 = EXTBASEPLUGIN
 	page.10 {
 	    vendorName = Nitsan
-	    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
 	    extensionName = NitsanMaintenance
 	    pluginName = Mode
 	    controller = Maintenance
 	    switchableControllerActions {
 	      Maintenance {
 	        1 = page
+			2 = subscriber
 	      }
 	    }
+		settings < plugin.tx_nitsanmaintenance_mode.settings
 	}
-[global]
+[END]
 
+[!frontend.user.isLoggedIn && CheckMaintenanceMode]
+	page >
+	page = PAGE
+	page.typeNum = 0
+	# INCLUDE CSS
+	page.includeCSS{
+		Style = EXT:nitsan_maintenance/Resources/Public/css/app.css
+		ns_maintenancecss = EXT:nitsan_maintenance/Resources/Public/css/custom.css
+	}
+	# Meta for Viewport
+	page.meta.viewport = width=device-width, initial-scale=1
+
+	# INCLUDE JS Header
+	page.includeJS{
+		jQueryLib = EXT:nitsan_maintenance/Resources/Public/js/jquery-2.1.0.min.js
+	}
+	# INCLUDE JS Footer
+	page.includeJSFooter{
+		Plugin = EXT:nitsan_maintenance/Resources/Public/js/themes/plugin.js
+		Scrpt = EXT:nitsan_maintenance/Resources/Public/js/themes/script.js
+	}
+	page.headerData{
+		10 = TEXT
+		10.value = <title>Maintenance Mode</title>
+	}
+	page.10 = EXTBASEPLUGIN
+	page.10 {
+	    vendorName = Nitsan
+	    extensionName = NitsanMaintenance
+	    pluginName = Mode
+	    controller = Maintenance
+	    switchableControllerActions {
+	      Maintenance {
+	        1 = page
+			2 = subscriber
+	      }
+	    }
+		settings < plugin.tx_nitsanmaintenance_mode.settings
+	}
+[END]

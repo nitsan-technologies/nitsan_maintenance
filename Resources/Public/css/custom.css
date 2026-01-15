@@ -1,0 +1,39 @@
+body {
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+}
+
+a.white-theme-logo {
+  width: 100%;
+}
+  
+a.white-theme-logo.topleft {
+  text-align: left;
+}
+
+a.white-theme-logo.topcenter {
+  text-align: center;
+}
+
+a.white-theme-logo.topright {
+  text-align: right;
+}
+
+@media (min-width: 1199.98px) and (max-width:1920px) {
+  footer.page {
+    position: relative;
+  }
+}
+
+@media (min-width: 1199.98px) and (max-width:1700px) { 
+  .countdown-style-3 .wrap {
+    padding-top: 35px;
+    padding-bottom: 35px;
+  }
+
+  footer.page .main-footer {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+}

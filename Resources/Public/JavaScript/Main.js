@@ -1,51 +1,63 @@
-import $ from 'jquery';
-    class MaintenanceManager {
-        constructor() {
-            this.dateToday = new Date();
-            this.init();
-        }
+import $ from "jquery";
 
-        init() {
-            this.setupEventListeners();
-        }
+class MaintenanceManager {
+    constructor() {
+        this.dateToday = new Date();
+        this.init();
+    }
 
-        setupEventListeners() {
-            // Submit button handler
-            $('#maintenance_Submit').on('click', () => this.handleImageValidation());
+    init() {
+        this.setupEventListeners();
+    }
 
-            // Remove image handler
-            $('.remove-image').on('click', () => this.handleImageRemoval());
-        }
+    setupEventListeners() {
+        // Remove image handler
+    }
 
-        handleImageValidation() {
-            const imageInput = $('#imageUpload');
-            const imageValue = imageInput.val();
-            const fileUpload = document.getElementById('imageUpload');
 
-            if (imageValue) {
-                const isValidImage = this.isValidImageFile(fileUpload.value);
-                if (isValidImage) {
+    isValidImageFile(filename) {
+        const regex = new RegExp('([a-zA-Z0-9\\s_\\.\-:])+(.jpg|.png|.jpeg)$', 'i');
+        return regex.test(filename.toLowerCase());
+    }
+}
+    $(document).ready(function() {
+
+    $('.remove-image').on("click",function() {
+        handleImageRemoval('image');
+    });
+
+    $('.remove-logo').on("click",function() {
+        handleImageRemoval('logo');
+    });
+
+        $('#maintenance_Submit').on("click",function() {
+            var imgaeexist = $('#imageUpload').val();
+            var fileUpload = document.getElementById("imageUpload");
+            if(imgaeexist) {
+                var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.jpg|.png|.jpeg)$");
+                if (regex.test(fileUpload.value.toLowerCase())) {
                     $('.invalidImage').hide();
+                    $('.requiredImage').hide();
                     return true;
                 } else {
                     $('.invalidImage').show();
                     return false;
                 }
             }
-        }
-
-        handleImageRemoval() {
-            $('.image-wrapper').hide();
-            $('#image-delete').val('1');
-        }
-
-        isValidImageFile(filename) {
-            const regex = new RegExp('([a-zA-Z0-9\\s_\\.\-:])+(.jpg|.png|.jpeg)$', 'i');
-            return regex.test(filename.toLowerCase());
-        }
-    }
-
-    $(document).ready(() => {
-        new MaintenanceManager();
+            else{
+                if($("#themelayout").val() == 2) {
+                    if($("#imageUpload").length > 0 ){
+                        if($('#imageUpload-file-reference').length <= 0){
+                            $('.requiredImage').show();
+                            return false;
+                        }
+                    }
+                }
+            }
+        });
     });
-
+    
+    function handleImageRemoval(image) {
+        $('.'+image+'-wrapper').hide();
+        $('#'+image+'-delete').val('1');
+    }

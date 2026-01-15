@@ -16,10 +16,10 @@
 				<target>Show</target>
 			</trans-unit>
 			<trans-unit id="be.title">
-				<target>Titel* :</target>
+				<target>Titel:</target>
 			</trans-unit>
 			<trans-unit id="be.heading">
-				<target>Überschrift* :</target>
+				<target>Überschrift:</target>
 			</trans-unit>
 			<trans-unit id="be.text">
 				<target>Text:</target>
@@ -34,7 +34,7 @@
 				<target>Aus</target>
 			</trans-unit>
 			<trans-unit id="be.enddate">
-				<target>Endtermin* :</target>
+				<target>Endtermin:</target>
 			</trans-unit>
 			<trans-unit id="be.ip">
 				<target>Whitelist-IP-Adressen (durch Kommas getrennte Liste der IP-Adressen):</target>
@@ -58,7 +58,7 @@
 				<target>Fusszeile:</target>
 			</trans-unit>
 			<trans-unit id="be.save">
-				<target>Speichern</target>
+				<target>speichern</target>
 			</trans-unit>
 			<trans-unit id="be.bgimage">
 				<target>Hintergrundbild:</target>

@@ -1,13 +1,13 @@
 {
   "name": "nitsan/nitsan-maintenance",
   "type": "typo3-cms-extension",
-  "description": "This TYPO3 Maintenance extension will help you with simple plug & play which have a special TYPO3 Page & TYPO3 Template. It would be useful on criteria like to set Site Coming to Soon Page, Maintenance of Site, Offline while Upgrading your site, etc.",
-  "homepage": "https://t3planet.com/typo3-maintenance-mode-extension",
+  "description": "This TYPO3 Maintenance extension will help you with simple plug & play which have a special TYPO3 Page & TYPO3 Template. It would be useful on criteria like to set Site Coming to Soon Page, Maintenance of Site, Offline while Upgrading your site, etc. *** Live Demo: https://demo.t3planet.com/t3-extensions/maintenance *** Premium Version, Documentation & Free Support: https://t3planet.com/typo3-maintenance-mode-extension",
+  "homepage": "https://t3terminal.com/nitsan-maintenance-free/",
   "license": "GPL-2.0+",
   "keywords": [
     "TYPO3",
     "Maintanance",
-    "T3Planet",
+    "NITSAN",
     "Offline",
     "Template",
     "Comingsoon"
@@ -16,7 +16,8 @@
     "issues": "https://github.com/nitsan-technologies/nitsan_maintenance/issues"
   },
   "require": {
-   "typo3/cms-core": "^12 || ^13"
+    "typo3/cms-core": "^12 || ^13",
+    "nitsan/ns-license": "^13"
   },
   "autoload": {
     "psr-4": {
@@ -24,7 +25,7 @@
     }
   },
   "replace": {
-      "typo3-ter/nitsan-maintenance": "self.version"
+      "nitsan/nitsan-maintenance": "self.version"
   },
   "config": {
     "vendor-dir": ".Build/vendor/",

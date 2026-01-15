@@ -1,7 +1,11 @@
 <?php
 
+use Nitsan\NitsanMaintenance\ExpressionLanguage\CheckMaintenanceMode;
+use Nitsan\NitsanMaintenance\ExpressionLanguage\AuthCheckMaintenanceMode;
+
 return [
     'typoscript' => [
-        \Nitsan\NitsanMaintenance\ExpressionLanguage\CheckMaintenanceMode::class
-    ]
+        CheckMaintenanceMode::class,
+        AuthCheckMaintenanceMode::class,
+    ],
 ];
