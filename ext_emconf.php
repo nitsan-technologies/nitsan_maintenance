@@ -1,27 +1,25 @@
 <?php
 
 $EM_CONF['nitsan_maintenance'] = [
-    'title' => 'Maintenance Mode',
-    'description' => 'This TYPO3 Maintenance extension will help you with simple plug & play which have a special TYPO3 Page & TYPO3 Template. It would be useful on criteria like to set Site Coming to Soon Page, Maintenance of Site, Offline while Upgrading your site, etc.
+    'title' => 'TYPO3 Maintenance Mode Extension',
+    'description' => 'A simple plug & play TYPO3 extension to display a custom maintenance or coming soon page while your site is offline for updates, redesign, or launch preparation.',
 
-	*** Live Demo: https://demo.t3planet.com/t3-extensions/maintenance *** Premium Version, Documentation & Free Support: https://t3planet.com/typo3-maintenance-mode-extension',
     'category' => 'plugin',
-    'author' => 'T3: Himanshu Ramavat, QA: Krishna Dhapa',
-    'author_email' => 'sanjay@nitsan.in',
-    'author_company' => 'T3Planet // NITSAN',
+    'author' => 'Team T3Planet',
+    'author_email' => 'info@t3planet.de',
+    'author_company' => 'T3Planet',
     'state' => 'stable',
-	'uploadfolder' => false,
-	'createDirs' => '',
-	'version' => '13.1.1',
-	'constraints' => [
-		'depends' => [
-			'typo3' => '12.0.0-13.9.99',
-			'ns_license' => '13.0.4-13.9.99',
-		],
-		'conflicts' => [
-		],
-		'suggests' => [
-		],
-	],
-	'clearcacheonload' => false,
+    'uploadfolder' => false,
+    'createDirs' => '',
+    'version' => '13.0.1',
+    'constraints' => [
+        'depends' => [
+            'typo3' => '12.0.0-13.9.99',
+        ],
+        'conflicts' => [
+        ],
+        'suggests' => [
+        ],
+    ],
+    'clearcacheonload' => false,
 ];
