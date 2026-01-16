@@ -6,17 +6,3 @@ services:
 
   Nitsan\NitsanMaintenance\:
     resource: '../Classes/*'
-
-  Nitsan\NitsanMaintenance\Setup:
-    tags:
-      - name: event.listener
-        identifier: 'nitsan-maintenance'
-        method: 'executeOnSignal'
-        event: TYPO3\CMS\Core\Package\Event\AfterPackageActivationEvent
-
-  Nitsan\NitsanMaintenance\EventListener\BackendUserLogin:
-    tags:
-      - name: event.listener
-        identifier: 'nitsan-maintenance-backend-login'
-        method: 'dispatch'
-        event: TYPO3\CMS\Core\Authentication\Event\AfterUserLoggedInEvent
