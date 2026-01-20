@@ -1,69 +1,82 @@
 <f:layout name='Default' />
 <f:section name="main">
-
-	<style>
-	.site-title,
-	.section-title,
-	.section-name,
-	.time-box,
-	body {
-		color: #fff;
-	}
-	</style>
-
-    <!-- Preloader -->
-    <div id="preloader">
-        <div id="loader">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="lading"></div>
-        </div>
-    </div>
-    <!-- Preloader End-->
-    <!-- Page Top Section -->    
-	<f:if condition="{settings.image.0}">
-		<f:then>
-			<section id="page-top" class="section-style" data-background-image="{f:uri.image(src:settings.image.0.uid, treatIdAsReference:1)}">
-		</f:then>
-		<f:else> 
-			<section id="page-top" class="section-style" data-background-image="{f:uri.resource(path: 'images/background/page-top.jpg', extensionName: 'nitsan_maintenance')}">
-		</f:else>
-	</f:if>
-
-        <div class="pattern height-resize">
-            <div class="container">
-            	<div class="row">
-	                <h2 class="section-title">
-						{settings.title}
-					</h2>
-	                <h3 class="section-name">
-						{settings.heading}
-					</h3>
-					<div class="content-text">
-						<f:format.html>{settings.text}</f:format.html>
-					</div>
-					<!-- /.Section-title  -->
-					<div id="time_countdown" class="time-count-container">
-						<h1 class="text-center"><f:translate key="availableon" /> <span class="enddate"><f:format.date format="d.m.Y">{settings.endtime}</f:format.date></span></h1>
-					</div>
+	<section class="content-section">
+	    <div class="container">
+			<header class="heading">
+				<f:if condition="{settings.logoImage.0}">
+					<f:variable name="logoimg" value="{f:uri.image(src:settings.logoImage.0.uid, treatIdAsReference:1,maxWidth: '170')}" />
+					<a href="/" class="white-theme-logo {settings.logoPosition}">
+						<img src="{logoimg}" alt="logo">
+					</a>
+				</f:if>
+				<h1>{settings.title}</h1>
+				<h2>{settings.heading}</h2>
+			</header>
+			<f:if condition="{settings.text}">
+				<div class="description-text">
+					<f:format.raw>{settings.text}</f:format.raw>
 				</div>
-			</div><!-- /.container -->
-		</div><!-- /.pattern -->
-	</section><!-- /#page-top -->
-	<!-- Page Top Section  End -->
-	<!-- Footer Section -->
-	<footer id="footer-section">
-		<div class="copyright">
-			<f:format.html>{settings.footertext}</f:format.html>
+			</f:if>
+			<f:if condition="{settings.pagelink} && {settings.pagelinklabel}">
+				<f:variable name="pageIdLink"><f:uri.page pageUid="{settings.pagelink}" additionalParams="{pageid: '{settings.pagelink}'}" /></f:variable>
+				<a href="{pageIdLink}" class="btn btn-primary fontstyle">{settings.pagelinklabel}</a>
+			</f:if>
 		</div>
-	</footer>
-	<!-- Footer Section End -->
+	</section>
+
+	<section class="counter-section">
+		<f:if condition="{settings.countdown}">
+			<div class="container">
+				<f:switch expression="{settings.countboxstyle}">
+					<f:case value="square">
+						<f:render partial="Square" />
+					</f:case>
+					<f:case value="circle">
+						<f:render partial="Circle" />
+					</f:case>
+					<f:case value="subscription">
+						<f:flashMessages />
+						<f:render partial="Subscription" />
+					</f:case>
+				</f:switch>
+			</div>
+	</f:if>
+	</section>
+
+    <footer class="page">
+        <div class="container">
+            <div class="main-footer">
+                <div class="footer-social-link">
+                	<f:if condition="{settings.fblink}">
+                		<f:link.external uri="{settings.fblink}" class="fb" target="_blank"><i class="fa fa-facebook"></i></f:link.external>
+					</f:if>
+					<f:if condition="{settings.twlink}">
+						<f:link.external class="tweet" target="_blank" uri="{settings.twlink}"><i class="fa fa-twitter"></i></f:link.external>
+                  	</f:if>
+                    <f:if condition="{settings.linkedinlink}">
+                    	<f:link.external class="linkin" target="_blank" uri="{settings.linkedinlink}"><i class="fa fa-linkedin"></i></f:link.external>
+                    </f:if>
+                    <f:if condition="{settings.gitlink}">
+	                    <f:link.external class="insta" target="_blank" uri="{settings.gitlink}"><i class="fa fa-git"></i>
+	                    </f:link.external>
+                    </f:if>
+					<f:if condition="{settings.youtubelink}">
+						<f:link.external class="youtube" target="_blank" uri="{settings.youtubelink}"><i class="fa fa-youtube-play"></i>
+						</f:link.external>
+					</f:if>
+					<f:if condition="{settings.instagramlink}">
+						<f:link.external class="fb" target="_blank" uri="{settings.instagramlink}"><i class="fa fa-instagram"></i>
+						</f:link.external>
+					</f:if>
+                </div>
+                <div class="copyright">
+                    <p class="wow slideInUp"><f:format.raw>{settings.footertext}</f:format.raw></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+	<f:form.hidden id='endDate' name='endDate' value='{settings.endtime}'/>
 	<f:form.hidden id='day' name='day' value='{settings.endtime -> f:format.date(format:"d")}'/>
 	<f:form.hidden id='month' name='month' value='{settings.endtime -> f:format.date(format:"m")}'/>
 	<f:form.hidden id='year' name='year' value='{settings.endtime -> f:format.date(format:"Y")}'/>

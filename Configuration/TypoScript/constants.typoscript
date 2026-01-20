@@ -1,22 +1,29 @@
-
 plugin.tx_nitsanmaintenance_mode {
 	view {
-		# cat=plugin.tx_nitsanmaintenance_mode/file; type=string; label=Path to template root (FE)
+		# cat=plugin: Nitsan Maintenance/file; type=string; label=Path to template root (FE)
 		templateRootPath = EXT:nitsan_maintenance/Resources/Private/Templates/
-		# cat=plugin.tx_nitsanmaintenance_mode/file; type=string; label=Path to template layouts (FE)
+		# cat=plugin: Nitsan Maintenance/file; type=string; label=Path to template layouts (FE)
 		layoutRootPath = EXT:nitsan_maintenance/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin: Nitsan Maintenance//a; type=string; label=Default storage PID
+		storagePid =
+	}
+	settings {
+		# cat=plugin: Nitsan Maintenance//1; type=string; label=Admin Email
+		adminEmail =
 	}
 }
 
 module.tx_nitsanmaintenance_maintenance {
 	view {
-		# cat=module.tx_nitsanmaintenance_maintenance/file; type=string; label=Path to template root (BE)
+		# cat=module: Nitsan Maintenance/file; type=string; label=Path to template root (BE)
 		templateRootPath = EXT:nitsan_maintenance/Resources/Private/Backend/Templates/
-		# cat=module.tx_nitsanmaintenance_maintenance/file; type=string; label=Path to template layouts (BE)
+		# cat=module: Nitsan Maintenance/file; type=string; label=Path to template layouts (BE)
 		layoutRootPath = EXT:nitsan_maintenance/Resources/Private/Backend/Layouts/
 	}
 	persistence {
-		# cat=module.tx_nitsanmaintenance_maintenance//a; type=string; label=Default storage PID
+		# cat=module: Nitsan Maintenance//a; type=string; label=Default storage PID
 		storagePid =
 	}
 }

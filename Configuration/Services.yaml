@@ -6,6 +6,3 @@ services:
 
   Nitsan\NitsanMaintenance\:
     resource: '../Classes/*'
-
-  Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository:
-    public: true

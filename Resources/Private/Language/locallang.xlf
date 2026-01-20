@@ -18,14 +18,44 @@
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.text">
 				<source>Text</source>
 			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.countdown">
+				<source>Countdown</source>
+			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.startdate">
 				<source>Startdate</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.enddate">
 				<source>Enddate</source>
 			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fontcolor">
+				<source>Fontcolor</source>
+			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.footertext">
 				<source>Footertext</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fblink">
+				<source>Fblink</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.twlink">
+				<source>Twlink</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.linkedinlink">
+				<source>Linkedinlink</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.gitlink">
+				<source>Gitlink</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.social">
+				<source>Social</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks">
+				<source>Social Links</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks.icon">
+				<source>Icon</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.status">
 				<source>Status</source>
@@ -33,14 +63,41 @@
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.bgimage">
 				<source>Bgimage</source>
 			</trans-unit>
+			<trans-unit id="page.day">
+				<source>Days</source>
+			</trans-unit>
+			<trans-unit id="page.hours">
+				<source>Hours</source>
+			</trans-unit>
+			<trans-unit id="page.minutes">
+				<source>Minutes</source>
+			</trans-unit>
+			<trans-unit id="page.seconds">
+				<source>Seconds</source>
+			</trans-unit>
 			<trans-unit id="page.until">
 				<source>Time Until Launce</source>
+			</trans-unit>
+			<trans-unit id="page.errormail">
+				<source>Please enter valid E-mail address</source>
 			</trans-unit>
 			<trans-unit id="be.maintenance_mode">
 				<source>Maintenance Mode Settings:</source>
 			</trans-unit>
 			<trans-unit id="be.visiblity">
 				<source>Visibility:</source>
+			</trans-unit>
+			<trans-unit id="be.logo">
+				<source>Logo:</source>
+			</trans-unit>
+			<trans-unit id="be.animate">
+				<source>Animate:</source>
+			</trans-unit>
+			<trans-unit id="be.yes">
+				<source>Yes</source>
+			</trans-unit>
+			<trans-unit id="be.no">
+				<source>No</source>
 			</trans-unit>
 			<trans-unit id="be.hide">
 				<source>Hide</source>
@@ -49,13 +106,16 @@
 				<source>Show</source>
 			</trans-unit>
 			<trans-unit id="be.title">
-				<source>Title* :</source>
+				<source>Title:</source>
 			</trans-unit>
 			<trans-unit id="be.heading">
-				<source>Heading* :</source>
+				<source>Heading:</source>
 			</trans-unit>
 			<trans-unit id="be.text">
 				<source>Text:</source>
+			</trans-unit>
+			<trans-unit id="be.showcountdown">
+				<source>Show Countdown:</source>
 			</trans-unit>
 			<trans-unit id="be.on">
 				<source>On</source>
@@ -64,7 +124,43 @@
 				<source>Off</source>
 			</trans-unit>
 			<trans-unit id="be.enddate">
-				<source>End Date* :</source>
+				<source>End Date:</source>
+			</trans-unit>
+			<trans-unit id="be.logo-position">
+				<source>Logo Position:</source>
+			</trans-unit>
+			<trans-unit id="be.customcss">
+				<source>Custom CSS:</source>
+			</trans-unit>
+			<trans-unit id="be.ip">
+				<source>White list IP Addresses (comma separated list of IP addresses):</source>
+			</trans-unit>
+			<trans-unit id="be.fontcolor">
+				<source>Font Color:</source>
+			</trans-unit>
+			<trans-unit id="be.facebooklink">
+				<source>Facebook Link:</source>
+			</trans-unit>
+			<trans-unit id="be.twitterlink">
+				<source>Twitter Link:</source>
+			</trans-unit>
+			<trans-unit id="be.linkedinlink">
+				<source>LinkedIn Link:</source>
+			</trans-unit>
+			<trans-unit id="be.youtubelink">
+				<source>YouTube Link:</source>
+			</trans-unit>
+			<trans-unit id="be.instagramlink">
+				<source>Instagram Link:</source>
+			</trans-unit>
+			<trans-unit id="be.pagelinklabel">
+				<source>Contact Button Label:</source>
+			</trans-unit>
+			<trans-unit id="be.pagelink">
+				<source>Contact Page UID:</source>
+			</trans-unit>
+			<trans-unit id="be.githublink">
+				<source>Github Link:</source>
 			</trans-unit>
 			<trans-unit id="be.footertext">
 				<source>Footer Text:</source>
@@ -81,11 +177,89 @@
 			<trans-unit id="be.invalid_image">
 				<source>Invalid Image. Please select JPG, JPEG or PNG Image.</source>
 			</trans-unit>
-			<trans-unit id="availableon">
-				<source>We will be available on</source>
+			<trans-unit id="be.required_image">
+				<source>Image is required. Please select Image.</source>
+			</trans-unit>
+			<trans-unit id="be.theme_layout_options">
+				<source>Theme layout options</source>
+			</trans-unit>
+			<trans-unit id="be.themelayout">
+				<source>Theme layout</source>
+			</trans-unit>
+			<trans-unit id="be.subscriptionheader">
+				<source>Stay Tune for Updates</source>
+			</trans-unit>
+			<trans-unit id="be.subscriptionplaceholder">
+				<source>Enter your Email</source>
+			</trans-unit>
+			<trans-unit id="be.subscriptionbtnlabel">
+				<source>Submit</source>
+			</trans-unit>
+			<trans-unit id="countdown.style">
+				<source>Countbox Style</source>
+			</trans-unit>
+			<trans-unit id="countdown.style1">
+				<source>Square box</source>
+			</trans-unit>
+			<trans-unit id="countdown.style2">
+				<source>Circle with Progressbar</source>
+			</trans-unit>
+			<trans-unit id="countdown.style3">
+				<source>Countdown with Subscription box</source>
+			</trans-unit>
+			<trans-unit id="layout.style1">
+				<source>Solid Background</source>
+			</trans-unit>
+			<trans-unit id="layout.style2">
+				<source>Image Background</source>
+			</trans-unit>
+			<trans-unit id="subscription.header">
+				<source>Subscription box Header</source>
+			</trans-unit>
+			<trans-unit id="subscription.placeholder">
+				<source>Subscription Placeholder</source>
+			</trans-unit>
+			<trans-unit id="subscription.btnlabel">
+				<source>Subscription Button Label</source>
+			</trans-unit>
+			<trans-unit id="adminmail.heading">
+				<source>Your have new subscription from below details: </source>
+			</trans-unit>
+			<trans-unit id="emailaddress">
+				<source>Email Address </source>
+			</trans-unit>
+			<trans-unit id="siteAddress">
+				<source>Subscription from this site </source>
+			</trans-unit>
+			<trans-unit id="mailFooter">
+				<source>Notification from the Maintenance Mode Extension!</source>
 			</trans-unit>
 			<trans-unit id="updateMassage">
 				<source>Settings were updated</source>
+			</trans-unit>
+			<trans-unit id="thanksMassage">
+				<source>Thanks for your subscription</source>
+			</trans-unit>
+			<trans-unit id="successfullMassage">
+				<source>Subscription Successful</source>
+			</trans-unit>
+			<trans-unit id="be.characters.allow">
+				<source>Max:100 Characters allow</source>
+			</trans-unit>
+			<trans-unit id="email.subject">
+				<source>Subscription Notification</source>
+			</trans-unit>
+			<trans-unit id="email.admin">
+				<source>Admin</source>
+			</trans-unit>
+			<trans-unit id="email.subscription">
+				<source>New Subscription</source>
+			</trans-unit>
+			<trans-unit id="errorMassage">
+				<source>Something is wrong please contact to administer</source>
+			</trans-unit>
+			<trans-unit id="errorMassageTitle">
+				<source>Subscription Failed</source>
 			</trans-unit>
 			<trans-unit id="error.enddate">
 				<source>Please add end date greater then today</source>
@@ -93,6 +267,30 @@
 			<trans-unit id="error.title">
 				<source>Error</source>
 			</trans-unit>
+			<trans-unit id="subscription.error.email.message">
+				<source>Your email address is not valid</source>
+			</trans-unit>
+			<trans-unit id="subscription.error.invalidemail">
+				<source>Subscription email</source>
+			</trans-unit>
+			<trans-unit id="be.whitelistfrontend">
+				<source>To allow FE user groups and users</source>
+			</trans-unit>
+			<trans-unit id="be.whitelistfrontend.option.nothing">
+				<source>None</source>
+			</trans-unit>
+			<trans-unit id="be.whitelistfrontend.option.users">
+				<source>FE Users</source>
+			</trans-unit>
+			<trans-unit id="be.whitelistfrontend.option.group">
+				<source>FE Groups</source>
+			</trans-unit>
+			<trans-unit id="be.whitelistfrontend.users">
+				<source>User Ids (comma separated list of frontend user ids):</source>
+			</trans-unit>
+			<trans-unit id="be.whitelistfrontend.groups">
+				<source>User Groups (comma separated list of frontend group ids):</source>
+			</trans-unit>									
 		</body>
 	</file>
 </xliff>

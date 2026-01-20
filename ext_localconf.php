@@ -1,19 +1,18 @@
 <?php
 
+use Nitsan\NitsanMaintenance\Controller\MaintenanceController;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+
 if (!defined('TYPO3')) {
     die('Access denied.');
 }
-$_EXTKEY = 'nitsan_maintenance';
-
-\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    $_EXTKEY,
+ExtensionUtility::configurePlugin(
+    'nitsan_maintenance',
     'Mode',
     [
-        \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class => 'page',
+        MaintenanceController::class => 'page , subscriber',
     ],
-    // non-cacheable actions
     [
-        \Nitsan\NitsanMaintenance\Controller\MaintenanceController::class => 'page',
+        MaintenanceController::class => 'page , subscriber',
     ]
 );
-

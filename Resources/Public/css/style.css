@@ -41,8 +41,8 @@ Tags: HTML, Template, Coming Soon, Kite
 
 /* 1 - Import Google Font
 ---------------------------------------------------------------------- */
-@import url(https://fonts.googleapis.com/css?family=Pacifico);
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,400italic,700);
+@import url(http://fonts.googleapis.com/css?family=Pacifico);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,400italic,700);
 /* 1 - Import Google Font End 
 ---------------------------------------------------------------------- */
 
@@ -65,9 +65,6 @@ a:focus{
 	outline:none;
 	outline-offset:inherit;
 }
-.enddate{
-	color: yellow;
-}
 .section-style{
 	background-attachment:inherit;
 	background-position:50% 0;
@@ -79,7 +76,6 @@ a:focus{
 .pattern{
 	background:rgba(0,0,0,.5) url(../images/pattern.png);
 	padding-top:100px;
-	height: 100%;
 }
 .container{
 	overflow:hidden;
@@ -115,10 +111,6 @@ a:focus{
 	text-transform:uppercase;
 	font-weight:300;
 	font-size:80px;
-	margin-bottom: 20px;
-}
-.content-text {
-	margin-top: 30px;
 }
 .section-description{
 	font-weight:300;
@@ -889,10 +881,6 @@ form.news-letter .btn:hover{
 #footer-section{
 	width: 100%;
 	min-height: 80px;
-	bottom: 0;
-	position: fixed;
-	background-color: rgb(64,64,64);
-	opacity: 1;
 }
 #footer-section p{
 	margin: 0;
@@ -900,6 +888,7 @@ form.news-letter .btn:hover{
 	text-align: center;
 	line-height: 30px;
 	color: #fff;
+	background-color: rgba(0,0,0,0.75);
 }
 #footer-section p a{
 	color: #3498db;
@@ -957,9 +946,6 @@ form.news-letter .btn:hover{
 	}
 		#contact-form  .btn{
 	border-left:1px solid #fff;
-	}
-	#footer-section {
-		position: relative;
 	}
 }
 

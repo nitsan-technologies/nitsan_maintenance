@@ -1,17 +1,15 @@
 <f:layout name="Backend" />
 <f:section name="content">
-
-<f:be.pageRenderer
-	includeJavaScriptModules="{
-		0:'@nitsan/nitsan-mainteanace/Main.js'
-	}" 
-/>
-
-
-	<script src="{f:uri.resource(path:'js/tinymce.min.js', extensionName: 'nitsan_maintenance')}"></script>
+	<f:be.pageRenderer
+		includeJavaScriptModules="{
+			0:'@nitsan/nitsan-maintenance/Main.js'
+		}"
+	/>
 	<script src="{f:uri.resource(path:'js/jquery-2.1.0.min.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script src="{f:uri.resource(path:'js/tinymce.min.js', extensionName: 'nitsan_maintenance')}"></script>
 	<script src="{f:uri.resource(path:'js/bootstrap.min.js', extensionName: 'nitsan_maintenance')}"></script>
 	<script src="{f:uri.resource(path:'js/bootstrap-colorpalette.js', extensionName: 'nitsan_maintenance')}"></script>
+	<script src="{f:uri.resource(path:'js/custom.js', extensionName: 'nitsan_maintenance')}"></script>
 	<script nonce="{f:security.nonce()}">
 		tinymce.init({
 			selector: 'textarea',
@@ -27,19 +25,40 @@
 			image_advtab: true,
 		});
 	</script>
+	<script nonce="{f:security.nonce()}">
+		(function($) {
+			$('#colorpalette1').colorPalette()
+	          .on('selectColor', function(e) {
+	            $('#fontcolor').val(e.color);
+	            $("#colorpalette1").hide();
+	          });
 
+	        $('#colorpalette2').colorPalette()
+	          .on('selectColor', function(e) {
+	            $('#backgroundcolor').val(e.color);
+	            $("#colorpalette2").hide();
+	          });
+
+	        $(".colorpicker").on('click',function(){
+	        	$("#colorpalette1").toggle();
+	        });
+	        $(".colorpicker2").on('click',function(){
+	        	$("#colorpalette2").toggle();
+	        });
+		}(jQuery));
+	</script>
 	<style>
 		.input-group > .form-control-clearable-wrapper {
 			height: 30px !important;
 			width: 25% !important;
 		}
 
-		.image-wrapper {
+		.image-wrapper, .logo-wrapper {
 			position: relative;
 			display: inline-block;
 		
 		}
-		.remove-image {
+		.remove-image, .remove-logo {
 			position: absolute;
 			height: 25px;
 			width: 25px;
@@ -51,131 +70,394 @@
 			border: 1px solid #151515;
 		}
 
-		.remove-image svg {
+		.remove-image svg, .remove-logo svg{
 			position: absolute;
 			fill: #fff;
-  			height: 20px;
-  			width: 20px;
+			height: 20px;
+			width: 20px;
 			left: 50%;
 			top: 50%;
 			transform: translate(-50%, -50%);
 		}
 
-		.remove-image:hover {
+		.remove-logo:hover, .remove-image:hover {
 			background-color: #fff;
 			
 		}
-		.remove-image:hover svg {
+		.remove-logo:hover svg, .remove-image:hover svg {
 			fill: #151515;
 		}
 	</style>
+	
+<div class="ns-ext-form-wrap">
+	<f:form action="create"  enctype="multipart/form-data"  name="newMaintenance" object="{newMaintenance}" class="nitsan-maintenance ns-ext-form">
+		<div class="card custom-card">
+			<div class="card-header">
+				<h5><f:translate key='be.maintenance_mode'/></h5>
+				<f:form.submit class='btn btn-primary' id="maintenance_Submit" value="<f:translate key='be.save'/>" />
+			</div>
+			<div class="card-body">
+				<div class='row'>
+					<div class='col-sm-12'>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label><f:translate key='be.visiblity'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<label class="custom-radio" for="hide1">
+									<f:form.radio property="hide" value="1" id="hide1" additionalAttributes="{checked:'checked'}" class="custom-control-input" /><span class="custom-control-label"></span> <f:translate key='be.hide'/> &nbsp;
+								</label>
+								<label class="custom-radio" for="hide0">
+									<f:form.radio property="hide" value="0" id="hide0"  class="custom-control-input"/><span class="custom-control-label"></span> <f:translate key='be.show'/>
+								</label>
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="title"><f:translate key='be.logo'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<div class="input-group input-append">
+													<span class="input-group-addon custom-reset" data-field="image-test" data-id="logo-image">
+														<i class="fa fa-repeat"></i>
+												    </span>
+									<f:form.upload name="logo_image" id="10logo" class=" form-control" additionalAttributes="{accept: '.jpg, .jpeg, .png, .webp'}" />
+								</div>
+								<f:if condition="{newMaintenance.logoImage}">
+									<div class="logo-wrapper mt-2">
+									<f:image class="pt-2" image="{newMaintenance.logoImage.0}" id="logo-image" alt="" width="100"/>
+										<a class="remove-logo" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></a>
+										<f:form.hidden name="logo-delete" id="logo-delete" value="0" />
+									</div>
+								</f:if>
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="logo-position"><f:translate key='be.logo-position'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.select property="logoPosition"  class='form-control' options="{topleft: 'Left', topcenter: 'Center', topright : 'Right'}" />
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="title"><f:translate key='be.title'/>*</label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.textfield maxlength="100" property="title" class='form-control' id="title" required="required"/>
+								<p><f:translate key='be.characters.allow'/></p>
+							</div>
+						</div>
 
-	<f:form action="create"  enctype="multipart/form-data"  name="newMaintenance" object="{newMaintenance}" class="nitsan-maintenance">
-		<div class='page-header' style='margin-top:0'>
-			<h3 style='margin-top:0;color:#FF8300;'><f:translate key='be.maintenance_mode'/></h3>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="heading"><f:translate key='be.heading'/>*</label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.textfield maxlength="100" property="heading" class='form-control' id="heading" required="required"/>
+								<f:translate key='be.characters.allow'/>
+							</div>
+						</div>
+
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="text"><f:translate key='be.text'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8 form-control-rte-wrap'>
+								<f:form.textarea property="text" class='form-control' id="text"/>
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="enddate"><f:translate key='be.enddate'/>*</label>
+							</div>
+
+							<div class='col-md-7 col-lg-8'>
+								<div class="date" id="datePicker">
+									<f:form.textfield
+											class='t3js-datetimepicker form-control t3js-clearable'
+											property="endtime" id="enddate"
+											value="{newMaintenance.endtime -> f:format.date(format:'Y-m-d H:i')}"
+											data="{date-type: 'datetime'}"
+											additionalAttributes="{required:'required'}" placeholder="YYYY-MM-DD HH:MM" />
+								</div>
+							</div>
+						</div>
+
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="whitelist"><f:translate key='be.ip'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.textfield class='form-control' property="whitelist" id="whitelist" />
+							</div>
+						</div>
+
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="whitelistfrontend"><f:translate key='be.whitelistfrontend'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.select property="whitelistfrontend" class="form-control" id="whitelistfrontend">
+									<f:form.select.option value="1" ><f:translate key="be.whitelistfrontend.option.nothing" /></f:form.select.option>
+									<f:form.select.option value="2" ><f:translate key="be.whitelistfrontend.option.group" /></f:form.select.option>
+									<f:form.select.option value="3" ><f:translate key="be.whitelistfrontend.option.users" /></f:form.select.option>
+								</f:form.select>
+							</div>
+						</div>
+
+						<div class="user-container">
+							<div class='row form-group usergroups'>
+								<div class='col-sm-5 col-lg-2'>
+									<label for="whitelistfrontend_usergrous"><f:translate key='be.whitelistfrontend.groups'/></label>
+								</div>
+								<div class='col-md-7 col-lg-8'>
+									<f:form.textfield class='form-control' property="usergroups" id="whitelistfrontend_usergrous" />
+								</div>
+							</div>
+							<div class='row form-group users'>
+								<div class='col-sm-5 col-lg-2'>
+									<label for="whitelistfrontend_users"><f:translate key='be.whitelistfrontend.users'/></label>
+								</div>
+								<div class='col-md-7 col-lg-8'>
+									<f:form.textfield class='form-control' property="users" id="whitelistfrontend_users"/>
+								</div>
+							</div>
+						</div>
+
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="fblink"><f:translate key='be.facebooklink'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.textfield class='form-control' property="fblink" id="fblink" />
+							</div>
+						</div>
+
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="twlink"><f:translate key='be.twitterlink'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.textfield class='form-control' property="twlink" id="twlink" />
+							</div>
+						</div>
+
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="linkedinlink"><f:translate key='be.linkedinlink'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+									<f:form.textfield class='form-control' property="linkedinlink" id="linkedinlink" />
+							</div>
+						</div>
+
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="gitlink"><f:translate key='be.githublink'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.textfield class='form-control' property="gitlink" id="gitlink" />
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="instagramlink"><f:translate key='be.instagramlink'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+									<f:form.textfield class='form-control' property="instagramlink" id="instagramlink" />
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="youtubelink"><f:translate key='be.youtubelink'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+									<f:form.textfield class='form-control' property="youtubelink" id="youtubelink" />
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="pagelinklabel"><f:translate key='be.pagelinklabel'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+									<f:form.textfield maxlength="100" class='form-control' property="pagelinklabel" id="pagelinklabel" />
+								<f:translate key='be.characters.allow'/>
+
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="pagelink"><f:translate key='be.pagelink'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<f:form.textfield class='form-control' property="pagelink" id="pagelink" />
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label for="footeretext"><f:translate key='be.footertext'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8 form-control-rte-wrap'>
+								<f:form.textarea class='form-control ' property="footertext" id="footertext" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class='row'>
-			<div class='col-sm-12'>
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label><f:translate key='be.visiblity'/></label>
+		<div class="card custom-card">
+			<div class="card-header">
+				<h5><f:translate key="be.theme_layout_options" /></h5>
+				<f:form.submit class='btn btn-primary' id="maintenance_Submit" value="<f:translate key='be.save'/>" />
+			</div>
+			<div class="card-body">
+				<div class='row'>
+					<div class='col-sm-12'>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="footeretext"><f:translate key='be.customcss'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								 <f:form.textfield class='form-control' property="customcss" id="customcss" />
+							</div>
 						</div>
-					</div>
-					<div class='col-sm-9'>
-						<f:form.radio property="hide" value="1" id="hide1"/> <label for="hide1"><f:translate key='be.hide'/></label> &nbsp;
-						<f:form.radio property="hide" value="0" id="hide0"/> <label for="hide0"><f:translate key='be.show'/></label>
-					</div>
-				</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="fontcolor"><f:translate key='be.fontcolor'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8 btn-group'>
+								<div class="ns-ext-color-pick-wrap">
+									<div class="input-group input-append">
+										<span class="input-group-addon add-on colorpicker custom-reset" data-id="fontcolor" id="basic-fontcolor"><i class="fa fa-repeat"></i></span>
+										<f:form.textfield type="color" class='form-control' property="fontcolor" id="fontcolor" value="{f:if(condition: '{newMaintenance.fontcolor}', then: '{newMaintenance.fontcolor}', else: '#090909')}" placeholder="Click on icon for pallete" additionalAttributes="{required:'required', aria-describedby:'basic-fontcolor', data-value:'{newMaintenance.fontcolor}'}" />
+									</div>
+								</div>
+								<f:comment>
+									<div id="colorpalette1" style='display:none'></div></li>
+								</f:comment>
+							</div>
+						</div>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label for="themelayout"><f:translate key='be.themelayout'/></label>
+							</div>
+							<div class='col-md-4 col-lg-4'>
+								<f:form.select property="themelayout" class="form-control" id="themelayout">
+									<f:form.select.option value="1" ><f:translate key="layout.style2" /></f:form.select.option>
+									<f:form.select.option value="2" ><f:translate key="layout.style1" /></f:form.select.option>
+								</f:form.select>
+							</div>
+							<div class='col-md-3 col-lg-4'>
+								<div class="imagesection" style="display: none;">
+									<div class="input-group input-append">
+													<span class="input-group-addon custom-reset" data-field="image-test" data-id="bg-image">
+															<i class="fa fa-repeat"></i>
+													</span>
+										<f:form.upload name="image"  class="form-control"
+													   additionalAttributes="{accept: '.jpg, .jpeg, .png, .webp'}" />
+									</div>
 
-				<div class='row form-group'>
-					<div class='col-sm-2'>
-						<div class="form-group" style='text-align:right;'>
-							<label for="title"><f:translate key='be.title'/></label>
+				
+									<f:if condition="{newMaintenance.image}">
+										<div class="image-wrapper mt-2">
+											<f:image image="{newMaintenance.image.0}" alt="" width="100" id="bg-image"/>
+											<a class="remove-image" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></a>
+											<f:form.hidden name="bg-delete" id="image-delete" value="0" />
+										</div>
+									</f:if>
+				
+								</div>
+								<div class="colorsection">
+									<div class='col-sm-8 btn-group'>
+										<div class="ns-ext-color-pick-wrap">
+											<div class="input-group input-append">
+												<span class="input-group-addon add-on colorpicker2 custom-reset" data-id="backgroundcolor" id="basic-backgroundcolor"><i class="fa fa-repeat"></i></span>
+												<f:form.textfield class='form-control' type="color" property="backgroundcolor" id="backgroundcolor" value="{f:if(condition: '{newMaintenance.backgroundcolor}', then: '{newMaintenance.backgroundcolor}', else: '#95BEF6')}" placeholder="Click on icon for pallete" additionalAttributes="{required:'required', aria-describedby:'basic-backgroundcolor', data-value:'{newMaintenance.backgroundcolor}'}" />
+											</div>
+										</div>
+										<f:comment>
+											<div id="colorpalette2" style='display:none'></div></li>
+										</f:comment>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class='col-sm-6'>
-						<f:form.textfield property="title" class='form-control' id="title" required="required"/>
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="heading"><f:translate key='be.heading'/></label>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+								<label><f:translate key='be.showcountdown'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<label class="custom-radio" for="on1">
+									<f:form.radio property="countdown" value="1" id="on1" additionalAttributes="{checked:'checked'}" class="custom-control-input" />
+									<span class="custom-control-label"></span><f:translate key='be.on'/>
+								</label>
+								<label class="custom-radio" for="off1">
+									<f:form.radio property="countdown" value="0" id="off1" class="custom-control-input"/>
+									<span class="custom-control-label"></span><f:translate key='be.off'/>
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class='col-sm-6'>
-						<f:form.textfield property="heading" class='form-control' id="heading" required="required"/>
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="text"><f:translate key='be.text'/></label>
+						<div class='row form-group'>
+							<div class='col-md-5 col-lg-2'>
+									<label><f:translate key='be.animate'/></label>
+							</div>
+							<div class='col-md-7 col-lg-8'>
+								<label class="custom-radio" for="yes">
+									<f:form.radio property="animate" value="1" id="yes" class="custom-control-input"/>
+									<span class="custom-control-label"><f:translate key='be.yes'/></span>
+								</label>
+								<label class="custom-radio" for="no">
+									<f:form.radio property="animate" value="0" id="no" additionalAttributes="{checked:'checked'}" class="custom-control-input"/>
+									<span class="custom-control-label" ></span><f:translate key='be.no'/>
+								</label>
+							</div>
 						</div>
-					</div>
-					<div class='col-sm-9'>
-						<f:form.textarea property="text" class='form-control' id="text"/>
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="enddate"><f:translate key='be.enddate'/></label>
+						<div class="style-countdown">
+							<div class='row form-group countdown-style'>
+								<div class='col-md-5 col-lg-2'>
+										<label for="countboxstyle"><f:translate key='countdown.style'/></label>
+								</div>
+								<div class='col-md-7 col-lg-8'>
+									<f:form.select property="countboxstyle" class="form-control" id="countboxstyle">
+											<f:form.select.option value="square" ><f:translate key="countdown.style1" /></f:form.select.option>
+											<f:form.select.option value="circle" ><f:translate key="countdown.style2" /></f:form.select.option>
+											<f:form.select.option value="subscription" ><f:translate key="countdown.style3" /></f:form.select.option>
+									</f:form.select>
+								</div>
+							</div>
+							<div class="subscription-block">
+								<div class='row form-group'>
+									<div class='col-sm-5 col-lg-2'>
+											<label for="subscription_header"><f:translate key='subscription.header'/></label>
+									</div>
+									<div class='col-md-7 col-lg-8'>
+										<f:form.textfield class='form-control' property="subscriptionheader" value="{f:if(condition:'{newMaintenance.subscriptionheader}',then:'{newMaintenance.subscriptionheader}',else:'{f:translate(key:\'be.subscriptionheader\')}')}" id="subscription_header" additionalAttributes="{required:'required'}" />
+									</div>
+								</div>
+								<div class='row form-group'>
+									<div class='col-sm-5 col-lg-2'>
+											<label for="subscription_placeholder"><f:translate key='subscription.placeholder'/></label>
+									</div>
+									<div class='col-md-7 col-lg-8'>
+										<f:form.textfield class='form-control' property="subscriptionplaceholder" id="subscription_placeholder" value="{f:if(condition:'{newMaintenance.subscriptionplaceholder}',then:'{newMaintenance.subscriptionplaceholder}',else:'{f:translate(key:\'be.subscriptionplaceholder\')}')}" additionalAttributes="{required:'required'}" />
+									</div>
+								</div>
+								<div class='row form-group'>
+									<div class='col-sm-5 col-lg-2'>
+											<label for="subscription_btnlabel"><f:translate key='subscription.btnlabel'/></label>
+									</div>
+									<div class='col-md-7 col-lg-8'>
+										<f:form.textfield class='form-control' property="subscriptionbtnlabel" id="subscription_btnlabel" value="{f:if(condition:'{newMaintenance.subscriptionbtnlabel}',then:'{newMaintenance.subscriptionbtnlabel}', else:'{f:translate(key:\'be.subscriptionbtnlabel\')}')}" additionalAttributes="{required:'required'}" />
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class='col-sm-6'>
-						<div class="input-group input-append date" id="datePicker">
-							<f:form.textfield class='t3js-datetimepicker form-control t3js-clearable' property="endtime" value="{newMaintenance.endtime->f:format.date(format:'Y-m-d H:i')}" placeholder="YYYY-MM-DD 00:00" required="required"/>
-		            	</div>
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="footeretext"><f:translate key='be.footertext'/></label>
-						</div>
-					</div>
-					<div class='col-sm-9'>
-						<f:form.textarea property="footertext" class='form-control' id="footertext"/>
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-							<label for="heading"><f:translate key='be.bgimage'/></label>
-							<label for="heading2"><f:translate key='be.bgimagepixels'/></label>
-						</div>
-					</div>
-					<div class='col-sm-9'>
-					<f:form.upload  name="image"  class="form-control" additionalAttributes="{accept: '.jpg, .jpeg, .png, .webp'}" />
-					<f:if condition="{newMaintenance.image}">
-						<div class="image-wrapper mt-2">
-							<f:image image="{newMaintenance.image.0}" alt="" width="100" id="bg-image"/>
-							<a class="remove-image" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></a>
-							<f:form.hidden name="image-delete" id="image-delete" value="0" />
-						</div>
-					</f:if>
-					</div>
-				</div>
-
-				<div class='row form-group'>
-					<div class='col-sm-2' style='text-align:right;'>
-						<div class="form-group">
-
-						</div>
-					</div>
-					<div class='col-sm-2'>
-						<br>
-						<f:form.submit class='btn btn-block btn-primary' id="maintenance_Submit" value="<f:translate key='be.save'/>" />
 					</div>
 				</div>
 			</div>
 		</div>
 	</f:form>
+</div>
 </f:section>

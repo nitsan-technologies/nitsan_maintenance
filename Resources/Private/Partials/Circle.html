@@ -1,0 +1,39 @@
+<div data-eventdate="{settings.endtime}" data-starteventdate="" data-colordays="#8781bd" data-colorhours="#f15364" data-colorminutes="#ff9955" data-colorseconds="#7accc8" data-weightnumber="4" class="countdown-container countdown-style-5 align-left ">
+    <div class="countdown-wrapper countdown-info">
+        <div class="row">
+            <div class="col-sm-6 col-lg-3">
+                <div class="countdown-item count-1 {f:if(condition: '{settings.animate}',then: 'wow fadeInUp')}">
+                    <div class="circle-raphael-days"></div>
+                    <div class="wrap">
+                        <span class="item-count countdown-days"></span>
+                        <span class="item-title"><f:translate key="page.day" /></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="countdown-item count-2 {f:if(condition: '{settings.animate}',then: 'wow fadeInDown')}">
+                    <div class="circle-raphael-hours"></div>
+                    <div class="wrap">
+                        <span class="item-count countdown-hours"></span>
+                        <span class="item-title"><f:translate key="page.hours" /></span></div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="countdown-item count-3 {f:if(condition: '{settings.animate}',then: 'wow fadeInUp')}">
+                    <div class="circle-raphael-minutes"></div>
+                    <div class="wrap">
+                        <span class="item-count countdown-minutes"></span>
+                        <span class="item-title"><f:translate key="page.minutes" /></span></div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="countdown-item count-4 {f:if(condition: '{settings.animate}',then: 'wow fadeInDown')}">
+                    <div class="circle-raphael-seconds"></div>
+                    <div class="wrap">
+                        <span class="item-count countdown-seconds"></span>
+                        <span class="item-title"><f:translate key="page.seconds" /></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,14 +21,77 @@
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.countdown">
 				<source>Countdown</source>
 			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.startdate">
+				<source>Start date</source>
+			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.enddate">
-				<source>Enddate</source>
+				<source>End date</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fontcolor">
+				<source>Font color</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.backgroundcolor">
+				<source>Background Color</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.footertext">
-				<source>Footertext</source>
+				<source>Footer Text</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.image">
 				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.logoimage">
+				<source>Logo Image</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.fblink">
+				<source>Facebook Link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.pagelinklabel">
+				<source>Page Link Label</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.pagelink">
+				<source>Page UID Link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.youtubelink">
+				<source>YouTube Link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.instagramlink">
+				<source>Instagram Link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.whitelist">
+				<source>White list IP</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.animate">
+				<source>Animate</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.subscriptionheader">
+				<source>Subscription Header</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.subscriptionplaceholder">
+				<source>Subscription Placeholder</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.subscriptionbtnlabel">
+				<source>Subscription Label</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.twlink">
+				<source>Twitter Link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.linkedinlink">
+				<source>Linkedin link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.gitlink">
+				<source>Github Link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.social">
+				<source>Social</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks">
+				<source>Social Links</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_sociallinks.icon">
+				<source>Icon</source>
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.status">
 				<source>Status</source>
@@ -47,6 +110,39 @@
 			</trans-unit>
 			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.hide">
 				<source>Hide</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.logo_position">
+				<source>Logo Position</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.customcss">
+				<source>Custom CSS</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_subscriber">
+				<source>Subscriber's Mail</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_subscriber.email">
+				<source>Email</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.themelayout">
+				<source>Theme layout</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.countboxstyle">
+				<source>Countbox Style</source>
+			</trans-unit>
+			<trans-unit id="tabs.css">
+				<source>Theme Layout Options</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.active">
+				<source>Currently Active?</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.whitelistfrontend">
+				<source>To allow FE user groups and users</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.whitelistfrontend.users">
+				<source>User Ids (comma separated list of frontend user ids):</source>
+			</trans-unit>
+			<trans-unit id="tx_nitsanmaintenance_domain_model_maintenance.whitelistfrontend.groups">
+				<source>User Groups (comma separated list of frontend group ids):</source>
 			</trans-unit>
 		</body>
 	</file>

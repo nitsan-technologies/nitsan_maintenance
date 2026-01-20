@@ -1,4 +1,17 @@
-
-<div class="tx-nitsan-maintenance" id="main">
+<f:if condition="{settings.image.0}">
+	<f:variable name="bgimg" value="{f:uri.image(src:settings.image.0.uid, treatIdAsReference:1)}" />
+</f:if>
+<f:if condition="{settings.themelayout}==2">
+	<f:then>
+		<span id="bodyClass" style="display: none;">{f:if(condition: '{settings.countboxstyle}==subscription',then: 'animate-theme')}</span>
+		<span id="bodyColor" style="display: none;">{settings.backgroundcolor}</span>
+	</f:then>
+	<f:else>
+		<span id="bodyClass" style="display: none;">{f:if(condition: '{settings.countboxstyle}==subscription',then: 'animate-theme')}</span>
+		<span id="bodyImage" style="display: none;">{bgimg}</span>
+	</f:else>
+</f:if>
+<main class="site-main">
 	<f:render section="main" />
-</div>
+</main>
+
