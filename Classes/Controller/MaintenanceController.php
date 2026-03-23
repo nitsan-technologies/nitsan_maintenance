@@ -56,7 +56,7 @@ class MaintenanceController extends ActionController {
         return $view->renderResponse("Maintenance/List");
 	}
 
-    public function createAction(Maintenance $newMaintenance = null): ResponseInterface
+    public function createAction(?Maintenance $newMaintenance = null): ResponseInterface
     {
         if (!empty($newMaintenance)) {
             if(strtotime($newMaintenance->getEndtime()) < strtotime(date('Y-m-d H:i:s'))){
@@ -129,49 +129,75 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
      * @return void
      * @throws Exception
      */
-    private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
-    {
-        if (!empty($_FILES[$fieldName]['name'])) {
-            $fileData = [];
-            $targetFalDirectory = '1:/user_upload/';
-    
-            // Register the upload field from the form:
-            $this->registerUploadField($fileData, $fieldName, $targetFalDirectory);
-    
-            /** @var ExtendedFileUtility $fileProcessor */
-            $fileProcessor = GeneralUtility::makeInstance(ExtendedFileUtility::class);
-            $fileProcessor->setActionPermissions(['addFile' => true]);
-    
+  private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
+{
+    if (isset($_FILES[$fieldName]) && 
+        $_FILES[$fieldName]['error'] === UPLOAD_ERR_OK && 
+        $_FILES[$fieldName]['size'] > 0) {
+        
+        try {
+            // Get TYPO3 version
             $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(
                 VersionNumberUtility::getCurrentTypo3Version()
             );
-    
-            if (version_compare((string)$typo3VersionArray['version_main'], '12', '=')) {
-                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::REPLACE);
+            $majorVersion = (int)$typo3VersionArray['version_main'];
+            
+            // Get storage (version-compatible)
+            $resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+            
+            if ($majorVersion >= 12) {
+                $storageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
+                $storage = $storageRepository->findByUid(1);
             } else {
-                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('replace'));
+                $storage = $resourceFactory->getStorageObject(1);
             }
-    
-            // Perform the actual upload
-            $fileProcessor->start($fileData);
-            $fileImages = $fileProcessor->processData();
-    
-            if (!empty($fileImages['upload'])) {
-                foreach ($fileImages['upload'] as $files) {
-                    /** @var \TYPO3\CMS\Core\Resource\File $file */
-                    foreach ($files as $file) {
-                        $this->maintenanceRepository->updateSysFileReferenceRecord(
-                            $file->getUid(),
-                            $newMaintenance->getUid(),
-                            $fieldName,
-                            $newMaintenance->getPid()
-                        );
-                    }
-                }
+            
+            if (!$storage) {
+                throw new \Exception('Storage with UID 1 not found');
             }
+            
+            // Get or create target folder
+            $targetFolderPath = 'user_upload/';
+            if (!$storage->hasFolder($targetFolderPath)) {
+                $storage->createFolder($targetFolderPath);
+            }
+            $folder = $storage->getFolder($targetFolderPath);
+            
+            // Set duplication behavior based on version
+            if ($majorVersion >= 13) {
+                $duplicationBehavior = \TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::RENAME;
+            } else {
+                $duplicationBehavior = \TYPO3\CMS\Core\Resource\DuplicationBehavior::RENAME;
+            }
+            
+            // Upload file
+            $uploadedFile = $storage->addFile(
+                $_FILES[$fieldName]['tmp_name'],
+                $folder,
+                $_FILES[$fieldName]['name'],
+                $duplicationBehavior
+            );
+            
+            if ($uploadedFile instanceof \TYPO3\CMS\Core\Resource\File) {
+                // Create file reference
+                $this->maintenanceRepository->updateSysFileReferenceRecord(
+                    $uploadedFile->getUid(),
+                    $newMaintenance->getUid(),
+                    $fieldName,
+                    $newMaintenance->getPid()
+                );
+            }
+            
+        } catch (\Exception $e) {
+            // Log error
+            $this->addFlashMessage(
+                'File upload failed: ' . $e->getMessage(),
+                'Error',
+                ContextualFeedbackSeverity::ERROR
+            );
         }
     }
-
+}
 	/**
 	 * action page
 	 *
@@ -185,7 +211,11 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
         $configurationManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManagerInterface');
         $config = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
         $storagePid = $config['module.']['tx_nitsanmaintenance.']['persistence.']['storagePid'] ?? 0;
-		$maintenanceSettings = $this->maintenanceRepository->findByPid($storagePid)[0];
+        $query = $this->maintenanceRepository->createQuery();
+    $query->getQuerySettings()->setRespectStoragePage(false);
+		 $maintenanceSettings = $query->matching(
+        $query->equals('pid', $storagePid)
+    )->execute()->getFirst();
         $this->view->assign('Maintenance10', 1);
 		if($maintenanceSettings){
             $css = '
@@ -253,7 +283,7 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      */
-	public function subscriberAction(Subscriber $newSubscriber = null): ResponseInterface
+	public function subscriberAction(?Subscriber $newSubscriber = null): ResponseInterface
 	{
 		$subscriberMail = $newSubscriber->getSubscriberEmail();
         if(GeneralUtility::validEmail($subscriberMail)){

@@ -809,7 +809,7 @@ class Maintenance extends AbstractEntity
      * @param ObjectStorage|null $image
      * @return void
      */
-    public function setImage(ObjectStorage $image = null): void
+    public function setImage(?ObjectStorage $image = null): void
     {
         $this->image = $image;
     }
@@ -852,7 +852,7 @@ class Maintenance extends AbstractEntity
      * @param ObjectStorage|null $logoImage
      * @return void
      */
-    public function setLogoImage(ObjectStorage $logoImage = null): void
+    public function setLogoImage(?ObjectStorage $logoImage = null): void
     {
         $this->logoImage = $logoImage;
     }

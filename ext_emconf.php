@@ -14,7 +14,7 @@ $EM_CONF['nitsan_maintenance'] = [
     'version' => '13.1.0',
     'constraints' => [
         'depends' => [
-            'typo3' => '12.0.0-13.9.99',
+            'typo3' => '12.0.0-14.9.99',
         ],
         'conflicts' => [
         ],
