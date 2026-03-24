@@ -1,0 +1,32 @@
+categories:
+  NitsanMaintenance:
+    label: NitsanMaintenance Settings
+
+  NitsanMaintenance.plugin:
+    label: NitsanMaintenance Plugin (FE) Settings
+    parent: NitsanMaintenance
+
+  NitsanMaintenance.module:
+    label: NitsanMaintenance Module (BE) Settings
+    parent: NitsanMaintenance
+
+settings:
+  # Plugin (FE) Settings
+  NitsanMaintenance.plugin.persistence.storagePid:
+    label: Default storage PID (Plugin)
+    category: NitsanMaintenance.plugin
+    type: int
+    default: 0
+
+  NitsanMaintenance.plugin.settings.adminEmail:
+    label: Admin Email
+    category: NitsanMaintenance.plugin
+    type: string
+    default: ''
+
+  # Module (BE) Settings
+  NitsanMaintenance.module.persistence.storagePid:
+    label: Default storage PID (Module)
+    category: NitsanMaintenance.module
+    type: int
+    default: 0
