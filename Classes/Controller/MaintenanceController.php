@@ -41,7 +41,7 @@ class MaintenanceController extends ActionController {
         protected MaintenanceRepository $maintenanceRepository,
         protected SubscriberRepository $subscriberRepository,
         protected PersistenceManager $persistenceManager,
-        protected readonly ViewFactoryInterface $viewFactory
+        protected readonly ?ViewFactoryInterface $viewFactory = null
 	) {
 	}
 
