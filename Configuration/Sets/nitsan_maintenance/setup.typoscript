@@ -1,3 +1,4 @@
+@import 'EXT:nitsan_maintenance/Configuration/TypoScript/page.typoscript'
 plugin.tx_nitsanmaintenance_mode {
 	view {
 		templateRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.templateRootPath}

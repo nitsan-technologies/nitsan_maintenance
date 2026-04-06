@@ -11,22 +11,22 @@ categories:
     parent: NitsanMaintenance
 
 settings:
-  # Plugin (FE) Settings
-  NitsanMaintenance.plugin.persistence.storagePid:
-    label: Default storage PID (Plugin)
+  # Plugin (FE) — keys must match TypoScript constant paths (see setup.typoscript {$...})
+  plugin.tx_nitsanmaintenance_mode.persistence.storagePid:
+    label: Default Page ID (Plugin)
     category: NitsanMaintenance.plugin
     type: int
     default: 0
 
-  NitsanMaintenance.plugin.settings.adminEmail:
+  plugin.tx_nitsanmaintenance_mode.settings.adminEmail:
     label: Admin Email
     category: NitsanMaintenance.plugin
     type: string
     default: ''
 
-  # Module (BE) Settings
-  NitsanMaintenance.module.persistence.storagePid:
-    label: Default storage PID (Module)
+  # Module (BE)
+  module.tx_nitsanmaintenance_maintenance.persistence.storagePid:
+    label: Default Page ID (Module)
     category: NitsanMaintenance.module
     type: int
     default: 0
