@@ -5,7 +5,6 @@ use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\Exception;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
@@ -321,7 +320,7 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
 	 * @param string $templateName template name (UpperCamelCase)
 	 * @param array $variables variables to be passed to the Fluid view
 	 */
-	protected function sendTemplateEmail(
+    protected function sendTemplateEmail(
         array $recipient,
         array $sender,
         string $subject,
@@ -332,47 +331,44 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
             VersionNumberUtility::getCurrentTypo3Version()
         );
         $majorVersion = (int)$typo3VersionArray['version_main'];
-
-        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-        );
-        $templateRootPath = GeneralUtility::getFileAbsFileName(
-            $extbaseFrameworkConfiguration['view']['templateRootPaths']['0']
-        );
-        $templatePathAndFilename = $templateRootPath . 'Maintenance/Email/' . $templateName . '.html';
-        if ($majorVersion >= 13 && class_exists('TYPO3\\CMS\\Core\\View\\ViewFactoryInterface')) {
-            $viewFactory = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\View\\ViewFactoryInterface');
-            $viewFactoryData = new \TYPO3\CMS\Core\View\ViewFactoryData(
-                templateRootPaths: [$templateRootPath],
-                partialRootPaths: [],
-                layoutRootPaths: [],
-                request: null
+    
+        try {
+            $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
             );
-            $emailView = $viewFactory->create($viewFactoryData);
-            $emailView->getRenderingContext()
-                ->getTemplatePaths()
-                ->setTemplatePathAndFilename($templatePathAndFilename);
-        } else {
+            $templateRootPath = GeneralUtility::getFileAbsFileName(
+                $extbaseFrameworkConfiguration['view']['templateRootPaths']['0']
+            );
+            $templatePathAndFilename = $templateRootPath . 'Maintenance/Email/' . $templateName . '.html';
+    
+            /** @var \TYPO3\CMS\Fluid\View\StandaloneView $emailView */
             $emailView = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
             $emailView->setTemplatePathAndFilename($templatePathAndFilename);
+            $emailView->assignMultiple($variables);
+            $emailBody = $emailView->render();
+    
+        } catch (\Throwable $e) {
+            return false;
         }
-
-        $emailView->assignMultiple($variables);
-        $emailBody = $emailView->render();
-
-        $message = GeneralUtility::makeInstance(MailMessage::class);
-        $message->setTo($recipient)
-                ->setFrom($sender)
-                ->setSubject($subject)
-                ->html($emailBody);
-
-        if ($majorVersion >= 12) {
-            $mailer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\Mailer::class);
-            $mailer->send($message);
-            return $mailer->getSentMessage() !== null;
-        } else {
-            $message->send();
-            return $message->isSent();
+    
+        try {
+            $message = GeneralUtility::makeInstance(MailMessage::class);
+            $message->setTo($recipient)
+                    ->setFrom($sender)
+                    ->setSubject($subject)
+                    ->html($emailBody);
+    
+            if ($majorVersion >= 12) {
+                $mailer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\Mailer::class);
+                $mailer->send($message);
+                return $mailer->getSentMessage() !== null;
+            } else {
+                $message->send();
+                return $message->isSent();
+            }
+    
+        } catch (\Throwable $e) {
+            return false;
         }
     }
 
