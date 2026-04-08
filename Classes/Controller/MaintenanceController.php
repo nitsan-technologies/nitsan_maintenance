@@ -22,6 +22,7 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use Nitsan\NitsanMaintenance\Domain\Repository\SubscriberRepository;
 use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 /**
  * MaintenanceController
@@ -321,57 +322,67 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
 	 * @param array $variables variables to be passed to the Fluid view
 	 */
     protected function sendTemplateEmail(
-        array $recipient,
-        array $sender,
+        array  $recipient,
+        array  $sender,
         string $subject,
         string $templateName,
-        array $variables = []
+        array  $variables = []
     ): bool {
-        $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(
-            VersionNumberUtility::getCurrentTypo3Version()
+        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
         );
-        $majorVersion = (int)$typo3VersionArray['version_main'];
-    
-        try {
-            $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
-                ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
-            );
-            $templateRootPath = GeneralUtility::getFileAbsFileName(
-                $extbaseFrameworkConfiguration['view']['templateRootPaths']['0']
-            );
-            $templatePathAndFilename = $templateRootPath . 'Maintenance/Email/' . $templateName . '.html';
-    
+
+        $templateRootPath = rtrim(
+            GeneralUtility::getFileAbsFileName(
+                $extbaseFrameworkConfiguration['view']['templateRootPaths'][0] ?? ''
+            ),
+            '/'
+        );
+
+        $templatePathAndFilename = $templateRootPath . '/Maintenance/Email/' . $templateName . '.html';
+
+        if (!is_file($templatePathAndFilename)) {
+            throw new \RuntimeException('Template not found: ' . $templatePathAndFilename);
+        }
+
+        $typo3Version = new \TYPO3\CMS\Core\Information\Typo3Version();
+
+        if ($typo3Version->getMajorVersion() < 13) {
             /** @var \TYPO3\CMS\Fluid\View\StandaloneView $emailView */
             $emailView = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
             $emailView->setTemplatePathAndFilename($templatePathAndFilename);
             $emailView->assignMultiple($variables);
             $emailBody = $emailView->render();
-    
-        } catch (\Throwable $e) {
-            return false;
+        } else {
+            /** @var \TYPO3\CMS\Core\View\ViewFactoryInterface $viewFactory */
+            $viewFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\View\ViewFactoryInterface::class);
+            $emailView = $viewFactory->create(
+                new \TYPO3\CMS\Core\View\ViewFactoryData(
+                    templatePathAndFilename: $templatePathAndFilename,
+                )
+            );
+            $emailView->assignMultiple($variables);
+            $emailBody = $emailView->render();
         }
-    
-        try {
-            $message = GeneralUtility::makeInstance(MailMessage::class);
-            $message->setTo($recipient)
-                    ->setFrom($sender)
-                    ->setSubject($subject)
-                    ->html($emailBody);
-    
-            if ($majorVersion >= 12) {
-                $mailer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\Mailer::class);
-                $mailer->send($message);
-                return $mailer->getSentMessage() !== null;
-            } else {
-                $message->send();
-                return $message->isSent();
-            }
-    
-        } catch (\Throwable $e) {
-            return false;
-        }
-    }
 
+        if (empty(trim($emailBody))) {
+            throw new \RuntimeException('Rendered email body is empty: ' . $templatePathAndFilename);
+        }
+
+        /** @var MailMessage $message */
+        $message = GeneralUtility::makeInstance(MailMessage::class);
+        $message
+            ->setTo($recipient)
+            ->setFrom($sender)
+            ->setSubject($subject)
+            ->html($emailBody)
+            ->text(strip_tags($emailBody));
+
+        $mailer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\Mailer::class);
+        $mailer->send($message);
+
+        return $mailer->getSentMessage() !== null;
+    }
     /**
      * @return string
      */
