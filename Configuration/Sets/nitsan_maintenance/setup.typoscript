@@ -1,16 +1,16 @@
-@import 'nitsan_maintenance/Configuration/TypoScript/setup.typoscript'
+@import 'EXT:nitsan_maintenance/Configuration/TypoScript/setup.typoscript'
 plugin.tx_nitsanmaintenance_mode {
 	view {
 		templateRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.templateRootPath}
 		layoutRootPaths.0 = {$plugin.tx_nitsanmaintenance_mode.view.layoutRootPath}
 	}
 	persistence {
-		storagePid = {$plugin.tx_nitsanmaintenance_mode.persistence.storagePid}
+		storagePid = {$nitsanMaintenance.plugin.persistence.storagePid}
 		updateReferenceIndex = 1
 		classes.Nitsan\NitsanMaintenance\Domain\Model\FileReference.mapping.tableName = sys_file_reference
 	}
 	settings {
-		adminEmail = {$plugin.tx_nitsanmaintenance_mode.settings.adminEmail}
+		adminEmail = {$nitsanMaintenance.plugin.settings.adminEmail}
 	}
 
 }
@@ -37,7 +37,7 @@ config.tx_extbase{
 # Module configuration
 module.tx_nitsanmaintenance {
 	persistence {
-		storagePid = {$module.tx_nitsanmaintenance_maintenance.persistence.storagePid}
+		storagePid = {$nitsanMaintenance.module.persistence.storagePid}
 	}
 	view {
 		templateRootPaths.1 = {$module.tx_nitsanmaintenance_maintenance.view.templateRootPath}

@@ -1,32 +1,30 @@
 categories:
-  NitsanMaintenance:
-    label: NitsanMaintenance Settings
+  nitsanMaintenance:
+    label: Nitsan Maintenance Settings
 
-  NitsanMaintenance.plugin:
-    label: NitsanMaintenance Plugin (FE) Settings
-    parent: NitsanMaintenance
+  nitsanMaintenance.plugin:
+    label: Nitsan Maintenance Plugin (FE) Settings
+    parent: nitsanMaintenance
 
-  NitsanMaintenance.module:
-    label: NitsanMaintenance Module (BE) Settings
-    parent: NitsanMaintenance
+  nitsanMaintenance.module:
+    label: Nitsan Maintenance Module (BE) Settings
+    parent: nitsanMaintenance
 
 settings:
-  # Plugin (FE) — keys must match TypoScript constant paths (see setup.typoscript {$...})
-  plugin.tx_nitsanmaintenance_mode.persistence.storagePid:
+  nitsanMaintenance.plugin.persistence.storagePid:
     label: Default Page ID (Plugin)
-    category: NitsanMaintenance.plugin
+    category: nitsanMaintenance.plugin
     type: int
     default: 0
 
-  plugin.tx_nitsanmaintenance_mode.settings.adminEmail:
+  nitsanMaintenance.plugin.settings.adminEmail:
     label: Admin Email
-    category: NitsanMaintenance.plugin
+    category: nitsanMaintenance.plugin
     type: string
     default: ''
 
-  # Module (BE)
-  module.tx_nitsanmaintenance_maintenance.persistence.storagePid:
+  nitsanMaintenance.module.persistence.storagePid:
     label: Default Page ID (Module)
-    category: NitsanMaintenance.module
+    category: nitsanMaintenance.module
     type: int
     default: 0
