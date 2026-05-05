@@ -1,1 +1,6 @@
 @import 'EXT:nitsan_maintenance/Configuration/TypoScript/constants.typoscript'
+
+# Bridge Site Settings into legacy constant paths used by Configuration/TypoScript/setup.typoscript (per-site resolution).
+plugin.tx_nitsanmaintenance_mode.persistence.storagePid = {$nitsanMaintenance.plugin.persistence.storagePid}
+plugin.tx_nitsanmaintenance_mode.settings.adminEmail = {$nitsanMaintenance.plugin.settings.adminEmail}
+module.tx_nitsanmaintenance_maintenance.persistence.storagePid = {$nitsanMaintenance.module.persistence.storagePid}

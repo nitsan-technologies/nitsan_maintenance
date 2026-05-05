@@ -3,7 +3,6 @@ namespace Nitsan\NitsanMaintenance\Controller;
 
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Resource\Exception;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -211,10 +210,7 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
         $this->maintenanceRepository->setDefaultQuerySettings($querySetting);
         $configurationManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManagerInterface');
         $config = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-        $storagePid = (int)($config['module.']['tx_nitsanmaintenance.']['persistence.']['storagePid'] ?? 0);
-        if ($storagePid <= 0) {
-            $storagePid = $this->getStoragePidFromSiteSettings();
-        }
+        $storagePid = $config['module.']['tx_nitsanmaintenance.']['persistence.']['storagePid'] ?? 0;
         $query = $this->maintenanceRepository->createQuery();
     $query->getQuerySettings()->setRespectStoragePage(false);
 		 $maintenanceSettings = $query->matching(
@@ -243,8 +239,6 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
 
         }
 		$this->view->assign('settings', $maintenanceSettings);
-
-		
 
 		if(isset($this->request->getQueryParams()['tx_nitsanmaintenance_mode']['key'])) {
             if($this->request->getQueryParams()['tx_nitsanmaintenance_mode']['key'] == 'error'){
@@ -293,10 +287,7 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
         if(GeneralUtility::validEmail($subscriberMail)){
             $url = $this->getURL();
 
-            $adminMail = (string)($this->settings['adminEmail'] ?? '');
-            if ($adminMail === '') {
-                $adminMail = $this->getAdminEmailFromSiteSettings();
-            }
+            $adminMail = $this->settings['adminEmail'];
             $data = [
                 'subscriber_mail' => $subscriberMail,
                 'siteAddress' => $url,
@@ -412,119 +403,4 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
     ): ModuleTemplate {
         return $this->moduleTemplateFactory->create($request);
     }
-    protected function getStoragePidFromSiteSettings(): int
-    {
-        $siteSettings = $this->getCurrentSiteSettings();
-        // Prefer module storagePid, then plugin storagePid.
-        $storagePid = (int)($siteSettings['nitsanMaintenance.module.persistence.storagePid'] ?? 0);
-        if ($storagePid <= 0) {
-            $storagePid = (int)($siteSettings['nitsanMaintenance.plugin.persistence.storagePid'] ?? 0);
-        }
-        if ($storagePid <= 0) {
-            $storagePid = (int)($siteSettings['module.tx_nitsanmaintenance_maintenance.persistence.storagePid'] ?? 0);
-        }
-        if ($storagePid <= 0) {
-            $storagePid = (int)($siteSettings['plugin.tx_nitsanmaintenance_mode.persistence.storagePid'] ?? 0);
-        }
-        return $storagePid;
-    }
-
-    protected function getAdminEmailFromSiteSettings(): string
-    {
-        $siteSettings = $this->getCurrentSiteSettings();
-        $adminEmail = (string)($siteSettings['nitsanMaintenance.plugin.settings.adminEmail'] ?? '');
-        if ($adminEmail === '') {
-            $adminEmail = (string)($siteSettings['plugin.tx_nitsanmaintenance_mode.settings.adminEmail'] ?? '');
-        }
-        return $adminEmail;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    protected function getCurrentSiteSettings(): array
-    {
-        $pid = $this->resolveCurrentPageId();
-        if ($pid <= 0) {
-            return [];
-        }
-
-        try {
-            $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($pid);
-            return $site->getSettings()->getAllFlat();
-        } catch (\Throwable $exception) {
-            return [];
-        }
-    }
-
-    protected function resolveCurrentPageId(): int
-    {
-        $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(
-            VersionNumberUtility::getCurrentTypo3Version()
-        );
-        if (version_compare((string)($typo3VersionArray['version_main'] ?? '0'), '12', '<=')) {
-            $pid = (int)($GLOBALS['TSFE']->id ?? 0);
-            if ($pid > 0) {
-                return $pid;
-            }
-        } else {
-            $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
-            if ($request instanceof ServerRequestInterface) {
-                $routing = $request->getAttribute('routing');
-                if (is_object($routing) && method_exists($routing, 'getPageId')) {
-                    $pid = (int) $routing->getPageId();
-                    if ($pid > 0) {
-                        return $pid;
-                    }
-                }
-
-                $queryParams = $request->getQueryParams();
-                $pid = (int)($queryParams['id'] ?? 0);
-                if ($pid > 0) {
-                    return $pid;
-                }
-
-                $parsedBody = $request->getParsedBody();
-                if (is_array($parsedBody)) {
-                    $pid = (int)($parsedBody['id'] ?? 0);
-                    if ($pid > 0) {
-                        return $pid;
-                    }
-                }
-            }
-        }
-
-        return 0;
-    }
-
-    /**
-     * Registers an uploaded file for TYPO3 native upload handling.
-     *
-     * @param array &$data
-     * @param string $namespace
-     * @param string $fieldName
-     * @param string $targetDirectory
-     * @return void
-     */
-    protected function registerUploadField(
-        array &$data,
-        string $fieldName,
-        string $targetDirectory = '1:/_temp_/'
-    ): void {
-        if (!isset($data['upload'])) {
-            $data['upload'] = [];
-        }
-    
-        $counter = count($data['upload']) + 1;
-        if (isset($_FILES[$fieldName]) && !empty($_FILES[$fieldName]['name'])) {
-            foreach ($_FILES[$fieldName] as $key => $value) {
-                $_FILES['upload_' . $counter][$key] = $value;
-            }
-            $data['upload'][$counter] = [
-                'data' => $counter,
-                'target' => $targetDirectory,
-            ];
-        }
-    }
-
 }
