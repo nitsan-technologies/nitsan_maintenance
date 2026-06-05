@@ -6,7 +6,7 @@ plugin.tx_nitsanmaintenance_mode {
 		layoutRootPath = EXT:nitsan_maintenance/Resources/Private/Layouts/
 	}
 	persistence {
-		# cat=plugin: Nitsan Maintenance//a; type=string; label=Default storage PID
+		# cat=plugin: Nitsan Maintenance//a; type=string; label=Default Page ID
 		storagePid =
 	}
 	settings {
@@ -23,7 +23,7 @@ module.tx_nitsanmaintenance_maintenance {
 		layoutRootPath = EXT:nitsan_maintenance/Resources/Private/Backend/Layouts/
 	}
 	persistence {
-		# cat=module: Nitsan Maintenance//a; type=string; label=Default storage PID
+		# cat=module: Nitsan Maintenance//a; type=string; label=Default Page ID
 		storagePid =
 	}
 }

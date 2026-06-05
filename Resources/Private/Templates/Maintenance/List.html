@@ -94,7 +94,7 @@
 		<div class="card custom-card">
 			<div class="card-header">
 				<h5><f:translate key='be.maintenance_mode'/></h5>
-				<f:form.submit class='btn btn-primary' id="maintenance_Submit" value="<f:translate key='be.save'/>" />
+				<f:form.submit class='btn btn-primary' name = "submit" id="maintenance_Submit" value="<f:translate key='be.save'/>" />
 			</div>
 			<div class="card-body">
 				<div class='row'>
@@ -310,7 +310,7 @@
 		<div class="card custom-card">
 			<div class="card-header">
 				<h5><f:translate key="be.theme_layout_options" /></h5>
-				<f:form.submit class='btn btn-primary' id="maintenance_Submit" value="<f:translate key='be.save'/>" />
+				<f:form.submit class='btn btn-primary' name ="submit "id="maintenance_Submit" value="<f:translate key='be.save'/>" />
 			</div>
 			<div class="card-body">
 				<div class='row'>
@@ -403,16 +403,18 @@
 							<div class='col-md-5 col-lg-2'>
 									<label><f:translate key='be.animate'/></label>
 							</div>
-							<div class='col-md-7 col-lg-8'>
-								<label class="custom-radio" for="yes">
-									<f:form.radio property="animate" value="1" id="yes" class="custom-control-input"/>
-									<span class="custom-control-label"><f:translate key='be.yes'/></span>
-								</label>
-								<label class="custom-radio" for="no">
-									<f:form.radio property="animate" value="0" id="no" additionalAttributes="{checked:'checked'}" class="custom-control-input"/>
-									<span class="custom-control-label" ></span><f:translate key='be.no'/>
-								</label>
-							</div>
+<div class='col-md-7 col-lg-8'>
+    <label class="custom-radio" for="yes">
+        <f:form.radio property="animate" value="1" id="yes" class="custom-control-input"
+            additionalAttributes="{f:if(condition: '{newMaintenance.animate} == 1', then: '{checked: \"checked\"}')}"/>
+        <span class="custom-control-label"><f:translate key='be.yes'/></span>
+    </label>
+    <label class="custom-radio" for="no">
+        <f:form.radio property="animate" value="0" id="no" class="custom-control-input"
+            additionalAttributes="{f:if(condition: '{newMaintenance.animate} == 0', then: '{checked: \"checked\"}')}"/>
+        <span class="custom-control-label"></span><f:translate key='be.no'/>
+    </label>
+</div>
 						</div>
 						<div class="style-countdown">
 							<div class='row form-group countdown-style'>

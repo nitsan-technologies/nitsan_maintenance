@@ -1,6 +1,11 @@
 <?php
 
 use Nitsan\NitsanMaintenance\Controller\MaintenanceController;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+$typo3Version = (int)VersionNumberUtility::convertVersionStringToArray(
+    VersionNumberUtility::getNumericTypo3Version()
+)['version_main'];
+
 
 return [
     'nitsan_module' => [
@@ -18,7 +23,9 @@ return [
         'path' => '/module/web/NitsanMaintenance',
         'inheritNavigationComponentFromMainModule' => false,
         'extensionName' => 'nitsan_maintenance',
-        'navigationComponent' => '@typo3/backend/page-tree/page-tree-element',
+        'navigationComponent' => $typo3Version >= 13
+        ? '@typo3/backend/tree/page-tree-element'
+        : '@typo3/backend/page-tree/page-tree-element',
         'controllerActions' => [
             MaintenanceController::class => 'list, new, create, subscriber',
         ],

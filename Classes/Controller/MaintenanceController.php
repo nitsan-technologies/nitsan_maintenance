@@ -5,7 +5,6 @@ use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\Exception;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
@@ -23,6 +22,7 @@ use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use Nitsan\NitsanMaintenance\Domain\Repository\SubscriberRepository;
 use Nitsan\NitsanMaintenance\Domain\Repository\MaintenanceRepository;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 /**
  * MaintenanceController
@@ -39,7 +39,7 @@ class MaintenanceController extends ActionController {
 		protected readonly ModuleTemplateFactory $moduleTemplateFactory,
         protected MaintenanceRepository $maintenanceRepository,
         protected SubscriberRepository $subscriberRepository,
-        protected PersistenceManager $persistenceManager
+        protected PersistenceManager $persistenceManager,
 	) {
 	}
 
@@ -56,7 +56,7 @@ class MaintenanceController extends ActionController {
         return $view->renderResponse("Maintenance/List");
 	}
 
-    public function createAction(Maintenance $newMaintenance = null): ResponseInterface
+    public function createAction(?Maintenance $newMaintenance = null): ResponseInterface
     {
         if (!empty($newMaintenance)) {
             if(strtotime($newMaintenance->getEndtime()) < strtotime(date('Y-m-d H:i:s'))){
@@ -71,7 +71,7 @@ class MaintenanceController extends ActionController {
                 $newMaintenance->setEndtime(strtotime($newMaintenance->getEndtime() . ' ' . date_default_timezone_get()));
                 $this->processImageRemove($newMaintenance, 'logo_image', 'logo-delete');
                 $this->processImageRemove($newMaintenance, 'image', 'bg-delete');
-
+                $newMaintenance->setAnimate((int)$newMaintenance->getAnimate());
                 $uid = $newMaintenance->getUid();
                 if ($uid !== null && $this->maintenanceRepository->findByUid($uid)) {
                     $this->maintenanceRepository->update($newMaintenance);
@@ -129,49 +129,75 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
      * @return void
      * @throws Exception
      */
-    private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
-    {
-        if (!empty($_FILES[$fieldName]['name'])) {
-            $fileData = [];
-            $targetFalDirectory = '1:/user_upload/';
-    
-            // Register the upload field from the form:
-            $this->registerUploadField($fileData, $fieldName, $targetFalDirectory);
-    
-            /** @var ExtendedFileUtility $fileProcessor */
-            $fileProcessor = GeneralUtility::makeInstance(ExtendedFileUtility::class);
-            $fileProcessor->setActionPermissions(['addFile' => true]);
-    
+  private function processFileUpload(Maintenance $newMaintenance, string $fieldName): void
+{
+    if (isset($_FILES[$fieldName]) && 
+        $_FILES[$fieldName]['error'] === UPLOAD_ERR_OK && 
+        $_FILES[$fieldName]['size'] > 0) {
+        
+        try {
+            // Get TYPO3 version
             $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(
                 VersionNumberUtility::getCurrentTypo3Version()
             );
-    
-            if (version_compare((string)$typo3VersionArray['version_main'], '12', '=')) {
-                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\DuplicationBehavior::REPLACE);
+            $majorVersion = (int)$typo3VersionArray['version_main'];
+            
+            // Get storage (version-compatible)
+            $resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+            
+            if ($majorVersion >= 12) {
+                $storageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
+                $storage = $storageRepository->findByUid(1);
             } else {
-                $fileProcessor->setExistingFilesConflictMode(\TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::tryFrom('replace'));
+                $storage = $resourceFactory->getStorageObject(1);
             }
-    
-            // Perform the actual upload
-            $fileProcessor->start($fileData);
-            $fileImages = $fileProcessor->processData();
-    
-            if (!empty($fileImages['upload'])) {
-                foreach ($fileImages['upload'] as $files) {
-                    /** @var \TYPO3\CMS\Core\Resource\File $file */
-                    foreach ($files as $file) {
-                        $this->maintenanceRepository->updateSysFileReferenceRecord(
-                            $file->getUid(),
-                            $newMaintenance->getUid(),
-                            $fieldName,
-                            $newMaintenance->getPid()
-                        );
-                    }
-                }
+            
+            if (!$storage) {
+                throw new \Exception('Storage with UID 1 not found');
             }
+            
+            // Get or create target folder
+            $targetFolderPath = 'user_upload/';
+            if (!$storage->hasFolder($targetFolderPath)) {
+                $storage->createFolder($targetFolderPath);
+            }
+            $folder = $storage->getFolder($targetFolderPath);
+            
+            // Set duplication behavior based on version
+            if ($majorVersion >= 13) {
+                $duplicationBehavior = \TYPO3\CMS\Core\Resource\Enum\DuplicationBehavior::RENAME;
+            } else {
+                $duplicationBehavior = \TYPO3\CMS\Core\Resource\DuplicationBehavior::RENAME;
+            }
+            
+            // Upload file
+            $uploadedFile = $storage->addFile(
+                $_FILES[$fieldName]['tmp_name'],
+                $folder,
+                $_FILES[$fieldName]['name'],
+                $duplicationBehavior
+            );
+            
+            if ($uploadedFile instanceof \TYPO3\CMS\Core\Resource\File) {
+                // Create file reference
+                $this->maintenanceRepository->updateSysFileReferenceRecord(
+                    $uploadedFile->getUid(),
+                    $newMaintenance->getUid(),
+                    $fieldName,
+                    $newMaintenance->getPid()
+                );
+            }
+            
+        } catch (\Exception $e) {
+            // Log error
+            $this->addFlashMessage(
+                'File upload failed: ' . $e->getMessage(),
+                'Error',
+                ContextualFeedbackSeverity::ERROR
+            );
         }
     }
-
+}
 	/**
 	 * action page
 	 *
@@ -185,7 +211,11 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
         $configurationManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManagerInterface');
         $config = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
         $storagePid = $config['module.']['tx_nitsanmaintenance.']['persistence.']['storagePid'] ?? 0;
-		$maintenanceSettings = $this->maintenanceRepository->findByPid($storagePid)[0];
+        $query = $this->maintenanceRepository->createQuery();
+    $query->getQuerySettings()->setRespectStoragePage(false);
+		 $maintenanceSettings = $query->matching(
+        $query->equals('pid', $storagePid)
+    )->execute()->getFirst();
         $this->view->assign('Maintenance10', 1);
 		if($maintenanceSettings){
             $css = '
@@ -209,8 +239,6 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
 
         }
 		$this->view->assign('settings', $maintenanceSettings);
-
-		
 
 		if(isset($this->request->getQueryParams()['tx_nitsanmaintenance_mode']['key'])) {
             if($this->request->getQueryParams()['tx_nitsanmaintenance_mode']['key'] == 'error'){
@@ -253,7 +281,7 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
      * @return ResponseInterface
      * @throws IllegalObjectTypeException
      */
-	public function subscriberAction(Subscriber $newSubscriber = null): ResponseInterface
+	public function subscriberAction(?Subscriber $newSubscriber = null): ResponseInterface
 	{
 		$subscriberMail = $newSubscriber->getSubscriberEmail();
         if(GeneralUtility::validEmail($subscriberMail)){
@@ -291,30 +319,68 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
 	 * @param string $templateName template name (UpperCamelCase)
 	 * @param array $variables variables to be passed to the Fluid view
 	 */
-	protected function sendTemplateEmail(
-        array $recipient,
-        array $sender,
+    protected function sendTemplateEmail(
+        array  $recipient,
+        array  $sender,
         string $subject,
         string $templateName,
-        array $variables = []
-    ): bool
-    {
-		/** @var StandaloneView $emailView */
-		$emailView = GeneralUtility::makeInstance(StandaloneView::class);
-		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-		$templateRootPath = GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPaths']['0']);
-		$templatePathAndFilename = $templateRootPath . 'Maintenance/Email/' . $templateName . '.html';
-		$emailView->setTemplatePathAndFilename($templatePathAndFilename);
-		$emailView->assignMultiple($variables);
-		$emailBody = $emailView->render();
-		/**@var $message MailMessage */
-		$message = GeneralUtility::makeInstance(MailMessage::class);
-		$message->setTo($recipient)->setFrom($sender)->setSubject($subject);
-		$message->html($emailBody);
-		$message->send();
-        return $message->isSent();
-	}
+        array  $variables = []
+    ): bool {
+        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK
+        );
 
+        $templateRootPath = rtrim(
+            GeneralUtility::getFileAbsFileName(
+                $extbaseFrameworkConfiguration['view']['templateRootPaths'][0] ?? ''
+            ),
+            '/'
+        );
+
+        $templatePathAndFilename = $templateRootPath . '/Maintenance/Email/' . $templateName . '.html';
+
+        if (!is_file($templatePathAndFilename)) {
+            throw new \RuntimeException('Template not found: ' . $templatePathAndFilename);
+        }
+
+        $typo3Version = new \TYPO3\CMS\Core\Information\Typo3Version();
+
+        if ($typo3Version->getMajorVersion() < 13) {
+            /** @var \TYPO3\CMS\Fluid\View\StandaloneView $emailView */
+            $emailView = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
+            $emailView->setTemplatePathAndFilename($templatePathAndFilename);
+            $emailView->assignMultiple($variables);
+            $emailBody = $emailView->render();
+        } else {
+            /** @var \TYPO3\CMS\Core\View\ViewFactoryInterface $viewFactory */
+            $viewFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\View\ViewFactoryInterface::class);
+            $emailView = $viewFactory->create(
+                new \TYPO3\CMS\Core\View\ViewFactoryData(
+                    templatePathAndFilename: $templatePathAndFilename,
+                )
+            );
+            $emailView->assignMultiple($variables);
+            $emailBody = $emailView->render();
+        }
+
+        if (empty(trim($emailBody))) {
+            throw new \RuntimeException('Rendered email body is empty: ' . $templatePathAndFilename);
+        }
+
+        /** @var MailMessage $message */
+        $message = GeneralUtility::makeInstance(MailMessage::class);
+        $message
+            ->setTo($recipient)
+            ->setFrom($sender)
+            ->setSubject($subject)
+            ->html($emailBody)
+            ->text(strip_tags($emailBody));
+
+        $mailer = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\Mailer::class);
+        $mailer->send($message);
+
+        return $mailer->getSentMessage() !== null;
+    }
     /**
      * @return string
      */
@@ -337,35 +403,4 @@ private function processImageRemove(Maintenance $newMaintenance, string $fieldNa
     ): ModuleTemplate {
         return $this->moduleTemplateFactory->create($request);
     }
-
-    /**
-     * Registers an uploaded file for TYPO3 native upload handling.
-     *
-     * @param array &$data
-     * @param string $namespace
-     * @param string $fieldName
-     * @param string $targetDirectory
-     * @return void
-     */
-    protected function registerUploadField(
-        array &$data,
-        string $fieldName,
-        string $targetDirectory = '1:/_temp_/'
-    ): void {
-        if (!isset($data['upload'])) {
-            $data['upload'] = [];
-        }
-    
-        $counter = count($data['upload']) + 1;
-        if (isset($_FILES[$fieldName]) && !empty($_FILES[$fieldName]['name'])) {
-            foreach ($_FILES[$fieldName] as $key => $value) {
-                $_FILES['upload_' . $counter][$key] = $value;
-            }
-            $data['upload'][$counter] = [
-                'data' => $counter,
-                'target' => $targetDirectory,
-            ];
-        }
-    }
-
 }
