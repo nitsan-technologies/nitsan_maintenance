@@ -38,6 +38,8 @@ Bundled frontend libraries (no package manager): jQuery 2.1.0, Bootstrap 3, boot
 
 - No PHPUnit, PHPStan, CS fixer or package.json in the repo.
 - CI: `.github/workflows/ter-release.yml` only (publishes tags to TER with tailor on PHP 7.4).
+- `.gitattributes` export-ignores `.github/`, `AGENTS.md`, `CLAUDE.md`, `context/`, `tasks/` and itself, so they
+  are not in the GitHub/Composer archive or the TER package (the TER release uploads the GitHub tag archive).
 - No Crowdin config. English: `locallang.xlf` (module + frontend labels), `locallang_maintenance.xlf` (module
   title), `BackendModule.xlf` (T3Planet group), `locallang_db.xlf`, `locallang_csh_*.xlf`; German:
   `de.locallang.xlf`, `de.locallang_maintenance.xlf`.
