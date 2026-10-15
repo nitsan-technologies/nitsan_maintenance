@@ -8,6 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
+use TYPO3\CMS\Backend\Routing\UriBuilder as BackendUriBuilder;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
@@ -29,6 +31,8 @@ use TYPO3\CMS\Core\View\ViewFactoryInterface;
  */
 class MaintenanceController extends ActionController {
 
+    protected const NS_LICENSE_MODULE = 'nitsan_nslicensemodule';
+    protected const NS_LICENSE_FREE_SECTION_ANCHOR = '#free-section';
 
     /**
      * @param ModuleTemplateFactory $moduleTemplateFactory
@@ -53,8 +57,23 @@ class MaintenanceController extends ActionController {
 		$view = $this->initializeModuleTemplate($this->request);
 		$maintenances = $this->maintenanceRepository->findAll();
 		$view->assign('newMaintenance', $maintenances[0]);
+		$view->assign('trialUrl', $this->getTrialUrl());
         return $view->renderResponse("Maintenance/List");
 	}
+
+    /**
+     * Free-trial link to the ns_license module; empty when ns_license (and its route) is not available.
+     */
+    protected function getTrialUrl(): string
+    {
+        try {
+            return (string)GeneralUtility::makeInstance(BackendUriBuilder::class)
+                ->buildUriFromRoute(self::NS_LICENSE_MODULE, ['trial' => 'nitsan_maintenance'])
+                . self::NS_LICENSE_FREE_SECTION_ANCHOR;
+        } catch (RouteNotFoundException) {
+            return '';
+        }
+    }
 
     public function createAction(?Maintenance $newMaintenance = null): ResponseInterface
     {
